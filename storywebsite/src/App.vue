@@ -1,26 +1,38 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-</template>
-
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HelloWorld from "./components/HelloWorld.vue";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {
-    HelloWorld,
-  },
-})
-export default class App extends Vue {}
+export default class App extends Vue {
+  private _text = "Hello From Story";
+
+  public clickStory() {
+    this._text = ["Jacques", "Cecile", "Moussa"][Math.floor(Math.random() * 3)];
+  }
+}
 </script>
 
-<style>
+<style lang="scss">
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 #app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
+
+<template>
+  <h1>Hello {{ _text }} !</h1>
+  <button v-on:click="clickStory">Change !</button>
+</template>
