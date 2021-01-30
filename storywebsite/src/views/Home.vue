@@ -1,7 +1,13 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
 
-export default class App extends Vue {}
+export default class Home extends Vue {
+  private _text = "PrimeVue";
+
+  public clickStory() {
+    this._text = ["Jacques", "Cecile", "Moussa"][Math.floor(Math.random() * 3)];
+  }
+}
 </script>
 
 <style lang="scss">
@@ -24,6 +30,8 @@ body {
 </style>
 
 <template>
-  <Menubar :model="items"></Menubar>
-  <router-view />
+  <div class="centered">
+    <h1>Hello {{ _text }} !</h1>
+    <Button v-on:click="clickStory">Change !</Button>
+  </div>
 </template>
