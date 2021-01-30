@@ -13,7 +13,7 @@ const app = createApp(App);
 // Vue Router for mutiple route (PrimeVue dependancy)
 app.use(router);
 // adding PrimeVue as ui Library
-app.use(PrimveVue);
+app.use(PrimveVue, { ripple: true });
 app.component("Menubar", Menubar);
 app.component("Button", Button);
 app.mount("#app");
