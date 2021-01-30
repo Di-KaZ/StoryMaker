@@ -1,11 +1,13 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import HelloPOJO from "../model/HelloPOJO";
+import fetchApi from "../model/fetchAPI";
 
 export default class Home extends Vue {
-  private _text = "PrimeVue";
+  private text: HelloPOJO | null = null;
 
-  public clickStory() {
-    this._text = ["Jacques", "Cecile", "Moussa"][Math.floor(Math.random() * 3)];
+  public async clickStory() {
+    this.text = await fetchApi<HelloPOJO>("http://localhost:8081/helloWolrd");
   }
 }
 </script>
@@ -31,7 +33,7 @@ body {
 
 <template>
   <div class="centered">
-    <h1>Hello {{ _text }} !</h1>
+    <h1>Hello {{ text }} !</h1>
     <Button v-on:click="clickStory">Change !</Button>
   </div>
 </template>

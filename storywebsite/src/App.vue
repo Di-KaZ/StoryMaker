@@ -52,6 +52,6 @@ body {
 </style>
 
 <template>
-  <Menubar :model="items"><h1>Story</h1></Menubar>
+  <Menubar :model="items"><img src="./assets/logo.png" alt="Logo"/></Menubar>
   <router-view />
 </template>

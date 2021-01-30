@@ -14,6 +14,10 @@ const app = createApp(App);
 app.use(router);
 // adding PrimeVue as ui Library
 app.use(PrimveVue, { ripple: true });
+
+// Component that we use
 app.component("Menubar", Menubar);
 app.component("Button", Button);
+
+// Mount the app
 app.mount("#app");
