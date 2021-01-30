@@ -3,9 +3,31 @@ import { Vue } from "vue-class-component";
 
 export default class App extends Vue {
   items = [
-    { label: "Acceuil", to: "/" },
-    { label: "Créer", to: "/" },
-    { label: "Profil", to: "/" },
+    {
+      label: "Acceuil",
+      to: "/",
+    },
+    {
+      label: "Créer",
+      to: "/",
+      items: [
+        {
+          label: "Nouveau",
+        },
+        {
+          label: "Mes histoires",
+        },
+      ],
+    },
+    {
+      label: "Profil",
+      to: "/",
+      items: [
+        {
+          label: "Parametres",
+        },
+      ],
+    },
   ];
 }
 </script>
