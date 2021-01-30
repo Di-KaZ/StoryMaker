@@ -1,7 +1,13 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
 
-export default class App extends Vue {}
+export default class App extends Vue {
+  items = [
+    { label: "Acceuil", to: "/" },
+    { label: "Créer", to: "/" },
+    { label: "Profil", to: "/" },
+  ];
+}
 </script>
 
 <style lang="scss">
@@ -24,6 +30,6 @@ body {
 </style>
 
 <template>
-  <Menubar :model="items"></Menubar>
+  <Menubar :model="items"><h1>Story</h1></Menubar>
   <router-view />
 </template>
