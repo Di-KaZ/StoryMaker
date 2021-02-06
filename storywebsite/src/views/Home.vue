@@ -7,7 +7,7 @@ export default class Home extends Vue {
   private text: HelloPOJO | null = null;
 
   public async clickStory() {
-    this.text = await fetchApi<HelloPOJO>("http://localhost:8081/helloWolrd");
+    this.text = await fetchApi<HelloPOJO>("/helloWolrd");
   }
 }
 </script>
