@@ -1,4 +1,4 @@
 export default interface HelloPOJO {
-  hello: string;
-  stats: string[];
+	hello: string;
+	stats: string[];
 }
