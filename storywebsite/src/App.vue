@@ -1,44 +1,57 @@
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import HelloWorld from "./components/HelloWorld.vue";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {
-    HelloWorld
-  }
-})
 export default class App extends Vue {
-  name = "toto";
-  counter = 0;
-
-  public counterplus() {
-    this.counter++;
-  }
+  items = [
+    {
+      label: "Acceuil",
+      to: "/",
+    },
+    {
+      label: "Créer",
+      to: "/",
+      items: [
+        {
+          label: "Nouveau",
+        },
+        {
+          label: "Mes histoires",
+        },
+      ],
+    },
+    {
+      label: "Profil",
+      to: "/",
+      items: [
+        {
+          label: "Parametres",
+        },
+      ],
+    },
+  ];
 }
 </script>
 
-<style>
-#app {
+<style lang="scss">
+body {
+  margin: 0;
+  padding: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png"/>
-
-  <h1>COUCOU {{ name }}</h1>
-
-  <p>
-    Bienvenue sur notre projet MESI Nous avons eu l'idée de faire un RPG Maker,
-    chaque utilisateurs va pouvoir créer une histoire
-  </p>
-
-  <p v-on:click="counterplus">Vous êtes le {{ counter }} visiteur</p>
-
-  <p v-if="_counter === 10">Vous êtes le {{ counter }} visiteur !</p>
+  <Menubar :model="items"><img src="./assets/logo.png" alt="Logo"/></Menubar>
+  <router-view />
 </template>
