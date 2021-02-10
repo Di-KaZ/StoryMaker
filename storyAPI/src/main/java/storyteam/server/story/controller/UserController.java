@@ -23,11 +23,18 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/show")
-    public List<User> showUser(){
+    public User getUser(){
 
-        List<User> listUser = userRepository.findAll();
+        //Will be used for user creation and update
 
-        return listUser;
+        //Get a user and transfer his datas to the front view
+        Optional<User> user = userRepository.findById(1);
+
+        if(user.isEmpty()){
+            //Throw some exception
+        }
+
+        return user.get();
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -35,11 +42,16 @@ public class UserController {
             @RequestBody User user
     ){
 
+        //Gathering the datas from the view and then
+        //Saving it to the db => SECURITY TODO
+
         return userRepository.save(user);
     }
 
     @GetMapping("/update")
     public User modifyUser(){
+
+        //Modifying the datas
 
         User changeUser = userRepository.findById(1).get();
         changeUser.setName("Rodrig");
@@ -49,6 +61,8 @@ public class UserController {
 
     }
 
+
+    //When a user wants to delete his account, only him can do this
     @GetMapping("/delete")
     public void  deleteUser(){
         userRepository.deleteById(1);

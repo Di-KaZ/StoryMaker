@@ -1,6 +1,10 @@
 package storyteam.server.story.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -18,6 +22,11 @@ public class User {
 
     @Column(name = "user_mail")
     private String email;
+
+    //Revoir les JsonIgnoreProperties
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"user"})
+    private Set<Story> stories = new HashSet<>();
 
     public User() {
     }
@@ -58,5 +67,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Story> getStories() {
+        return stories;
+    }
+
+    public void setStories(Set<Story> stories) {
+        this.stories = stories;
     }
 }
