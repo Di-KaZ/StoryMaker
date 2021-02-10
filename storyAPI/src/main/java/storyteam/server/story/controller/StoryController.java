@@ -67,5 +67,4 @@ public class StoryController {
         storyRepository.deleteById(3);
 
     }
-
 }

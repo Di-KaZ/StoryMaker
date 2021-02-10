@@ -1,12 +1,14 @@
-import "primeicons/primeicons.css"; //icons
-import Button from "primevue/button";
-import PrimveVue from "primevue/config";
-import Menubar from "primevue/menubar";
-import "primevue/resources/primevue.min.css"; //core css
-import "primevue/resources/themes/saga-blue/theme.css"; //theme
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
+import 'primeicons/primeicons.css'; //icons
+import Button from 'primevue/button';
+import Card from 'primevue/card';
+import PrimveVue from 'primevue/config';
+import Menubar from 'primevue/menubar';
+import 'primevue/resources/primevue.min.css'; //core css
+import 'primevue/resources/themes/vela-green/theme.css'; //theme
+import { createApp } from 'vue';
+import App from './App.vue';
+import StoryCard from './components/StoryCard.vue';
+import router from './router';
 
 const app = createApp(App);
 
@@ -16,8 +18,10 @@ app.use(router);
 app.use(PrimveVue, { ripple: true });
 
 // Component that we use
-app.component("Menubar", Menubar);
-app.component("Button", Button);
+app.component('Menubar', Menubar);
+app.component('Button', Button);
+app.component('Card', Card);
+app.component('StoryCard', StoryCard);
 
 // Mount the app
-app.mount("#app");
+app.mount('#app');
