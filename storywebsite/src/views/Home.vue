@@ -35,5 +35,10 @@ body {
 	<div class="centered">
 		<h1 v-if="test !== null"><StoryCard v-bind:dto="test" /></h1>
 		<Button v-on:click="getStory">Change !</Button>
+
+<!--    <Subscription></Subscription>-->
+<!--    <UserConnection></UserConnection>-->
+<!--    <UserProfileUpdate></UserProfileUpdate>-->
+    <UserProfileDelete></UserProfileDelete>
 	</div>
 </template>

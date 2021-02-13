@@ -23,7 +23,7 @@ public class BlocStory {
     //Revoir les JsonIgnoreProperties
     @ManyToOne
     @JoinColumn(name = "story_Id")
-    @JsonIgnoreProperties({"user", "blocStories"})
+    @JsonIgnoreProperties({"user", "blocStories", "story"})
     private Story story;
 
     public BlocStory() {

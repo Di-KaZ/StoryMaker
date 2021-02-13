@@ -14,6 +14,7 @@ export default function fetchApi<T>(url: string, method: METHODS, body?: any): P
 		headers: {
 			'Content-Type': 'application/json',
 		},
+		body: body !== undefined?JSON.stringify(body):""
 	}).then(response => {
 		if (!response.ok) {
 			throw new Error(response.statusText);

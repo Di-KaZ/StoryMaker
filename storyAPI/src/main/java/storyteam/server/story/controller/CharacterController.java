@@ -28,4 +28,10 @@ public class CharacterController {
     public void deleteCharacter(){
 
     }
+
+    //Besoins hors crud => faire des methodes /attack
+    //Tester la couche services
+    //Faire les test des controller => quesce qui se passe quand je fait un get dan url (intégration)
+    //Spring web avec MOCK MVC
+
 }
