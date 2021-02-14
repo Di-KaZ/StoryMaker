@@ -4,4 +4,5 @@ export default interface StoryDTO {
 	name: string;
 	coverUrl: string;
 	blocs: StoryBlocDTO[];
+	likes: number;
 }

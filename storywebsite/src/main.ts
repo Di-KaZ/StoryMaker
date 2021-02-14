@@ -1,7 +1,12 @@
+import UserProfileDelete from '@/components/UserProfileDelete.vue';
+import UserProfileUpdate from '@/components/UserProfileUpdate.vue';
 import 'primeicons/primeicons.css'; //icons
+import Avatar from 'primevue/avatar';
 import Button from 'primevue/button';
 import Card from 'primevue/card';
+import Carousel from 'primevue/carousel';
 import PrimveVue from 'primevue/config';
+import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import 'primevue/resources/primevue.min.css'; //core css
 import 'primevue/resources/themes/vela-green/theme.css'; //theme
@@ -9,10 +14,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import StoryCard from './components/StoryCard.vue';
 import Subscription from './components/Subscription.vue';
+import UserConnection from './components/UserConnection.vue';
 import router from './router';
-import UserConnection from "./components/UserConnection.vue";
-import UserProfileUpdate from "@/components/UserProfileUpdate.vue";
-import UserProfileDelete from "@/components/UserProfileDelete.vue";
 
 const app = createApp(App);
 
@@ -30,6 +33,9 @@ app.component('Subscription', Subscription);
 app.component('UserConnection', UserConnection);
 app.component('UserProfileUpdate', UserProfileUpdate);
 app.component('UserProfileDelete', UserProfileDelete);
+app.component('Avatar', Avatar);
+app.component('Menu', Menu);
+app.component('Carousel', Carousel);
 
 // Mount the app
 app.mount('#app');

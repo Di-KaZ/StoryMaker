@@ -1,7 +1,22 @@
 <script lang="ts">
+import Menu from 'primevue/menu';
 import { Vue } from 'vue-class-component';
 
 export default class App extends Vue {
+	declare $refs: {
+		menu: Menu;
+	};
+
+	user_menu = [
+		{
+			label: 'Profil / Connextion',
+			to: '/profile',
+		},
+		{
+			label: 'Parametres',
+			to: '/',
+		},
+	];
 	menu_items = [
 		{
 			label: 'Acceuil',
@@ -19,16 +34,11 @@ export default class App extends Vue {
 				},
 			],
 		},
-		{
-			label: 'Profil',
-			to: '/',
-			items: [
-				{
-					label: 'Parametres',
-				},
-			],
-		},
 	];
+
+	toggle(event: Event) {
+		this.$refs.menu.toggle(event);
+	}
 }
 </script>
 
@@ -42,15 +52,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.centered {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-}
-
 .logo {
 	height: 60px;
 }
@@ -60,6 +61,10 @@ body {
 	<Menubar :model="menu_items">
 		<template #start>
 			<img class="logo" src="./assets/logo.png" alt="Logo" />
+		</template>
+		<template #end>
+			<Avatar icon="pi pi-user" shape="circle" size="large" @click="toggle" />
+			<Menu id="user_menu" ref="menu" :model="user_menu" :popup="true" />
 		</template>
 	</Menubar>
 	<router-view />

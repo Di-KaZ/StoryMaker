@@ -5,20 +5,19 @@ export enum METHODS {
 	DELETE = 'delete',
 }
 
-export default function fetchApi<T>(url: string, method: METHODS, body?: any): Promise<T> {
+export default async function fetchApi<T>(url: string, method: METHODS, body?: any): Promise<T> {
 	console.log(`Call to fetch with ${url} mnethod : ${method}`);
-	return fetch(url, {
+	const response = await fetch(url, {
 		method: method,
 		cache: 'no-cache',
 		credentials: 'omit',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: body !== undefined?JSON.stringify(body):""
-	}).then(response => {
-		if (!response.ok) {
-			throw new Error(response.statusText);
-		}
-		return response.json();
+		body: body !== undefined ? JSON.stringify(body) : '',
 	});
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+	return await response.json();
 }

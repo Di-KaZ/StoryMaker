@@ -6,31 +6,31 @@ import { Vue } from 'vue-class-component';
 class Props {
 	dto?: StoryDTO;
 }
-
 // on set les props avec Vue.with
 export default class StoryCard extends Vue.with(Props) {
-	getCoverUrl(): string | undefined {
-		return this.dto?.coverUrl;
+	public getCoverUrl(): string {
+		return this.dto!.coverUrl;
 	}
 
-	getTitle(): string | undefined {
-		return this.dto?.name;
+	public getTitle(): string {
+		return this.dto!.name;
 	}
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.card {
+	margin-bottom: 2rem;
+}
+</style>
 
 <template>
-	<Card>
+	<Card class="card">
 		<template #header>
-			<img alt="name" :src="getCoverUrl()" />
+			<img alt="name" :src="getCoverUrl()" style="height: 300px; object-fit: cover" />
 		</template>
 		<template #title>
 			{{ getTitle() }}
-		</template>
-		<template #content>
-			test
 		</template>
 		<template #footer>
 			<Button>Jouer !</Button>
