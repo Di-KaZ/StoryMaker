@@ -19,6 +19,7 @@ export default function fetchApi<T>(url: string, method: METHODS, body?: any): P
 		if (!response.ok) {
 			throw new Error(response.statusText);
 		}
+
 		return response.json();
 	});
 }

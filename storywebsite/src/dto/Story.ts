@@ -1,7 +1,11 @@
 import StoryBlocDTO from './StoryBloc';
 
 export default interface StoryDTO {
+	id: number;
 	name: string;
-	coverUrl: string;
-	blocs: StoryBlocDTO[];
+	description: string;
+	creationDate: string;
+	userId: number;
+/*	coverUrl: string;*/
+/*	blocs: StoryBlocDTO[];*/
 }

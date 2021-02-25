@@ -8,11 +8,17 @@ import 'primevue/resources/themes/vela-green/theme.css'; //theme
 import { createApp } from 'vue';
 import App from './App.vue';
 import StoryCard from './components/StoryCard.vue';
-import Subscription from './components/Subscription.vue';
 import router from './router';
+import UserSubscription from "@/components/UserSubscription.vue";
 import UserConnection from "./components/UserConnection.vue";
 import UserProfileUpdate from "@/components/UserProfileUpdate.vue";
 import UserProfileDelete from "@/components/UserProfileDelete.vue";
+import StoryCreate from "@/components/StoryCreate.vue";
+import StoryUpdate from "@/components/StoryUpdate.vue";
+import StoryDelete from "@/components/StoryDelete.vue";
+import CharacterCreation from "@/components/CharacterCreation.vue";
+import CharacterUpdate from "@/components/CharacterUpdate.vue";
+import CharacterDelete from "@/components/CharacterDelete.vue";
 
 const app = createApp(App);
 
@@ -26,10 +32,16 @@ app.component('Menubar', Menubar);
 app.component('Button', Button);
 app.component('Card', Card);
 app.component('StoryCard', StoryCard);
-app.component('Subscription', Subscription);
+app.component('UserSubscription', UserSubscription);
 app.component('UserConnection', UserConnection);
 app.component('UserProfileUpdate', UserProfileUpdate);
 app.component('UserProfileDelete', UserProfileDelete);
+app.component('StoryCreate', StoryCreate);
+app.component('StoryUpdate', StoryUpdate);
+app.component('StoryDelete', StoryDelete);
+app.component('CharacterCreation', CharacterCreation);
+app.component('CharacterUpdate', CharacterUpdate);
+app.component('CharacterDelete', CharacterDelete);
 
 // Mount the app
 app.mount('#app');

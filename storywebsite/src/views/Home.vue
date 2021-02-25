@@ -36,9 +36,15 @@ body {
 		<h1 v-if="test !== null"><StoryCard v-bind:dto="test" /></h1>
 		<Button v-on:click="getStory">Change !</Button>
 
-<!--    <Subscription></Subscription>-->
+<!--    <UserSubscription></UserSubscription>-->
 <!--    <UserConnection></UserConnection>-->
 <!--    <UserProfileUpdate></UserProfileUpdate>-->
-    <UserProfileDelete></UserProfileDelete>
+<!--    <UserProfileDelete></UserProfileDelete>-->
+<!--    <StoryCreate></StoryCreate>-->
+<!--    <StoryUpdate></StoryUpdate>-->
+<!--    <StoryDelete></StoryDelete>-->
+<!--    <CharacterCreation></CharacterCreation>-->
+<!--    <CharacterUpdate></CharacterUpdate>-->
+    <CharacterDelete></CharacterDelete>
 	</div>
 </template>

@@ -1,13 +1,18 @@
 package storyteam.server.story.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
+import storyteam.server.story.dto.StoryDTO;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.repository.UserRepository;
+import storyteam.server.story.services.StoryService;
+
+import java.time.LocalDate;
+import java.util.logging.Logger;
 
 @CrossOrigin("*")
 @RestController
@@ -20,6 +25,9 @@ public class StoryController {
     //A ENLEVER APRES C'EST JUSTE POUR TEST
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StoryService storyService;
 
     //Il faudrait faire une fonction qui récupère une Story pour jouer
     //Ajouter un id pour la récupération de la story
@@ -39,32 +47,34 @@ public class StoryController {
 
     }
 
-    @GetMapping("/create")
-    public Story createStory(){
-
-        Story story = new Story();
-        story.setName("La fois ou j'ai explosé un troll au tarot");
-        story.setUser(userRepository.findById(3).get());
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Story createStory(
+            @RequestBody StoryDTO storyDTO
+/*            @RequestBody Integer userId*/
+    ){
+        Story story = storyService.getStoryFromDTO(storyDTO);
 
         return storyRepository.save(story);
 
     }
 
-    @GetMapping("/update")
-    public Story updateStory(){
-
-        Story storyUpdate = storyRepository.findById(3).get();
-
-        storyUpdate.setName("updated name");
-
-        return storyRepository.save(storyUpdate);
+    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Story updateStory(
+            @RequestBody StoryDTO storyDTO
+    ){
+        Story story = storyRepository.findById(storyDTO.getId()).get();
+        story.setName(storyDTO.getName());
+        story.setCreationDate(LocalDate.now());
+        story.setDescription(storyDTO.getDescription());
+        return storyRepository.save(story);
 
     }
 
-    @GetMapping("/delete")
-    public void deleteStory(){
-
-        storyRepository.deleteById(3);
-
+    @DeleteMapping("/delete/{storyId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStory(
+            @PathVariable("storyId") Integer storyId
+    ){
+        storyRepository.deleteById(storyId);
     }
 }

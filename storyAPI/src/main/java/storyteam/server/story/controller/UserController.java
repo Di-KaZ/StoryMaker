@@ -54,7 +54,6 @@ public class UserController {
     public User createUser(
             @RequestBody User user
     ){
-        LoggerFactory.getLogger(UserController.class).info("logger");
         //Gathering the datas from the view and then
         //Saving it to the db => SECURITY TODO
 
