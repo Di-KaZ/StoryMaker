@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import UserSubscription from '../components/UserSubscription.vue';
 import Home from '../views/Home.vue';
-import Profile from '../views/Profile.vue';
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -9,14 +9,9 @@ const routes: Array<RouteRecordRaw> = [
 		component: Home,
 	},
 	{
-		path: '/profile',
-		name: 'Profile',
-		component: Profile,
-	},
-	{
-		path: '/profile',
-		name: 'Profile',
-		component: Profile,
+		path: '/users/create',
+		name: 'CreateUser',
+		component: UserSubscription,
 	},
 ];
 

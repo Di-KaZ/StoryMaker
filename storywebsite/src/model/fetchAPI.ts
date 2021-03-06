@@ -15,6 +15,11 @@ export default async function fetchApi<T>(url: string, method: METHODS, body?: a
 			'Content-Type': 'application/json',
 		},
 		body: body !== undefined ? JSON.stringify(body) : '',
+	}).then(response => {
+		if (!response.ok) {
+			throw new Error(response.statusText);
+		}
+		return response.json();
 	});
 	if (!response.ok) {
 		throw new Error(response.statusText);

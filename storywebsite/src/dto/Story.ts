@@ -1,8 +1,9 @@
-import StoryBlocDTO from './StoryBloc';
-
 export default interface StoryDTO {
+	id: number;
 	name: string;
+	description: string;
+	creationDate: string;
+	userId: number;
 	coverUrl: string;
-	blocs: StoryBlocDTO[];
-	likes: number;
+	/*	blocs: StoryBlocDTO[];*/
 }

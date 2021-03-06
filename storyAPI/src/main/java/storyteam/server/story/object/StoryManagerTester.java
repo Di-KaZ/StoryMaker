@@ -18,6 +18,12 @@ public class StoryManagerTester implements IStoryManager {
 
 	private String urlCover = "https://i.pinimg.com/originals/15/14/6c/15146c00b84e01dea09c675bc635e175.gif";
 
+	private String description;
+
+	private String creation_date;
+
+	private Integer userId;
+
 	Map<String, IStoryBlocManager> blocs = new HashMap<>();
 
 	public StoryManagerTester() {
@@ -55,7 +61,7 @@ public class StoryManagerTester implements IStoryManager {
 
 	@Override
 	public StoryDTO toDTO() {
-		return new StoryDTO(name, urlCover,
+		return new StoryDTO(name, description, creation_date, userId, urlCover,
 				blocs.values().stream().map(bloc -> bloc.toDTO()).collect(Collectors.toList()));
 	}
 }

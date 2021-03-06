@@ -8,12 +8,12 @@ class Props {
 }
 // on set les props avec Vue.with
 export default class StoryCard extends Vue.with(Props) {
-	public getCoverUrl(): string {
-		return this.dto!.coverUrl;
+	getCoverUrl(): string | undefined {
+		return this.dto?.coverUrl;
 	}
 
-	public getTitle(): string {
-		return this.dto!.name;
+	getTitle(): string | undefined {
+		return this.dto?.name;
 	}
 }
 </script>
