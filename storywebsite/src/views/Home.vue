@@ -36,8 +36,8 @@ body {
 		<h1 v-if="test !== null"><StoryCard v-bind:dto="test" /></h1>
 		<Button v-on:click="getStory">Change !</Button>
 
-<!--    <UserSubscription></UserSubscription>-->
-<!--    <UserConnection></UserConnection>-->
+<!--	<UserSubscription></UserSubscription>
+		<UserConnection></UserConnection>-->
 <!--    <UserProfileUpdate></UserProfileUpdate>-->
 <!--    <UserProfileDelete></UserProfileDelete>-->
 <!--    <StoryCreate></StoryCreate>-->
@@ -45,6 +45,9 @@ body {
 <!--    <StoryDelete></StoryDelete>-->
 <!--    <CharacterCreation></CharacterCreation>-->
 <!--    <CharacterUpdate></CharacterUpdate>-->
-    <CharacterDelete></CharacterDelete>
+<!--    <CharacterDelete></CharacterDelete>-->
+<!--    <BlocStoryCreate></BlocStoryCreate>-->
+<!--    <BlocStoryUpdate></BlocStoryUpdate>-->
+<!--    <BlocStoryDelete></BlocStoryDelete>-->
 	</div>
 </template>

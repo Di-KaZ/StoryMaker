@@ -19,6 +19,9 @@ import StoryDelete from "@/components/StoryDelete.vue";
 import CharacterCreation from "@/components/CharacterCreation.vue";
 import CharacterUpdate from "@/components/CharacterUpdate.vue";
 import CharacterDelete from "@/components/CharacterDelete.vue";
+import BlocStoryCreate from "@/components/BlocStoryCreate.vue";
+import BlocStoryUpdate from "@/components/BlocStoryUpdate.vue";
+import BlocStoryDelete from "@/components/BlocStoryDelete.vue";
 
 const app = createApp(App);
 
@@ -42,6 +45,10 @@ app.component('StoryDelete', StoryDelete);
 app.component('CharacterCreation', CharacterCreation);
 app.component('CharacterUpdate', CharacterUpdate);
 app.component('CharacterDelete', CharacterDelete);
+app.component('BlocStoryCreate', BlocStoryCreate);
+app.component('BlocStoryUpdate', BlocStoryUpdate);
+app.component('BlocStoryDelete', BlocStoryDelete);
+
 
 // Mount the app
 app.mount('#app');

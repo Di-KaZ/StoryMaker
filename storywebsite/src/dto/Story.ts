@@ -1,4 +1,4 @@
-import StoryBlocDTO from './StoryBloc';
+import StoryBlocDTO from './StoryBlocDTO';
 
 export default interface StoryDTO {
 	id: number;

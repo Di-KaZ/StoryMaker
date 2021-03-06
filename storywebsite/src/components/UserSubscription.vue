@@ -22,6 +22,8 @@ export default class Subscription extends Vue {
     const user: UserDTO = {id: 0, name: this.name, password: this.password, email: this.email}
     //Remplacer le console.log par un fetch
     fetchApi<UserDTO>("http://localhost:8080/users/create", METHODS.POST, user);
+
+    // Le then ici va récupérer les infos de l'utilisateur et on stock son id, son pseudo dans un cookie.
   }
 }
 </script>
@@ -29,16 +31,18 @@ export default class Subscription extends Vue {
 <style scoped></style>
 
 <template>
-	<form action="">
-    <!--v-model pour attribuer une nouvelle valeur a l'attribut name déclaré plus haut-->
-    <label for="user_name">Nom d'utilisateur</label>
-		<input type="text" v-model="name"  name="user_name" id="user_name" /><br>
-    <label for="password">Mot de passe</label>
-		<input type="password" v-model="password" name="password" id="password" /><br>
-    <label for="email">email</label>
-		<input type="email" v-model="email" name="email" id="email" /><br>
+  <div class="centered">
+    <form action="">
+      <!--v-model pour attribuer une nouvelle valeur a l'attribut name déclaré plus haut-->
+      <label for="user_name">Nom d'utilisateur</label>
+      <input type="text" v-model="name"  name="user_name" id="user_name" /><br>
+      <label for="password">Mot de passe</label>
+      <input type="password" v-model="password" name="password" id="password" /><br>
+      <label for="email">email</label>
+      <input type="email" v-model="email" name="email" id="email" /><br>
 
-    <!--@click appel à la méthode send quand on clique-->
-		<button @click="send">validate</button>
-	</form>
+      <!--@click appel à la méthode send quand on clique-->
+      <button @click="send">validate</button>
+    </form>
+  </div>
 </template>

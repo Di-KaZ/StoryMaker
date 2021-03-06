@@ -5,6 +5,7 @@ import fetchAPI, {METHODS} from "@/model/fetchAPI";
 
 export default class StoryCreate extends Vue{
   //Changer creationDate
+  //On admet ici que l'utilisateur s'est connecté et il y'a un cookie qui a son id
   story: StoryDTO = {id: 0, name: "", description: "", creationDate: "", userId: 2}
 
   public createNewStory(event: Event){
