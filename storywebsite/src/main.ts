@@ -20,6 +20,8 @@ import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import 'primevue/resources/primevue.min.css'; //core css
 import 'primevue/resources/themes/vela-green/theme.css'; //theme
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 import { createApp } from 'vue';
 import App from './App.vue';
 import StoryCard from './components/StoryCard.vue';
@@ -32,6 +34,8 @@ const app = createApp(App);
 app.use(router);
 // adding PrimeVue as ui Library
 app.use(PrimveVue, { ripple: true });
+
+app.use(ToastService);
 
 // Component that we use
 app.component('Menubar', Menubar);
@@ -50,6 +54,7 @@ app.component('StoryUpdate', StoryUpdate);
 app.component('StoryDelete', StoryDelete);
 app.component('CharacterCreation', CharacterCreation);
 app.component('CharacterUpdate', CharacterUpdate);
+app.component('Toast', Toast);
 app.component('CharacterDelete', CharacterDelete);
 app.component('BlocStoryCreate', BlocStoryCreate);
 app.component('BlocStoryUpdate', BlocStoryUpdate);

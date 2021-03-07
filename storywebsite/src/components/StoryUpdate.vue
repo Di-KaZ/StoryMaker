@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import StoryDTO from '../dto/Story';
+import StoryDTO from '../dto/StoryDTO';
 import fetchApi, { METHODS } from '@/model/fetchAPI';
 import fetchAPI from '@/model/fetchAPI';
 
