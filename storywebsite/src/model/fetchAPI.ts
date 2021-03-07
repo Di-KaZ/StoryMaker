@@ -1,3 +1,5 @@
+import { useToast } from 'primevue/usetoast';
+
 // Fetch an object from JAVA REST API
 export enum METHODS {
 	POST = 'post',
@@ -14,12 +16,12 @@ export enum METHODS {
  */
 export default async function fetchApi<T>(url: string, method: METHODS, body?: any): Promise<T> {
 	console.log(`Call to fetch with ${url} method : ${method}`);
-
+	const toast = useToast();
 	if (body !== undefined) {
 		const response = await fetch(url, {
 			method: method,
 			cache: 'no-cache',
-			credentials: 'include',
+			credentials: 'omit',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
@@ -27,6 +29,7 @@ export default async function fetchApi<T>(url: string, method: METHODS, body?: a
 			body: JSON.stringify(body),
 		}).then(response => {
 			if (!response.ok) {
+				toast.add({ severity: 'error', summary: 'Une erreur est intervenue.', detail: 'Test', life: 3000 });
 				throw new Error(response.statusText);
 			}
 			return response.json();
@@ -35,12 +38,13 @@ export default async function fetchApi<T>(url: string, method: METHODS, body?: a
 	const response = await fetch(url, {
 		method: method,
 		cache: 'no-cache',
-		credentials: 'include',
+		credentials: 'omit',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	});
 	if (!response.ok) {
+		toast.add({ severity: 'error', summary: 'Une erreur est intervenue.', detail: 'Test', life: 3000 });
 		throw new Error(response.statusText);
 	}
 	return response.json();

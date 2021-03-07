@@ -5,5 +5,6 @@ export default interface StoryDTO {
 	creationDate: string;
 	userId: number;
 	coverUrl: string;
+	firstIdBloc: number;
 	/*	blocs: StoryBlocDTO[];*/
 }

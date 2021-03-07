@@ -1,8 +1,8 @@
-export default interface StoryBlocDTO{
+export default interface StoryBlocDTO {
 	id: number;
 	name: string;
 	text: string;
 	storyId: number;
-	/*	urlImage: string;*/
-	/*	choices: string[];*/
+	coverUrl: string;
+	/*	choices: string[]; => a afficher dans les boutons*/
 }

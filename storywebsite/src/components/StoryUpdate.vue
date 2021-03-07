@@ -12,6 +12,7 @@ export default class StoryUpdate extends Vue {
 		creationDate: '2021-02-09',
 		userId: 2,
 		coverUrl: '',
+		firstIdBloc: 2,
 	};
 
 	public updateStory(event: Event) {

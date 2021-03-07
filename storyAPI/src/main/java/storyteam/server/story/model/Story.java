@@ -21,85 +21,97 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "story")
 public class Story {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "story_id")
-    private Integer  id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "story_id")
+	private Integer id;
 
-    @Column(name = "story_name")
-    private String name;
+	@Column(name = "story_name")
+	private String name;
 
-    @Column(name = "story_description")
-    private String description;
+	@Column(name = "story_description")
+	private String description;
 
-    @Column(name = "story_date")
-    private LocalDate creationDate;
+	@Column(name = "story_date")
+	private LocalDate creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "userid")
-    private User user;
+	@ManyToOne
+	@JoinColumn(name = "userid")
+	private User user;
 
-    //Revoir les JsonIgnoreProperties
-    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"story"})
-    private Set<BlocStory> BlocStories = new HashSet<>();
+	@Column(name = "firstIdBloc")
+	private Integer firstIdBloc;
 
-    public Story() {
-    }
+	// Revoir les JsonIgnoreProperties
+	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({ "story" })
+	private Set<BlocStory> BlocStories = new HashSet<>();
 
-    public Story(Integer id, String name, String description, LocalDate creationDate, User user, Set<BlocStory> blocStories) {
-        this.name = name;
-        this.description = description;
-        this.creationDate = creationDate;
-        this.user = user;
-        BlocStories = blocStories;
-    }
+	public Story() {
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, Integer firstIdBloc,
+			Set<BlocStory> blocStories) {
+		this.name = name;
+		this.description = description;
+		this.creationDate = creationDate;
+		this.user = user;
+		BlocStories = blocStories;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
 
-    public Set<BlocStory> getBlocStories() {
-        return BlocStories;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getFirstIdBloc() {
+		return firstIdBloc;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Set<BlocStory> getBlocStories() {
+		return BlocStories;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setBlocStories(Set<BlocStory> blocStories) {
-        BlocStories = blocStories;
-    }
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setFirstIdBloc(Integer firstIdBloc) {
+		this.firstIdBloc = firstIdBloc;
+	}
+
+	public void setBlocStories(Set<BlocStory> blocStories) {
+		BlocStories = blocStories;
+	}
 }

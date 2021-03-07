@@ -30,7 +30,7 @@ public class StoryManagerTester implements IStoryManager {
 		// fake story bloc
 		IStoryBlocManager bloc = new StoryBlocManagerTester();
 		blocs.put(bloc.getName(), bloc);
-		// unused but should get the entity
+		// /p/ unused but should get the entity
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class StoryManagerTester implements IStoryManager {
 
 	@Override
 	public StoryDTO toDTO() {
-		return new StoryDTO(name, description, creation_date, userId, urlCover,
+		return new StoryDTO(name, description, creation_date, userId, urlCover, 1,
 				blocs.values().stream().map(bloc -> bloc.toDTO()).collect(Collectors.toList()));
 	}
 }

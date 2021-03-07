@@ -1,10 +1,13 @@
 package storyteam.server.story.controller;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +24,11 @@ import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.repository.UserRepository;
 import storyteam.server.story.services.StoryService;
 
-@CrossOrigin("*")
+@CrossOrigin
 @RestController
-@RequestMapping(value = "/stories")
+@RequestMapping(value = "/story")
 public class StoryController {
+	Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StoryController.class);
 
 	@Autowired
 	StoryRepository storyRepository;
@@ -39,14 +43,26 @@ public class StoryController {
 	// Il faudrait faire une fonction qui récupère une Story pour jouer
 	// Ajouter un id pour la récupération de la story
 	// "/"{id}"/show"
-	@GetMapping("/show")
-	public Story showStory() {
-
-		Story story = storyRepository.findById(1).get();
-
-		return story;
+	@GetMapping("/play/{id}")
+	public ResponseEntity<Story> showStory(@PathVariable("id") Integer id) {
+		LOGGER.info("id est {}", id);
+		Optional<Story> story = storyRepository.findById(id);
+		if (story.isPresent()) {
+			return ResponseEntity.ok(story.get());
+		}
+		return ResponseEntity.ok(story.get());
 
 	}
+
+	// @GetMapping("/play/{id}")
+	// public Story showStory(@PathVariable("id") Integer id) {
+	// Story story = storyRepository.findById(id);
+	// if (story != null) {
+	// return story;
+	// }
+	// throw new Exception();
+
+	// // }
 
 	// Obtenir la liste de toutes les stories existantes sur le site
 	@GetMapping("/allStories")
@@ -54,23 +70,30 @@ public class StoryController {
 
 	}
 
+	// (M)
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Story createStory(@RequestBody StoryDTO storyDTO
+	public ResponseEntity<Story> createStory(@RequestBody StoryDTO storyDTO
 	/* @RequestBody Integer userId */
 	) {
-		Story story = storyService.getStoryFromDTO(storyDTO);
-
-		return storyRepository.save(story);
-
+		Optional<Story> story = storyService.getStoryFromDTO(storyDTO);
+		if (story.isPresent()) {
+			return ResponseEntity.ok(storyRepository.save(story.get()));
+		}
+		return ResponseEntity.badRequest().body(null);
 	}
 
+	// (M)
 	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Story updateStory(@RequestBody StoryDTO storyDTO) {
-		Story story = storyRepository.findById(storyDTO.getId()).get();
-		story.setName(storyDTO.getName());
-		story.setCreationDate(LocalDate.now());
-		story.setDescription(storyDTO.getDescription());
-		return storyRepository.save(story);
+	public ResponseEntity<Story> updateStory(@RequestBody StoryDTO storyDTO) {
+		Optional<Story> story = storyRepository.findById(storyDTO.getId());
+		if (story.isPresent()) {
+
+			story.get().setName(storyDTO.getName());
+			story.get().setCreationDate(LocalDate.now());
+			story.get().setDescription(storyDTO.getDescription());
+			return ResponseEntity.ok(storyRepository.save(story.get()));
+		}
+		return ResponseEntity.badRequest().body(null);
 
 	}
 

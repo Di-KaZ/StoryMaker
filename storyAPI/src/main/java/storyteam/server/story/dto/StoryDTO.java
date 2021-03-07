@@ -12,14 +12,17 @@ public class StoryDTO {
 	String creationDate;
 	Integer userId;
 	String coverUrl;
+	Integer firstIdBloc;
 	List<StoryBlocDTO> blocs;
 
-	public StoryDTO(String name, String description, String creationDate, Integer userId, String coverUrl, List<StoryBlocDTO> blocs) {
+	public StoryDTO(String name, String description, String creationDate, Integer userId, String coverUrl,
+			Integer firstIdBloc, List<StoryBlocDTO> blocs) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.userId = userId;
 		this.coverUrl = coverUrl;
+		this.firstIdBloc = firstIdBloc;
 		this.blocs = blocs;
 	}
 
@@ -77,5 +80,13 @@ public class StoryDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getFirstIdBloc() {
+		return firstIdBloc;
+	}
+
+	public void setFirstIdBloc(Integer firstIdBloc) {
+		this.firstIdBloc = firstIdBloc;
 	}
 }

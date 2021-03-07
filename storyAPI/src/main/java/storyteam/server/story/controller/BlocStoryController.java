@@ -1,8 +1,11 @@
 package storyteam.server.story.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,23 +28,33 @@ public class BlocStoryController {
 	@Autowired
 	StoryRepository storyRepository;
 
+	// (M)
 	@PostMapping(value = "/get/{idBlocStory}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public BlocStory getBlocStory(@RequestBody Integer idBlocStory) {
+	public ResponseEntity<BlocStory> getBlocStory(@RequestBody Integer idBlocStory) {
 
-		BlocStory blocStory = blocStoryRepository.findById(idBlocStory).get();
-
-		return blocStory;
-
-	}
-
-	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public BlocStory createBlocStory(@RequestBody BlocStory blocStory) {
-
-		blocStory.setStory(storyRepository.findById(1).get());
-
-		return blocStoryRepository.save(blocStory);
+		Optional<BlocStory> blocStory = blocStoryRepository.findById(idBlocStory);
+		if (blocStory.isPresent()) {
+			return ResponseEntity.ok(blocStory.get());
+		}
+		return ResponseEntity.badRequest().body(null);
 
 	}
+
+	// // (M)
+	// @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE,
+	// produces = MediaType.APPLICATION_JSON_VALUE)
+	// public ResponseEntity<BlocStory> createBlocStory(@RequestBody BlocStory
+	// blocStory) {
+
+	// y> blocStory = storyRepository.setStory(storyRepository.findById(1));
+	// if (blocStory.isPresent()) {
+
+	// return ResponseEntity.ok(blocStoryRepository.save(blocStory.get()));
+	// }
+
+	// return ResponseEntity.badRequest().body(null);
+
+	// }
 
 	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public BlocStory updateBlocStory(@RequestBody BlocStory blocStory) {

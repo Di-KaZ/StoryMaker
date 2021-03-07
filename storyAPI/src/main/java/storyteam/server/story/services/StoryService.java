@@ -1,15 +1,16 @@
 package storyteam.server.story.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import storyteam.server.story.dto.StoryDTO;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.repository.UserRepository;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class StoryService {
@@ -19,9 +20,10 @@ public class StoryService {
 	@Autowired
 	UserRepository userRepository;
 
-	//Création de l'objet Story puis mise en forme des données reprise du StoryDTO reçu du FrontOffice
+	// Création de l'objet Story puis mise en forme des données reprise du StoryDTO
+	// reçu du FrontOffice
 
-	public Story getStoryFromDTO(StoryDTO storyDTO){
+	public Optional<Story> getStoryFromDTO(StoryDTO storyDTO) {
 
 		Story story = new Story();
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -31,7 +33,7 @@ public class StoryService {
 		story.setDescription(storyDTO.getDescription());
 		story.setUser(userRepository.findById(storyDTO.getUserId()).get());
 
-		return story;
+		return Optional.of(story);
 
 	}
 }

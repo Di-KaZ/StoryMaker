@@ -11,6 +11,7 @@ export default class StoryDelete extends Vue {
 		creationDate: '',
 		userId: 2,
 		coverUrl: '',
+		firstIdBloc: 2,
 	};
 
 	public deleteStory(event: Event) {
