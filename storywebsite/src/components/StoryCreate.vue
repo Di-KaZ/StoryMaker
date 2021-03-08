@@ -19,19 +19,21 @@ export default class StoryCreate extends Vue {
 <style scoped></style>
 
 <template>
-	<form action="">
-		<input v-model="story.name" type="text" name="story_name" id="story_name" /><br />
-		<input v-model="story.creationDate" type="date" /><br />
-		<textarea
-			v-model="story.description"
-			name="story_description"
-			id="story_description"
-			cols="50"
-			rows="30"
-			placeholder="La description de votre Histoire épique"
-		></textarea
-		><br />
+	<div class="centered">
+		<form action="">
+			<input v-model="story.name" type="text" name="story_name" id="story_name" /><br />
+			<input v-model="story.creationDate" type="date" /><br />
+			<textarea
+				v-model="story.description"
+				name="story_description"
+				id="story_description"
+				cols="50"
+				rows="30"
+				placeholder="La description de votre Histoire épique"
+			></textarea
+			><br />
 
-		<button @click="createNewStory">Créer ton histoire !</button>
-	</form>
+			<button @click="createNewStory">Créer ton histoire !</button>
+		</form>
+	</div>
 </template>

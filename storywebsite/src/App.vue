@@ -28,6 +28,7 @@ export default class App extends Vue {
 			items: [
 				{
 					label: 'Nouveau',
+					to: '/story/create',
 				},
 				{
 					label: 'Mes histoires',
