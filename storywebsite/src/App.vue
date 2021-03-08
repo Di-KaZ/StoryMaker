@@ -59,7 +59,7 @@ body {
 </style>
 
 <template>
-	<Toast />
+	<Toast position="top-right" />
 	<Menubar :model="menu_items">
 		<template #start>
 			<img class="logo" src="./assets/logo.png" alt="Logo" />
