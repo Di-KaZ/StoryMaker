@@ -1,6 +1,5 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import { useToast } from 'primevue/usetoast';
 import StoryDTO from '@/dto/StoryDTO';
 import Fetcher, { METHODS } from '@/utils/Fetcher';
 import Toaster from '@/utils/Toaster';
