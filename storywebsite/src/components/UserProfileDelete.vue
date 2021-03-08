@@ -1,7 +1,8 @@
 <script lang="ts">
+import Fetcher from '@/utils/Fetcher';
+import { METHODS } from '@/utils/Fetcher';
 import { Vue } from 'vue-class-component';
 import UserDTO from '../dto/UserDTO';
-import fetchAPI, { METHODS } from '../model/fetchAPI';
 
 export default class UserProfileDelete extends Vue {
 	//Fausse initialisation d'un utilisateur => "Il s'est connecté et ile veux modifier ses informations de profil"
@@ -9,7 +10,7 @@ export default class UserProfileDelete extends Vue {
 
 	public deleteUser(event: Event) {
 		event.preventDefault();
-		fetchAPI<UserDTO>('http://localhost:8080/users/delete/' + this.user.id, METHODS.DELETE, this.user.id);
+		Fetcher.fetch<UserDTO>('http://localhost:8080/users/delete/' + this.user.id, METHODS.DELETE, this.user.id);
 	}
 }
 </script>

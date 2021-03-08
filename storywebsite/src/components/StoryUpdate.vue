@@ -1,8 +1,7 @@
 <script lang="ts">
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 import { Vue } from 'vue-class-component';
 import StoryDTO from '../dto/StoryDTO';
-import fetchApi, { METHODS } from '@/model/fetchAPI';
-import fetchAPI from '@/model/fetchAPI';
 
 export default class StoryUpdate extends Vue {
 	story: StoryDTO = {
@@ -17,7 +16,7 @@ export default class StoryUpdate extends Vue {
 
 	public updateStory(event: Event) {
 		event.preventDefault();
-		fetchAPI<StoryDTO>('http://localhost:8080/stories/update', METHODS.POST, this.story);
+		Fetcher.fetch<StoryDTO>('http://localhost:8080/stories/update', METHODS.POST, this.story);
 	}
 }
 </script>

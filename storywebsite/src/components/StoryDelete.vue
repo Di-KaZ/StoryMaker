@@ -1,7 +1,7 @@
 <script lang="ts">
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 import { Vue } from 'vue-class-component';
 import StoryDTO from '../dto/StoryDTO';
-import fetchApi, { METHODS } from '@/model/fetchAPI';
 
 export default class StoryDelete extends Vue {
 	story: StoryDTO = {
@@ -16,7 +16,7 @@ export default class StoryDelete extends Vue {
 
 	public deleteStory(event: Event) {
 		event.preventDefault();
-		fetchApi<StoryDTO>('http://localhost:8080/stories/delete/' + this.story.id, METHODS.DELETE, this.story.id);
+		Fetcher.fetch<StoryDTO>('http://localhost:8080/stories/delete/' + this.story.id, METHODS.DELETE, this.story.id);
 	}
 }
 </script>

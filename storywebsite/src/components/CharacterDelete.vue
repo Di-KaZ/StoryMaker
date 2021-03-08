@@ -1,14 +1,14 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import CharacterDTO from '@/dto/CharacterDTO';
-import fetchApi, { METHODS } from '@/model/fetchAPI';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class CharacterUpdate extends Vue {
 	character: CharacterDTO = { id: 2, name: 'john', stat: 'stat', storyId: 2 };
 
 	public deleteCharacter(event: Event) {
 		event.preventDefault();
-		fetchApi<CharacterDTO>(
+		Fetcher.fetch<CharacterDTO>(
 			'http://localhost:8080/characters/delete/' + this.character.id,
 			METHODS.DELETE,
 			this.character.id,

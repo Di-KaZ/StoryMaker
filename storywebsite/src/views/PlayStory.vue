@@ -2,7 +2,7 @@
 import { Vue } from 'vue-class-component';
 import { useToast } from 'primevue/usetoast';
 import StoryDTO from '@/dto/StoryDTO';
-import fetchApi, { METHODS } from '@/model/fetchAPI';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class PlayStory extends Vue {
 	private toast = useToast();
@@ -11,13 +11,12 @@ export default class PlayStory extends Vue {
 
 	/**
 	 * JAVA => Responentity<Story> = {name: "fwesgf", }
-	 * fetchapi recup le json et regarde chaque champ de ce dernier example name = "fwegfwe"
+	 * Fetcher.fetch recup le json et regarde chaque champ de ce dernier example name = "fwegfwe"
 	 * ce champ on le sauvegarde dans un nouveau StoryDTO ou le fait un name = json.name
 	 */
 
 	mounted() {
-		console.log('OUI');
-		fetchApi<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET).then(
+		Fetcher.fetch<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET).then(
 			res => (this.story = res),
 		);
 	}

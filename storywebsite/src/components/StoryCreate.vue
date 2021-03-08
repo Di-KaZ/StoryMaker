@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import StoryDTO from '@/dto/StoryDTO';
-import fetchAPI, { METHODS } from '@/model/fetchAPI';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class StoryCreate extends Vue {
 	//Changer creationDate
@@ -11,7 +11,7 @@ export default class StoryCreate extends Vue {
 	public createNewStory(event: Event) {
 		event.preventDefault();
 		//Voir pour essayer de passer l'id d'un utilisateur connecté !
-		fetchAPI<StoryDTO>('http://localhost:8080/stories/create', METHODS.POST, this.story);
+		Fetcher.fetch<StoryDTO>('http://localhost:8080/stories/create', METHODS.POST, this.story);
 	}
 }
 </script>

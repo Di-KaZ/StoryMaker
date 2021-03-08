@@ -1,7 +1,7 @@
 <script lang="ts">
 import StoryDTO from '@/dto/StoryDTO';
 import { Vue } from 'vue-class-component';
-import fetchApi, { METHODS } from '../model/fetchAPI';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class Home extends Vue {
 	stories: StoryDTO[] = Array(30).fill({
