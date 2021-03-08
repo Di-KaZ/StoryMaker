@@ -14,6 +14,9 @@
 	<name>story</name>
 	<description>Story REST API</description>
 	<properties>
+		<sonar.projectKey>Di-KaZ_StoryMaker</sonar.projectKey>
+		<sonar.organization>get-moussed</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
