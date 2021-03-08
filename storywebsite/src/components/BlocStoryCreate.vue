@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import fetchAPI, { METHODS } from '@/model/fetchAPI';
 import BlocStoryDTO from '@/dto/BlocStoryDTO';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class BlocStoryCreate extends Vue {
 	blocStory: BlocStoryDTO = { id: 0, name: '', text: '', storyId: 1 };
@@ -9,7 +9,7 @@ export default class BlocStoryCreate extends Vue {
 	public createBlocStory(event: Event) {
 		event.preventDefault();
 		console.log(this.blocStory);
-		fetchAPI<string>('http://localhost:8080/blocstories/create', METHODS.POST, this.blocStory);
+		Fetcher.fetch<string>('http://localhost:8080/blocstories/create', METHODS.POST, this.blocStory);
 	}
 }
 </script>

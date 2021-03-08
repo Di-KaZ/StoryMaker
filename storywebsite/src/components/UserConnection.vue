@@ -1,8 +1,7 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import fetchAPI, { METHODS } from '@/model/fetchAPI';
 import UserDTO from '@/dto/UserDTO';
-import fetchApi from '@/model/fetchAPI';
+import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class UserConnection extends Vue {
 	name = '';
@@ -16,7 +15,7 @@ export default class UserConnection extends Vue {
 		event.preventDefault();
 		//Remplacer le console.log par un fetch
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: '' };
-		const response = fetchApi<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
+		const response = Fetcher.fetch<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
 		response.then(data => {
 			this.loggedUser = true;
 			this.loggedUsername = data.name;

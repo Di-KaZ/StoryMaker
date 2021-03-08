@@ -1,6 +1,7 @@
 <script lang="ts">
+import Fetcher from '@/utils/Fetcher';
+import { METHODS } from '@/utils/Fetcher';
 import { Vue } from 'vue-class-component';
-import fetchAPI, { METHODS } from '../model/fetchAPI';
 import UserDTO from '../dto/UserDTO';
 
 export default class UserProfileUpdate extends Vue {
@@ -9,7 +10,7 @@ export default class UserProfileUpdate extends Vue {
 
 	public update(event: Event) {
 		event.preventDefault();
-		const response = fetchAPI<UserDTO>('http://localhost:8080/users/update', METHODS.POST, this.user);
+		const response = Fetcher.fetch<UserDTO>('http://localhost:8080/users/update', METHODS.POST, this.user);
 		response.then(data => {
 			console.log(data.name);
 		});
