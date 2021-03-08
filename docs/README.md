@@ -2,6 +2,10 @@
 
 # Story Maker
 
+[![Build Status](https://travis-ci.com/Di-KaZ/StoryMaker.svg?branch=main)](https://travis-ci.com/Di-KaZ/StoryMaker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Di-KaZ_StoryMaker&metric=alert_status)](https://sonarcloud.io/dashboard?id=Di-KaZ_StoryMaker)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Di-KaZ_StoryMaker&metric=coverage)](https://sonarcloud.io/dashboard?id=Di-KaZ_StoryMaker)
+
 ### Crée t'es histoires et partage les avec le monde entier ! <!-- {docsify-ignore} -->
 
 Le but de se projet est de proposé une plateforme permettant a tous de facilement crée des histoires interactive et le les partagé afin que d'autre puisse en profité.
