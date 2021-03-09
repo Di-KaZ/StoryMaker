@@ -1,9 +1,9 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import StoryDTO from '@/dto/StoryDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class StoryCreate extends Vue {
+export default class StoryCreate extends BaseStoryComponent {
 	//Changer creationDate
 	//On admet ici que l'utilisateur s'est connecté et il y'a un cookie qui a son id
 	story: StoryDTO = { id: 0, name: '', description: '', creationDate: '', userId: 2, coverUrl: '', firstIdBloc: 1 };
@@ -11,7 +11,7 @@ export default class StoryCreate extends Vue {
 	public createNewStory(event: Event) {
 		event.preventDefault();
 		//Voir pour essayer de passer l'id d'un utilisateur connecté !
-		Fetcher.fetch<StoryDTO>('http://localhost:8080/stories/create', METHODS.POST, this.story);
+		this.fetch<StoryDTO>('http://localhost:8080/stories/create', METHODS.POST, this.story);
 	}
 }
 </script>

@@ -1,11 +1,9 @@
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { mixins, Vue } from 'vue-class-component';
 import StoryDTO from '@/dto/StoryDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
-import Toaster from '@/utils/Toaster';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class PlayStory extends Vue {
-	private toaster = new Toaster();
+export default class PlayStory extends BaseStoryComponent {
 	private story: StoryDTO | null = null;
 	declare $route: any;
 
@@ -16,13 +14,13 @@ export default class PlayStory extends Vue {
 	 */
 
 	mounted() {
-		Fetcher.fetch<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET).then(
-			res => (this.story = res),
-		);
+		this.fetch<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET)
+			.then(res => (this.story = res))
+			.catch(error => this.errorToast(error.message, error.stack));
 	}
 
 	public testToast(): void {
-		this.toaster.info('Hey There !');
+		this.infoToast('Hey There !');
 	}
 
 	getCoverUrl(): string {
@@ -44,10 +42,12 @@ export default class PlayStory extends Vue {
 <style lang="scss"></style>
 
 <template>
-	<Button @click="testToast">Vous etes sur la story numéro : {{ story?.name }}</Button>
-	<img alt="name" :src="getCoverUrl()" style="height: 300px; object-fit: cover" />
-	<h2>Vous êtes en train de jouer à {{ story?.name }}</h2>
-	<!--<h3>{{story.blocs.first}}</h3>-->
-	<Button @click="fecthBlocStory" value="choice1">Choix 1</Button>
-	<Button @click="fecthBlocStory" value="choice2">Choix 2</Button>
+	<div>
+		<Button @click="testToast">Vous etes sur la story numéro : {{ story?.name }}</Button>
+		<img alt="name" :src="getCoverUrl()" style="height: 300px; object-fit: cover" />
+		<h2>Vous êtes en train de jouer à {{ story?.name }}</h2>
+		<!--<h3>{{story.blocs.first}}</h3>-->
+		<!-- <Button @click="fecthBlocStory" value="choice1">Choix 1</Button> -->
+		<!-- <Button @click="fecthBlocStory" value="choice2">Choix 2</Button> -->
+	</div>
 </template>

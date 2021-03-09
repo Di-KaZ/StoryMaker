@@ -1,9 +1,9 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import UserDTO from '@/dto/UserDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class UserConnection extends Vue {
+export default class UserConnection extends BaseStoryComponent {
 	name = '';
 	password = '';
 	loggedUser = false;
@@ -14,7 +14,7 @@ export default class UserConnection extends Vue {
 	public connect() {
 		//Remplacer le console.log par un fetch
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: '' };
-		const response = Fetcher.fetch<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
+		const response = this.fetch<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
 		response.then(data => {
 			this.loggedUser = true;
 			this.loggedUsername = data.name;

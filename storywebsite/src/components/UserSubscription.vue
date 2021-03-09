@@ -2,9 +2,9 @@
 //Les import NE PAS OUBLIER lang="ts"
 import { Vue } from 'vue-class-component';
 import UserDTO from '@/dto/UserDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class Subscription extends Vue {
+export default class Subscription extends BaseStoryComponent {
 	/*Déclaration des variables*/
 	name = '';
 	password = '';
@@ -15,7 +15,7 @@ export default class Subscription extends Vue {
 		event.preventDefault();
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: this.email };
 		//Remplacer le console.log par un fetch
-		Fetcher.fetch<UserDTO>('http://localhost:8080/users/create', METHODS.POST, user);
+		this.fetch<UserDTO>('http://localhost:8080/users/create', METHODS.POST, user);
 
 		// Le then ici va récupérer les infos de l'utilisateur et on stock son id, son pseudo dans un cookie.
 	}

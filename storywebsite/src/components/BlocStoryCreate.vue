@@ -1,15 +1,15 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import BlocStoryDTO from '@/dto/BlocStoryDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class BlocStoryCreate extends Vue {
+export default class BlocStoryCreate extends BaseStoryComponent {
 	blocStory: BlocStoryDTO = { id: 0, name: '', text: '', storyId: 1 };
 
 	public createBlocStory(event: Event) {
 		event.preventDefault();
 		console.log(this.blocStory);
-		Fetcher.fetch<string>('http://localhost:8080/blocstories/create', METHODS.POST, this.blocStory);
+		this.fetch<string>('http://localhost:8080/blocstories/create', METHODS.POST, this.blocStory);
 	}
 }
 </script>

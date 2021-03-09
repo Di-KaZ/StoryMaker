@@ -1,7 +1,6 @@
 <script lang="ts">
 import StoryDTO from '@/dto/StoryDTO';
 import { Vue } from 'vue-class-component';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class Home extends Vue {
 	stories: StoryDTO[] = Array(10).fill({
@@ -31,6 +30,7 @@ export default class Home extends Vue {
 
 <template>
 	<div class="centered">
+		<Toast position="top-right" />
 		<h2 class="title">📖 Les Stories du moment 📖</h2>
 		<Carousel
 			:value="stories"

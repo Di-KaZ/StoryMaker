@@ -1,15 +1,15 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import BlocStoryDTO from '@/dto/BlocStoryDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class BlocStoryUpdate extends Vue {
+export default class BlocStoryUpdate extends BaseStoryComponent {
 	idBlocStory = 3;
 	blocStory: BlocStoryDTO = { id: 3, name: 'continuer sa route', text: 'Lorem ipsum', storyId: 1 };
 
 	public getBlocStory(event: Event) {
 		event.preventDefault();
-		const response = Fetcher.fetch<BlocStoryDTO>(
+		const response = this.fetch<BlocStoryDTO>(
 			'http://localhost:8080/blocstories/get/' + this.idBlocStory,
 			METHODS.POST,
 			this.idBlocStory,
@@ -24,7 +24,7 @@ export default class BlocStoryUpdate extends Vue {
 
 	public updateBlocStory(event: Event) {
 		event.preventDefault();
-		Fetcher.fetch<BlocStoryDTO>('http://localhost:8080/blocstories/update', METHODS.POST, this.blocStory);
+		this.fetch<BlocStoryDTO>('http://localhost:8080/blocstories/update', METHODS.POST, this.blocStory);
 	}
 }
 </script>

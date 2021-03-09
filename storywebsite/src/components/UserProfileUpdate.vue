@@ -1,19 +1,14 @@
 <script lang="ts">
-import Fetcher from '@/utils/Fetcher';
-import { METHODS } from '@/utils/Fetcher';
-import { Vue } from 'vue-class-component';
 import UserDTO from '../dto/UserDTO';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class UserProfileUpdate extends Vue {
+export default class UserProfileUpdate extends BaseStoryComponent {
 	//Fausse initialisation d'un utilisateur => "Il s'est connecté et ile veux modifier ses informations de profil"
 	user: UserDTO = { id: 1, name: 'azerty', password: '12345', email: 'jacques.ducroux@gmail.com' };
 
 	public update(event: Event) {
 		event.preventDefault();
-		const response = Fetcher.fetch<UserDTO>('http://localhost:8080/users/update', METHODS.POST, this.user);
-		response.then(data => {
-			console.log(data.name);
-		});
+		this.fetch<UserDTO>('http://localhost:8080/users/update', METHODS.POST, this.user);
 	}
 }
 </script>

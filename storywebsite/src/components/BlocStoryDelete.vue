@@ -1,14 +1,14 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 import BlocStoryDTO from '@/dto/BlocStoryDTO';
-import Fetcher, { METHODS } from '@/utils/Fetcher';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class BlocStoryDelete extends Vue {
+export default class BlocStoryDelete extends BaseStoryComponent {
 	blocStory: BlocStoryDTO = { id: 2, name: 'Continuer sa route', text: 'Lorem ipsum', storyId: 1 };
 
 	public deleteBlocStory(event: Event) {
 		event.preventDefault();
-		Fetcher.fetch<BlocStoryDTO>(
+		this.fetch<BlocStoryDTO>(
 			'http://localhost:8080/blocstories/delete/' + this.blocStory.id,
 			METHODS.DELETE,
 			this.blocStory.id,

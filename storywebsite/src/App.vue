@@ -1,8 +1,9 @@
 <script lang="ts">
 import Menu from 'primevue/menu';
 import { Vue } from 'vue-class-component';
+import BaseStoryComponent from './utils/BaseStoryComponent';
 
-export default class App extends Vue {
+export default class App extends BaseStoryComponent {
 	declare $refs: {
 		menu: Menu;
 	};
@@ -68,7 +69,7 @@ body {
 
 <template>
 	<div class="backgroundFilter">
-		<Toast position="top-right" />
+		<Toast />
 		<Menubar :model="menu_items">
 			<template #start>
 				<img class="logo" src="./assets/logo.png" alt="Logo" />
