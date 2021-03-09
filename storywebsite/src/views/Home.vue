@@ -4,48 +4,45 @@ import { Vue } from 'vue-class-component';
 import Fetcher, { METHODS } from '@/utils/Fetcher';
 
 export default class Home extends Vue {
-	stories: StoryDTO[] = Array(30).fill({
+	stories: StoryDTO[] = Array(10).fill({
 		name: 'Hey',
 		coverUrl: 'https://source.unsplash.com/random',
 		blocs: [],
 		likes: 0,
+		description: "Ceci est une description de test rien d'interessant ici...",
 	});
+
+	mounted() {
+		// Fetcher.fetch<StoryDTO[]>('', METHODS.GET).then(res => (this.stories = res));
+	}
 }
 </script>
 
 <style lang="scss">
-.centered {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-}
 .title {
-	align-self: flex-start;
+	text-align: center;
+	font-size: 40px;
+}
+
+.hideCarousselNav {
+	display: none;
 }
 </style>
 
 <template>
 	<div class="centered">
-		<h2 class="title">Les stories recente</h2>
-		<Carousel :value="stories" :numVisible="3" :numScroll="1" :autoplayInterval="3000" :circular="true">
+		<h2 class="title">📖 Les Stories du moment 📖</h2>
+		<Carousel
+			:value="stories"
+			:numVisible="2"
+			:numScroll="1"
+			:autoplayInterval="4000"
+			:circular="true"
+			indicatorsContentClass="hideCarousselNav"
+		>
 			<template #item="story">
-				<StoryCard v-bind:dto="story.data" :key="`stories-${index}`" />
+				<StoryCard v-bind:dto="story.data" :key="story.data" />
 			</template>
 		</Carousel>
-		<!--	<UserSubscription></UserSubscription>
-		<UserConnection></UserConnection>-->
-		<!--    <UserProfileUpdate></UserProfileUpdate>-->
-		<!--    <UserProfileDelete></UserProfileDelete>-->
-		<!--    <StoryCreate></StoryCreate>-->
-		<!--    <StoryUpdate></StoryUpdate>-->
-		<!--    <StoryDelete></StoryDelete>-->
-		<!--    <CharacterCreation></CharacterCreation>-->
-		<!--    <CharacterUpdate></CharacterUpdate>-->
-		<!--    <CharacterDelete></CharacterDelete>-->
-		<!--    <BlocStoryCreate></BlocStoryCreate>-->
-		<!--    <BlocStoryUpdate></BlocStoryUpdate>-->
-		<!--    <BlocStoryDelete></BlocStoryDelete>-->
 	</div>
 </template>

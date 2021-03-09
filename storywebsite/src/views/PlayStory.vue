@@ -1,11 +1,11 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import { useToast } from 'primevue/usetoast';
 import StoryDTO from '@/dto/StoryDTO';
 import Fetcher, { METHODS } from '@/utils/Fetcher';
+import Toaster from '@/utils/Toaster';
 
 export default class PlayStory extends Vue {
-	private toast = useToast();
+	private toaster = new Toaster();
 	private story: StoryDTO | null = null;
 	declare $route: any;
 
@@ -22,7 +22,7 @@ export default class PlayStory extends Vue {
 	}
 
 	public testToast(): void {
-		this.toast.add({ severity: 'info', summary: 'Hey There !', detail: 'Message content', life: 3000 });
+		this.toaster.info('Hey There !');
 	}
 
 	getCoverUrl(): string {

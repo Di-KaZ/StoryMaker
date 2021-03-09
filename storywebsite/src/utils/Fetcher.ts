@@ -16,10 +16,16 @@ export default class Fetcher {
 	 * @returns server response (DTO)
 	 */
 	public static fetch<T>(url: string, method: METHODS, body?: any): Promise<T> {
-		if (body !== undefined) {
-			return Fetcher.post(url, body);
+		try {
+			if (body !== undefined) {
+				return Fetcher.post(url, body);
+			}
+			return Fetcher.getOrDelete(url, method);
+		} catch {
+			const toaster = new Toaster();
+			toaster.error('Une erreur inconnue est survenue.');
+			throw new Error('Une erreur inconnue est survenue.');
 		}
-		return Fetcher.getOrDelete(url, method);
 	}
 
 	/**
@@ -39,7 +45,12 @@ export default class Fetcher {
 			body: JSON.stringify(body),
 		});
 		if (!response.ok) {
+<<<<<<< HEAD
 			// Toaster.error(response.statusText);
+=======
+			const toaster = new Toaster();
+			toaster.error(response.statusText);
+>>>>>>> main
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();
@@ -54,7 +65,11 @@ export default class Fetcher {
 	 */
 	private static async getOrDelete<T>(url: string, method: METHODS): Promise<T> {
 		const response = await fetch(url, {
+<<<<<<< HEAD
 			method: method,
+=======
+			method: METHODS.POST,
+>>>>>>> main
 			cache: 'no-cache',
 			credentials: 'omit',
 			headers: {
@@ -62,7 +77,12 @@ export default class Fetcher {
 			},
 		});
 		if (!response.ok) {
+<<<<<<< HEAD
 			// Toaster.error(response.statusText);
+=======
+			const toaster = new Toaster();
+			toaster.error(response.statusText);
+>>>>>>> main
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();
