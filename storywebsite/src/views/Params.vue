@@ -5,4 +5,4 @@ export default class Params extends Vue {}
 
 <style lang="scss"></style>
 
-<template><div></div> </template
+<template><div></div></template>

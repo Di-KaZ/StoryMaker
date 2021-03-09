@@ -6,7 +6,7 @@ import UserDTO from '../dto/UserDTO';
 
 export default class UserProfileUpdate extends Vue {
 	//Fausse initialisation d'un utilisateur => "Il s'est connecté et ile veux modifier ses informations de profil"
-	user: UserDTO = { id: 4, name: 'azerty', password: '12345', email: 'jacques.ducroux@gmail.com' };
+	user: UserDTO = { id: 1, name: 'azerty', password: '12345', email: 'jacques.ducroux@gmail.com' };
 
 	public update(event: Event) {
 		event.preventDefault();

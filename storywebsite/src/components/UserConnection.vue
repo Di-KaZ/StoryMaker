@@ -11,8 +11,7 @@ export default class UserConnection extends Vue {
 
 	//Mettre en varuiable l'url Localhost:8080 => si en déployé lien du host
 	/*Déclaration d'une méthode*/
-	public connect(event: Event) {
-		event.preventDefault();
+	public connect() {
 		//Remplacer le console.log par un fetch
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: '' };
 		const response = Fetcher.fetch<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
@@ -36,7 +35,7 @@ export default class UserConnection extends Vue {
 
 <template>
 	<div v-if="loggedUser != true">
-		<form action="">
+		<form v-on:submit.prevent="onSubmit" action="">
 			<!--v-model pour attribuer une nouvelle valeur a l'attribut name déclaré plus haut-->
 			<label for="user_name">Nom d'utilisateur</label>
 			<input type="text" v-model="name" name="user_name" id="user_name" /><br />

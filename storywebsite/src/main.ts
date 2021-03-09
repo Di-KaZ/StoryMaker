@@ -35,7 +35,7 @@ app.use(router);
 // adding PrimeVue as ui Library
 app.use(PrimveVue, { ripple: true });
 
-app.use(ToastService);
+// app.use(ToastService);
 
 // Component that we use
 app.component('Menubar', Menubar);

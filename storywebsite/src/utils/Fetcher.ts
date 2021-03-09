@@ -29,7 +29,7 @@ export default class Fetcher {
 	 * @returns response of the server
 	 */
 	private static async post<T>(url: string, body?: any): Promise<T> {
-		let response = await fetch(url, {
+		const response = await fetch(url, {
 			method: METHODS.POST,
 			cache: 'no-cache',
 			credentials: 'omit',
@@ -39,10 +39,10 @@ export default class Fetcher {
 			body: JSON.stringify(body),
 		});
 		if (!response.ok) {
-			Toaster.error(response.statusText);
+			// Toaster.error(response.statusText);
 			throw new Error(response.statusText);
 		}
-		let jsonToDto: T = await response.json();
+		const jsonToDto: T = await response.json();
 		return jsonToDto;
 	}
 
@@ -53,8 +53,8 @@ export default class Fetcher {
 	 * @returns reponse of server
 	 */
 	private static async getOrDelete<T>(url: string, method: METHODS): Promise<T> {
-		let response = await fetch(url, {
-			method: METHODS.POST,
+		const response = await fetch(url, {
+			method: method,
 			cache: 'no-cache',
 			credentials: 'omit',
 			headers: {
@@ -62,10 +62,10 @@ export default class Fetcher {
 			},
 		});
 		if (!response.ok) {
-			Toaster.error(response.statusText);
+			// Toaster.error(response.statusText);
 			throw new Error(response.statusText);
 		}
-		let jsonToDto: T = await response.json();
+		const jsonToDto: T = await response.json();
 		return jsonToDto;
 	}
 }

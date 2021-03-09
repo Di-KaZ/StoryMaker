@@ -14,7 +14,7 @@ export default class App extends Vue {
 		},
 		{
 			label: 'Parametres',
-			to: '/',
+			to: '/profile/update',
 		},
 	];
 	menu_items = [
@@ -32,6 +32,7 @@ export default class App extends Vue {
 				},
 				{
 					label: 'Mes histoires',
+					to: '/story/all',
 				},
 			],
 		},
