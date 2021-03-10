@@ -4,7 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import storyteam.server.story.dto.StoryDTO;
@@ -34,6 +40,21 @@ public class StoryService {
 		story.setUser(userRepository.findById(storyDTO.getUserId()).get());
 
 		return Optional.of(story);
+
+	}
+
+	/**
+	 * étape1
+	 * @param numeroPage
+	 * @return
+	 *
+	 */
+
+	public Page <Story> getPageStory(Integer numeroPage){
+
+		Pageable page = PageRequest.of(numeroPage, 15);
+
+		return storyRepository.findAll(page);
 
 	}
 }
