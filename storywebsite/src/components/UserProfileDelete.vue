@@ -9,7 +9,7 @@ export default class UserProfileDelete extends BaseStoryComponent {
 
 	public deleteUser(event: Event) {
 		event.preventDefault();
-		this.fetch<UserDTO>('http://localhost:8080/users/delete/' + this.user.id, METHODS.DELETE, this.user.id);
+		this.fetch<UserDTO>('users/delete/' + this.user.id, METHODS.DELETE, this.user.id);
 	}
 }
 </script>

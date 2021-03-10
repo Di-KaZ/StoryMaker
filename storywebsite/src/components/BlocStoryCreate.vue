@@ -9,7 +9,7 @@ export default class BlocStoryCreate extends BaseStoryComponent {
 	public createBlocStory(event: Event) {
 		event.preventDefault();
 		console.log(this.blocStory);
-		this.fetch<string>('http://localhost:8080/blocstories/create', METHODS.POST, this.blocStory);
+		this.fetch<string>('blocstories/create', METHODS.POST, this.blocStory);
 	}
 }
 </script>

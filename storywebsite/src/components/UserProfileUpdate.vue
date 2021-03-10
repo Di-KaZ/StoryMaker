@@ -8,7 +8,7 @@ export default class UserProfileUpdate extends BaseStoryComponent {
 
 	public update(event: Event) {
 		event.preventDefault();
-		this.fetch<UserDTO>('http://localhost:8080/users/update', METHODS.POST, this.user);
+		this.fetch<UserDTO>('users/update', METHODS.POST, this.user);
 	}
 }
 </script>

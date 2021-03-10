@@ -10,7 +10,7 @@ export default class BlocStoryUpdate extends BaseStoryComponent {
 	public getBlocStory(event: Event) {
 		event.preventDefault();
 		const response = this.fetch<BlocStoryDTO>(
-			'http://localhost:8080/blocstories/get/' + this.idBlocStory,
+			'blocstories/get/' + this.idBlocStory,
 			METHODS.POST,
 			this.idBlocStory,
 		);
@@ -24,7 +24,7 @@ export default class BlocStoryUpdate extends BaseStoryComponent {
 
 	public updateBlocStory(event: Event) {
 		event.preventDefault();
-		this.fetch<BlocStoryDTO>('http://localhost:8080/blocstories/update', METHODS.POST, this.blocStory);
+		this.fetch<BlocStoryDTO>('blocstories/update', METHODS.POST, this.blocStory);
 	}
 }
 </script>

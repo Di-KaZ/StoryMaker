@@ -1,5 +1,5 @@
 <script lang="ts">
-import StoryDTO from '@/dto/StoryDTO';
+import StoryDTO from '../dto/StoryDTO';
 import { Vue } from 'vue-class-component';
 
 export default class Home extends Vue {

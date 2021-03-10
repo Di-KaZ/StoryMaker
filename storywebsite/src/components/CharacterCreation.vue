@@ -8,7 +8,7 @@ export default class CharacterCreation extends BaseStoryComponent {
 
 	public createNewCharacter(event: Event) {
 		event.preventDefault();
-		this.fetch<CharacterDTO>('http://localhost:8080/characters/create', METHODS.POST, this.character);
+		this.fetch<CharacterDTO>('characters/create', METHODS.POST, this.character);
 	}
 }
 </script>

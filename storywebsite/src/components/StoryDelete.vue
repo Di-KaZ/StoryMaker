@@ -16,7 +16,7 @@ export default class StoryDelete extends BaseStoryComponent {
 
 	public deleteStory(event: Event) {
 		event.preventDefault();
-		this.fetch<StoryDTO>('http://localhost:8080/stories/delete/' + this.story.id, METHODS.DELETE, this.story.id);
+		this.fetch<StoryDTO>('stories/delete/' + this.story.id, METHODS.DELETE, this.story.id);
 	}
 }
 </script>

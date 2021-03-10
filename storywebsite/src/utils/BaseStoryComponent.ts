@@ -12,6 +12,7 @@ export enum METHODS {
  * Base class that have all function used to toast and fetch from java api
  */
 export default class BaseStoryComponent extends Vue {
+	private static BASE_API_URL = 'http://localhost:8080/';
 	private toast = useToast();
 	/**
 	 * Dsiplay the error message passed in parameter in a Toast
@@ -61,9 +62,9 @@ export default class BaseStoryComponent extends Vue {
 	 */
 	public fetch<T>(url: string, method: METHODS, body?: any): Promise<T> {
 		if (body !== undefined) {
-			return this.post(url, body);
+			return this.post(BaseStoryComponent.BASE_API_URL + url, body);
 		}
-		return this.getOrDelete(url, method);
+		return this.getOrDelete((BaseStoryComponent.BASE_API_URL , method);
 	}
 
 	/**

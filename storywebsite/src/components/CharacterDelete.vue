@@ -8,11 +8,7 @@ export default class CharacterUpdate extends BaseStoryComponent {
 
 	public deleteCharacter(event: Event) {
 		event.preventDefault();
-		this.fetch<CharacterDTO>(
-			'http://localhost:8080/characters/delete/' + this.character.id,
-			METHODS.DELETE,
-			this.character.id,
-		);
+		this.fetch<CharacterDTO>('characters/delete/' + this.character.id, METHODS.DELETE, this.character.id);
 	}
 }
 </script>

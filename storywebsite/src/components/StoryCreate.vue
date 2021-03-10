@@ -11,7 +11,7 @@ export default class StoryCreate extends BaseStoryComponent {
 	public createNewStory(event: Event) {
 		event.preventDefault();
 		//Voir pour essayer de passer l'id d'un utilisateur connecté !
-		this.fetch<StoryDTO>('http://localhost:8080/stories/create', METHODS.POST, this.story);
+		this.fetch<StoryDTO>('stories/create', METHODS.POST, this.story);
 	}
 }
 </script>

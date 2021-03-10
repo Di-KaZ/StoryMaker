@@ -1,6 +1,6 @@
 <script lang="ts">
 import { mixins, Vue } from 'vue-class-component';
-import StoryDTO from '@/dto/StoryDTO';
+import StoryDTO from '../dto/StoryDTO';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class PlayStory extends BaseStoryComponent {
@@ -14,7 +14,7 @@ export default class PlayStory extends BaseStoryComponent {
 	 */
 
 	mounted() {
-		this.fetch<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET)
+		this.fetch<StoryDTO>('story/play/' + this.$route.params.id, METHODS.GET)
 			.then(res => (this.story = res))
 			.catch(error => this.errorToast(error.message, error.stack));
 	}

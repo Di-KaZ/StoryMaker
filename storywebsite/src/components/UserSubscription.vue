@@ -15,7 +15,7 @@ export default class Subscription extends BaseStoryComponent {
 		event.preventDefault();
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: this.email };
 		//Remplacer le console.log par un fetch
-		this.fetch<UserDTO>('http://localhost:8080/users/create', METHODS.POST, user);
+		this.fetch<UserDTO>('users/create', METHODS.POST, user);
 
 		// Le then ici va récupérer les infos de l'utilisateur et on stock son id, son pseudo dans un cookie.
 	}

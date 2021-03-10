@@ -14,7 +14,7 @@ export default class UserConnection extends BaseStoryComponent {
 	public connect() {
 		//Remplacer le console.log par un fetch
 		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: '' };
-		const response = this.fetch<UserDTO>('http://localhost:8080/users/get', METHODS.POST, user);
+		const response = this.fetch<UserDTO>('users/get', METHODS.POST, user);
 		response.then(data => {
 			this.loggedUser = true;
 			this.loggedUsername = data.name;

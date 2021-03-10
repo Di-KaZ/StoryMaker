@@ -13,7 +13,7 @@ export default class Profile extends BaseStoryComponent {
 
 	public deleteProfile() {
 		if (confirm('Voulez-vous vraiment supprimer votre compte ?')) {
-			this.fetch<UserDTO>('http://localhost:8080/users/delete/' + this.user.id, METHODS.DELETE);
+			this.fetch<UserDTO>('users/delete/' + this.user.id, METHODS.DELETE);
 		}
 	}
 }

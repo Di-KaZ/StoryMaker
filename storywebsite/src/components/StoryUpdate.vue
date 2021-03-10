@@ -16,7 +16,7 @@ export default class StoryUpdate extends BaseStoryComponent {
 
 	public updateStory(event: Event) {
 		event.preventDefault();
-		this.fetch<StoryDTO>('http://localhost:8080/stories/update', METHODS.POST, this.story);
+		this.fetch<StoryDTO>('stories/update', METHODS.POST, this.story);
 	}
 }
 </script>

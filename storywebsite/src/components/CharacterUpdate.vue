@@ -8,7 +8,7 @@ export default class CharacterUpdate extends BaseStoryComponent {
 
 	public updateCharacter(event: Event) {
 		event.preventDefault();
-		this.fetch<CharacterDTO>('http://localhost:8080/characters/update', METHODS.POST, this.character);
+		this.fetch<CharacterDTO>('characters/update', METHODS.POST, this.character);
 	}
 }
 </script>

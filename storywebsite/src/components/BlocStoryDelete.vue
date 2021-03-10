@@ -8,11 +8,7 @@ export default class BlocStoryDelete extends BaseStoryComponent {
 
 	public deleteBlocStory(event: Event) {
 		event.preventDefault();
-		this.fetch<BlocStoryDTO>(
-			'http://localhost:8080/blocstories/delete/' + this.blocStory.id,
-			METHODS.DELETE,
-			this.blocStory.id,
-		);
+		this.fetch<BlocStoryDTO>('blocstories/delete/' + this.blocStory.id, METHODS.DELETE, this.blocStory.id);
 	}
 }
 </script>
