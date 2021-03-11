@@ -1,7 +1,9 @@
 package storyteam.server.story.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class StoryController {
 	// Ajouter un id pour la récupération de la story
 	// "/"{id}"/show"
 	@GetMapping("/play/{id}")
-	public ResponseEntity<Story> showStory(@PathVariable("id") Integer id) {
+	public ResponseEntity<Story> playStory(@PathVariable("id") Integer id) {
 		LOGGER.info("id est {}", id);
 		Optional<Story> story = storyRepository.findById(id);
 		if (story.isPresent()) {
@@ -64,25 +66,14 @@ public class StoryController {
 
 	// // }
 
-	// Obtenir la liste de toutes les stories existantes sur le site
-	@GetMapping("/allStories")
-	public void listStories() {
-
-	}
-
-	// (M)
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Story> createStory(@RequestBody StoryDTO storyDTO
 	/* @RequestBody Integer userId */
 	) {
-		Optional<Story> story = storyService.getStoryFromDTO(storyDTO);
-		if (story.isPresent()) {
-			return ResponseEntity.ok(storyRepository.save(story.get()));
-		}
-		return ResponseEntity.badRequest().body(null);
+		Story story = storyService.getStoryFromDTO(storyDTO);
+		return ResponseEntity.ok(storyRepository.save(story));
 	}
 
-	// (M)
 	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Story> updateStory(@RequestBody StoryDTO storyDTO) {
 		Optional<Story> story = storyRepository.findById(storyDTO.getId());
@@ -97,9 +88,16 @@ public class StoryController {
 
 	}
 
-	@DeleteMapping("/delete/{storyId}")
+	@DeleteMapping("/delete/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteStory(@PathVariable("storyId") Integer storyId) {
+	public void deleteStory(@PathVariable("id") Integer storyId) {
 		storyRepository.deleteById(storyId);
 	}
+
+	@GetMapping("getPage/{page}")
+	public List<Story> getPageStory(@PathVariable("page") Integer page) {
+		System.out.println("weoigfhpiweough");
+		return storyService.getPageStory(page).stream().collect(Collectors.toList());
+	}
+
 }

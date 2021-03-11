@@ -37,10 +37,8 @@ public class Story {
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
+	@JsonIgnoreProperties({ "userid" })
 	private User user;
-
-	@Column(name = "firstIdBloc")
-	private Integer firstIdBloc;
 
 	// Revoir les JsonIgnoreProperties
 	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
@@ -79,10 +77,6 @@ public class Story {
 		return user;
 	}
 
-	public Integer getFirstIdBloc() {
-		return firstIdBloc;
-	}
-
 	public Set<BlocStory> getBlocStories() {
 		return BlocStories;
 	}
@@ -105,10 +99,6 @@ public class Story {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public void setFirstIdBloc(Integer firstIdBloc) {
-		this.firstIdBloc = firstIdBloc;
 	}
 
 	public void setBlocStories(Set<BlocStory> blocStories) {
