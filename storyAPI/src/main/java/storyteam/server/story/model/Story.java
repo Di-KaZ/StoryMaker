@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "story")
-@JsonIgnoreProperties({ "blocStories", "user" })
+@JsonIgnoreProperties({ "blocStories" })
 public class Story {
 
 	@Id
@@ -37,6 +37,7 @@ public class Story {
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
+	@JsonIgnoreProperties({ "id", "password", "email", "stories" })
 	private User user;
 
 	// Revoir les JsonIgnoreProperties
@@ -52,7 +53,7 @@ public class Story {
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
-		blocStories = blocStories;
+		this.blocStories = blocStories;
 	}
 
 	public Integer getId() {
@@ -100,6 +101,6 @@ public class Story {
 	}
 
 	public void setBlocStories(Set<BlocStory> blocStories) {
-		blocStories = blocStories;
+		this.blocStories = blocStories;
 	}
 }
