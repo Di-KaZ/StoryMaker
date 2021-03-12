@@ -2,6 +2,7 @@ package storyteam.server.story.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import storyteam.server.story.dto.StoryDTO;
+import storyteam.server.story.model.BlocStory;
 import storyteam.server.story.model.Story;
+import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.repository.UserRepository;
 
@@ -22,6 +25,9 @@ public class StoryService {
 	StoryRepository storyRepository;
 
 	@Autowired
+	BlocStoryRepository blocStoryRepository;
+
+	@Autowired
 	UserRepository userRepository;
 
 	/**
@@ -30,7 +36,7 @@ public class StoryService {
 	 * @param storyDTO
 	 * @return Story
 	 */
-	public Story getStoryFromDTO(StoryDTO storyDTO) {
+	public Story buildStoryDTO(StoryDTO storyDTO) {
 		Story story = new Story();
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		story.setName(storyDTO.getName());
@@ -38,6 +44,43 @@ public class StoryService {
 		story.setDescription(storyDTO.getDescription());
 		story.setUser(userRepository.findById(storyDTO.getUserId()).get());
 		return story;
+	}
+
+	/**
+	 * Effectue une recherche selon les critètre
+	 *
+	 * @param pageNum
+	 * @param username
+	 * @param storyname
+	 * @param tags
+	 * @param orderby
+	 * @return
+	 */
+	public Page<Story> search(Integer pageNum, Optional<String> username, Optional<String> storyname,
+			Optional<String> tags, Optional<String> orderby) {
+		Pageable page = PageRequest.of(pageNum, PAGE_STORY_SIZE);
+		return storyRepository.search(storyname, orderby, page);
+	}
+
+	/**
+	 * Récupere la story correspondant a l'id
+	 *
+	 * @param storyId
+	 * @return
+	 */
+	public Optional<Story> getStory(Integer storyId) {
+		return storyRepository.findById(storyId);
+	}
+
+	/**
+	 * Récupére le bloc story apparenant a la story
+	 *
+	 * @param storyId
+	 * @param blocId
+	 * @return
+	 */
+	public Optional<BlocStory> getBlocStory(Integer storyId, Integer blocId) {
+		return blocStoryRepository.findBlocStoryByStoryIdAndBlocId(blocId, storyId);
 	}
 
 	/**
@@ -50,5 +93,24 @@ public class StoryService {
 	public Page<Story> getPageStory(Integer numeroPage) {
 		Pageable page = PageRequest.of(numeroPage, PAGE_STORY_SIZE);
 		return storyRepository.findAll(page);
+	}
+
+	/**
+	 * Save une nouvelle story
+	 *
+	 * @param story
+	 * @return
+	 */
+	public Story save(Story story) {
+		return storyRepository.save(story);
+	}
+
+	/**
+	 * Supprime une story via son id
+	 *
+	 * @param storyid
+	 */
+	public void delete(Integer storyid) {
+		storyRepository.deleteById(storyid);
 	}
 }
