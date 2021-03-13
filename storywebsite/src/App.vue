@@ -1,6 +1,5 @@
 <script lang="ts">
 import Menu from 'primevue/menu';
-import { Vue } from 'vue-class-component';
 import BaseStoryComponent from './utils/BaseStoryComponent';
 
 export default class App extends BaseStoryComponent {
@@ -8,7 +7,7 @@ export default class App extends BaseStoryComponent {
 		menu: Menu;
 	};
 
-	user_menu = [
+	private user_menu = [
 		{
 			label: 'Profil / Connextion',
 			to: '/profile',
@@ -18,7 +17,8 @@ export default class App extends BaseStoryComponent {
 			to: '/profile/update',
 		},
 	];
-	menu_items = [
+
+	private menu_items = [
 		{
 			label: 'Acceuil',
 			to: '/',
@@ -33,13 +33,13 @@ export default class App extends BaseStoryComponent {
 				},
 				{
 					label: 'Mes histoires',
-					to: '/story/all',
+					to: '/story/user/GET_MOUSSED/page/0',
 				},
 			],
 		},
 	];
 
-	toggle(event: Event) {
+	public toggle(event: Event) {
 		this.$refs.menu.toggle(event);
 	}
 }
@@ -79,6 +79,8 @@ body {
 				<Menu id="user_menu" ref="menu" :model="user_menu" :popup="true" />
 			</template>
 		</Menubar>
-		<router-view />
+		<transition slide>
+			<router-view />
+		</transition>
 	</div>
 </template>
