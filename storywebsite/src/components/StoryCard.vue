@@ -21,16 +21,20 @@ export default class StoryCard extends Vue.with(Props) {
 	// 	return this.dto?.coverUrl;
 	// }
 
-	public getTitle(): string | undefined {
-		return this.dto?.name;
+	public getTitle(): string {
+		return this.dto!.name;
 	}
 
 	public getAuthor(): string {
 		return this.dto!.user.name;
 	}
 
-	public getDescription(): string | undefined {
-		return this.dto?.description;
+	public getDescription(): string {
+		return this.dto!.description;
+	}
+
+	public getDateCrea(): string {
+		return this.dto!.creationDate;
 	}
 
 	public playStory(event: Event): void {
@@ -66,7 +70,7 @@ export default class StoryCard extends Vue.with(Props) {
 		<template #title>
 			{{ getTitle() }}
 		</template>
-		<template #subtitle> de {{ getAuthor() }} </template>
+		<template #subtitle> de {{ getAuthor() }} le {{ getDateCrea() }} </template>
 		<template #content>{{ getDescription() }} </template>
 		<template #footer>
 			<div class="cardFooter">
