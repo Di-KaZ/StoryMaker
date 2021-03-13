@@ -28,19 +28,20 @@ export default class BlocStoryUpdate extends BaseStoryComponent {
 <style scoped></style>
 
 <template>
-	<button @click="getBlocStory">Get info</button>
-	<form action="">
-		<input v-model="blocStory.name" type="text" name="blocStory_name" id="blocStory_name" /><br />
-		<textarea
-			v-model="blocStory.text"
-			name="blocStory_text"
-			id="blocStory_text"
-			cols="50"
-			rows="30"
-			placeholder="La description de votre Histoire épique"
-		></textarea
-		><br />
-
-		<button @click="updateBlocStory">Ajouter un bloc</button>
-	</form>
+	<div>
+		<button @click="getBlocStory">Get info</button>
+		<form action="">
+			<input v-model="blocStory.name" type="text" name="blocStory_name" id="blocStory_name" /><br />
+			<textarea
+				v-model="blocStory.text"
+				name="blocStory_text"
+				id="blocStory_text"
+				cols="50"
+				rows="30"
+				placeholder="La description de votre Histoire épique"
+			></textarea
+			><br />
+			<button @click="updateBlocStory">Ajouter un bloc</button>
+		</form>
+	</div>
 </template>
