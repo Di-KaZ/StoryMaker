@@ -1,22 +1,20 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import StoryDTO from '../dto/StoryDTO';
+import Story from '../types/Story';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class StoryUpdate extends BaseStoryComponent {
-	story: StoryDTO = {
-		id: 2,
+	story: Story = {
+		id: 1,
 		name: 'bla bla bla',
 		description: 'This zaeaezez',
 		creationDate: '2021-02-09',
-		userId: 2,
-		coverUrl: '',
-		firstIdBloc: 2,
+		user: { name: 'GET_MOUSSED' },
 	};
 
 	public updateStory(event: Event) {
 		event.preventDefault();
-		this.fetch<StoryDTO>('stories/update', METHODS.POST, this.story);
+		this.fetch<Story>('stories/update', METHODS.POST, this.story);
 	}
 }
 </script>

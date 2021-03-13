@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import Profile from '../views/Profile.vue';
-import ProfileUpdate from '../views/ProfileUpdate.vue';
 import StoryCreate from '../components/StoryCreate.vue';
 import Home from '../views/Home.vue';
 import PlayStory from '../views/PlayStory.vue';
+import Profile from '../views/Profile.vue';
+import ProfileUpdate from '../views/ProfileUpdate.vue';
 
 const routes: Array<RouteRecordRaw> = [
 	{

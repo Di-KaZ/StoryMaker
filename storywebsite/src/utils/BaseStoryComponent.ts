@@ -64,7 +64,7 @@ export default class BaseStoryComponent extends Vue {
 		if (body !== undefined) {
 			return this.post(BaseStoryComponent.BASE_API_URL + url, body);
 		}
-		return this.getOrDelete((BaseStoryComponent.BASE_API_URL , method);
+		return this.getOrDelete(BaseStoryComponent.BASE_API_URL + url, method);
 	}
 
 	/**
@@ -84,7 +84,6 @@ export default class BaseStoryComponent extends Vue {
 			body: JSON.stringify(body),
 		});
 		if (!response.ok) {
-			this.errorToast(response.statusText);
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();
@@ -107,7 +106,6 @@ export default class BaseStoryComponent extends Vue {
 			},
 		});
 		if (!response.ok) {
-			this.errorToast(response.statusText);
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();

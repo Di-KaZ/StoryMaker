@@ -1,10 +1,10 @@
 <script lang="ts">
 import { mixins, Vue } from 'vue-class-component';
-import StoryDTO from '../dto/StoryDTO';
+import Story from '../types/Story';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class PlayStory extends BaseStoryComponent {
-	private story: StoryDTO | null = null;
+	private story: Story | null = null;
 	declare $route: any;
 
 	/**
@@ -14,7 +14,7 @@ export default class PlayStory extends BaseStoryComponent {
 	 */
 
 	mounted() {
-		this.fetch<StoryDTO>('story/play/' + this.$route.params.id, METHODS.GET)
+		this.fetch<Story>('story/play/' + this.$route.params.id, METHODS.GET)
 			.then(res => (this.story = res))
 			.catch(error => this.errorToast(error.message, error.stack));
 	}
@@ -27,7 +27,7 @@ export default class PlayStory extends BaseStoryComponent {
 		if (this.story === null) {
 			return '';
 		}
-		return this.story.coverUrl;
+		return '';
 	}
 
 	/**

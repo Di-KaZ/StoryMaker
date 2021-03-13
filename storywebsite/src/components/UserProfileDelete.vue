@@ -1,15 +1,15 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import UserDTO from '../dto/UserDTO';
+import User from '../types/User';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class UserProfileDelete extends BaseStoryComponent {
 	//Fausse initialisation d'un utilisateur => "Il s'est connecté et ile veux modifier ses informations de profil"
-	user: UserDTO = { id: 6, name: 'azerty', password: '', email: '' };
+	user: User = { name: 'azerty', email: '' };
 
 	public deleteUser(event: Event) {
 		event.preventDefault();
-		this.fetch<UserDTO>('users/delete/' + this.user.id, METHODS.DELETE, this.user.id);
+		this.fetch<User>('users/delete/' + this.user.name, METHODS.DELETE);
 	}
 }
 </script>
@@ -17,7 +17,9 @@ export default class UserProfileDelete extends BaseStoryComponent {
 <style scoped></style>
 
 <template>
-	<p>Bienvenue {{ user.name }}</p>
-	<br />
-	<button @click="deleteUser">Supprimer son profil</button>
+	<div>
+		<p>Bienvenue {{ user.name }}</p>
+		<br />
+		<button @click="deleteUser">Supprimer son profil</button>
+	</div>
 </template>

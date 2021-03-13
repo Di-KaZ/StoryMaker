@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import storyteam.server.story.dto.StoryDTO;
 import storyteam.server.story.model.BlocStory;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.services.StoryService;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/story")
 public class StoryController {
@@ -74,8 +71,7 @@ public class StoryController {
 	 * @return
 	 */
 	@PostMapping(value = "/save")
-	public ResponseEntity<Story> createStory(@RequestBody StoryDTO storyDTO) {
-		Story story = storyService.buildStoryDTO(storyDTO);
+	public ResponseEntity<Story> createStory(@RequestBody Story story) {
 		return ResponseEntity.ok(storyService.save(story));
 	}
 

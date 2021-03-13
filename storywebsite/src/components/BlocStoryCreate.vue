@@ -1,10 +1,11 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import BlocStoryDTO from '@/dto/BlocStoryDTO';
+import BlocStory from '../types/BlocStory';
+
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class BlocStoryCreate extends BaseStoryComponent {
-	blocStory: BlocStoryDTO = { id: 0, name: '', text: '', storyId: 1 };
+	blocStory: BlocStory = { id: 0, name: '', text: '' };
 
 	public createBlocStory(event: Event) {
 		event.preventDefault();

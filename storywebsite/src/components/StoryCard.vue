@@ -1,14 +1,15 @@
 <script lang="ts">
-import StoryDTO from '@/dto/StoryDTO';
 import { Vue } from 'vue-class-component';
+import Story from '../types/Story';
 
 // definit les props recu par le composant
 class Props {
-	dto?: StoryDTO;
+	dto?: Story;
 }
 // on set les props avec Vue.with
 export default class StoryCard extends Vue.with(Props) {
-	private author = 'GET_MOUSSED';
+	declare $router;
+
 	private likes = 5;
 	private dislikes = 10;
 
@@ -16,16 +17,16 @@ export default class StoryCard extends Vue.with(Props) {
 		//
 	}
 
-	public getCoverUrl(): string | undefined {
-		return this.dto?.coverUrl;
-	}
+	// public getCoverUrl(): string | undefined {
+	// 	return this.dto?.coverUrl;
+	// }
 
 	public getTitle(): string | undefined {
 		return this.dto?.name;
 	}
 
 	public getAuthor(): string {
-		return this.author;
+		return this.dto!.user.name;
 	}
 
 	public getDescription(): string | undefined {
@@ -34,8 +35,7 @@ export default class StoryCard extends Vue.with(Props) {
 
 	public playStory(event: Event): void {
 		event.preventDefault();
-
-		//
+		this.$router.push({ name: 'PlayStory', params: { id: this.dto?.id } });
 	}
 }
 </script>
@@ -61,7 +61,7 @@ export default class StoryCard extends Vue.with(Props) {
 <template>
 	<Card class="card">
 		<template #header>
-			<img alt="name" :src="getCoverUrl()" />
+			<!-- <img alt="name" :src="getCoverUrl()" /> -->
 		</template>
 		<template #title>
 			{{ getTitle() }}
@@ -70,7 +70,7 @@ export default class StoryCard extends Vue.with(Props) {
 		<template #content>{{ getDescription() }} </template>
 		<template #footer>
 			<div class="cardFooter">
-				<Button>Jouer !</Button>
+				<Button @click="playStory">Jouer !</Button>
 				<div>
 					<Button>👍 {{ likes }}</Button>
 					<Button>👎 {{ dislikes }}</Button>

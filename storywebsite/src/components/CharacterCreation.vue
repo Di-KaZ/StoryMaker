@@ -1,14 +1,15 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import CharacterDTO from '@/dto/CharacterDTO';
+import Character from '../types/Character';
+
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class CharacterCreation extends BaseStoryComponent {
-	character: CharacterDTO = { id: 0, name: '', stat: '', storyId: 1 };
+	character: Character = { id: 0, name: '', stat: '', storyId: 1 };
 
 	public createNewCharacter(event: Event) {
 		event.preventDefault();
-		this.fetch<CharacterDTO>('characters/create', METHODS.POST, this.character);
+		this.fetch<Character>('characters/create', METHODS.POST, this.character);
 	}
 }
 </script>
