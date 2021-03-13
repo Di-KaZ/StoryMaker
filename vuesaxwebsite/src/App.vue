@@ -53,6 +53,11 @@ html {
     border-radius: 0px !important;
   }
 }
+
+.vs-con-items {
+  justify-content: flex-start;
+  width: 100%;
+}
 </style>
 
 <template>
@@ -69,7 +74,7 @@ html {
           <img class="logo" src="./assets/logo.png" alt="Logo" />
         </vs-navbar-title>
       </div>
-      <vs-navbar-item index="0">
+      <vs-navbar-item index="0" style="justify-self: flex-start">
         <router-link to="/">
           Accueil
         </router-link>
@@ -79,7 +84,11 @@ html {
           Créer
         </router-link>
       </vs-navbar-item>
-      <vs-avatar @click="toggleSideBar()" size="large" />
+      <vs-avatar
+        @click="toggleSideBar()"
+        size="large"
+        style="margin-left: auto; margin-right: 15px"
+      />
     </vs-navbar>
     <vs-sidebar
       parent="body"

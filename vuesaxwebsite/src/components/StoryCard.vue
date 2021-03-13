@@ -11,6 +11,7 @@ const StoryCardProps = BaseStoryComponent.extend({
 
 @Component({})
 export default class StoryCard extends StoryCardProps {
+  declare infoToast: (infoMsg: string, detail?: string) => void;
   public likes = 0;
 
   get username(): string {
@@ -27,6 +28,10 @@ export default class StoryCard extends StoryCardProps {
 
   public addLike(): void {
     this.likes += 1;
+  }
+
+  public play(): void {
+    this.infoToast("Play clicked !");
   }
 }
 </script>
@@ -69,7 +74,12 @@ button {
     </div>
     <div slot="footer">
       <vs-row vs-justify="flex-end">
-        <vs-button type="gradient" color="success" icon="play_arrow">
+        <vs-button
+          @click="play"
+          type="gradient"
+          color="success"
+          icon="play_arrow"
+        >
           Jouer
         </vs-button>
         <vs-button
