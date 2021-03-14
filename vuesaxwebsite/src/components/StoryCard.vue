@@ -37,6 +37,10 @@ export default class StoryCard extends StoryCardProps {
 </script>
 
 <style scoped lang="scss">
+h2 {
+  text-transform: capitalize;
+}
+
 h4 span {
   text-transform: uppercase;
 }

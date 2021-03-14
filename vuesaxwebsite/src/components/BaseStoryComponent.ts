@@ -77,7 +77,6 @@ export default class BaseStoryComponent extends Vue {
   private async post<T>(url: string, body?: any): Promise<T> {
     const response = await fetch(url, {
       method: METHODS.POST,
-      cache: "no-cache",
       credentials: "omit",
       headers: {
         "Content-Type": "application/json",
@@ -85,9 +84,14 @@ export default class BaseStoryComponent extends Vue {
       body: JSON.stringify(body),
     });
     if (!response.ok) {
-      throw new Error(response.statusText);
+      this.errorToast(
+        "Error when fetching data",
+        "[" + METHODS.POST.toUpperCase() + "] " + response.status.toString()
+      );
     }
-    const jsonToDto: T = await response.json();
+    const jsonToDto: T = await response
+      .json()
+      .catch((error) => this.errorToast(error.message, error.status));
     return jsonToDto;
   }
 
@@ -100,16 +104,20 @@ export default class BaseStoryComponent extends Vue {
   private async getOrDelete<T>(url: string, method: METHODS): Promise<T> {
     const response = await fetch(url, {
       method: method,
-      cache: "no-cache",
       credentials: "omit",
       headers: {
         "Content-Type": "application/json",
       },
     });
     if (!response.ok) {
-      throw new Error(response.statusText);
+      this.errorToast(
+        "Error when fetching data",
+        "[" + method.toUpperCase() + "] " + response.status.toString()
+      );
     }
-    const jsonToDto: T = await response.json();
+    const jsonToDto: T = await response
+      .json()
+      .catch((error) => this.errorToast(error.message, error.status));
     return jsonToDto;
   }
 }

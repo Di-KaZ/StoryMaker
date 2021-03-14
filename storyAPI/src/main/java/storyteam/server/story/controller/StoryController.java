@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -93,10 +94,9 @@ public class StoryController {
 	 * @param page
 	 * @return
 	 */
-	@GetMapping("page/{page}")
-	public List<Story> getPageStory(@PathVariable("page") Integer page) {
-		System.out.println("weoigfhpiweough");
-		return storyService.getPageStory(page).toList();
+	@GetMapping("trending")
+	public ResponseEntity<List<Story>> getPageStory() {
+		return ResponseEntity.ok(storyService.getTrendingStory().toList());
 	}
 
 	/**
@@ -110,9 +110,20 @@ public class StoryController {
 	 * @return
 	 */
 	@GetMapping("search/{page}")
-	public List<Story> searchStories(@PathVariable("page") Integer page,
+	public ResponseEntity<Page<Story>> searchStories(@PathVariable("page") Integer page,
 			@RequestParam("username") Optional<String> username, @RequestParam("storyname") Optional<String> storyname,
 			@RequestParam("tags") Optional<String> tags, @RequestParam("orderby") Optional<String> orderby) {
-		return storyService.search(page, username, storyname, tags, orderby).toList();
+
+		LOGGER.info("page={},username={},storyname={}", page, username, storyname);
+		// normalize page to the first being 1 but ehre we start at 0
+		if (--page < 0) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		Page<Story> storiesSearched = storyService.search(page, username, storyname, tags, orderby);
+		if (storiesSearched.isEmpty()) {
+			LOGGER.info("rien ici");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		return ResponseEntity.ok(storiesSearched);
 	}
 }
