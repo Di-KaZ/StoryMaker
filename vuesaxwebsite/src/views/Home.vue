@@ -41,15 +41,15 @@ h1 {
         <story-card :infos="stories[0]" />
       </vs-col>
       <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="5">
-        <story-card :infos="stories[0]" />
+        <story-card :infos="stories[1]" />
       </vs-col>
     </vs-row>
     <vs-row vs-justify="space-evenly">
       <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="5">
-        <story-card :infos="stories[0]" />
+        <story-card :infos="stories[2]" />
       </vs-col>
       <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="5">
-        <story-card :infos="stories[0]" />
+        <story-card :infos="stories[3]" />
       </vs-col>
     </vs-row>
   </div>

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +39,10 @@ public class UserController {
 	 * @param password
 	 * @return
 	 */
-	@PostMapping(value = "/login")
+	@GetMapping(value = "/login")
 	public ResponseEntity<User> getUser(@RequestParam("username") String username,
 			@RequestParam("password") String password) {
+		LOGGER.info("{} {}", username, password);
 
 		// We check if a user exist with this username
 		Optional<User> user = userService.findByName(username);
@@ -56,6 +58,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 		// user connected we return it and add token in header
+		LOGGER.info("Good on renvoit les infos", username, password);
 		return ResponseEntity.ok(user.get());
 	}
 

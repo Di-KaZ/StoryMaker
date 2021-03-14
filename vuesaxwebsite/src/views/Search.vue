@@ -10,17 +10,77 @@ import Story from "../types/Story";
   },
 })
 export default class Search extends BaseStoryComponent {
-  private stories: Story[] = [];
-  private page = 0;
+  private storiesRight: Story[] = [];
+  private storiesLeft: Story[] = [];
+  private page = 1;
+  private search = "";
+  private busy = false;
 
-  mounted() {
-    this.fetch<Story[]>("story/search/" + this.page, METHODS.GET).then(
-      (res) => (this.stories = res)
-    );
-    console.log(this.stories);
+  public loadNewPage(): void {
+    this.busy = true;
+
+    this.fetch<Story[]>("story/search/" + this.page, METHODS.GET)
+      .then((stories) => {
+        // on separe les stories en deux listes pour pouvoir les afficher cote a cote
+        stories.forEach((story, index) => {
+          if (index % 2 === 0) {
+            this.storiesRight = [...this.storiesRight, story];
+          } else {
+            this.storiesRight = [...this.storiesRight, story];
+          }
+        });
+      })
+      .catch((error) =>
+        this.infoToast(
+          "Désolé !",
+          "aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
+        )
+      );
+    this.page++;
+    this.busy = false;
   }
 }
 </script>
+<template>
+  <div class="home">
+    <vs-row vs-justify="center">
+      <vs-input
+        class="search"
+        icon="search"
+        placeholder="Rechercher"
+        v-model="search"
+      />
+    </vs-row>
+    <div
+      v-infinite-scroll="loadNewPage"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="15"
+    >
+      <vs-row vs-justify="space-evenly">
+        <vs-col
+          v-for="story in storiesLeft"
+          :key="story.description"
+          type="flex"
+          vs-justify="center"
+          vs-align="center"
+          vs-w="5"
+        >
+          <story-card :infos="story" />
+        </vs-col>
+        <vs-col
+          v-for="story in storiesRight"
+          :key="story.id"
+          type="flex"
+          vs-justify="center"
+          vs-align="center"
+          vs-w="5"
+        >
+          <story-card :infos="story" />
+        </vs-col>
+      </vs-row>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 h1 {
@@ -30,29 +90,7 @@ h1 {
     color: #00a1cd;
   }
 }
+.search {
+  padding-bottom: 30px;
+}
 </style>
-
-<template>
-  <div class="home">
-    <vs-row vs-justify="center">
-      <h1>📖 Les <span>Stories</span> du moment 📖</h1>
-    </vs-row>
-    <vs-row v-if="stories !== undefined" vs-justify="space-evenly">
-      <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="5">
-        <story-card :infos="stories[0]" />
-      </vs-col>
-      <vs-col
-        v-if="stories !== undefined"
-        ype="flex"
-        vs-justify="center"
-        vs-align="center"
-        vs-w="5"
-      >
-        <story-card :infos="stories[0]" />
-      </vs-col>
-    </vs-row>
-    <vs-row vs-justify="center" vs-w="12">
-      <vs-pagination :total="20" v-model="page" />
-    </vs-row>
-  </div>
-</template>

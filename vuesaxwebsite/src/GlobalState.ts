@@ -10,10 +10,14 @@ Vue.use(Vuex);
 export const GlobalState = new Vuex.Store({
   state: {
     sideBarOpen: false,
+    user: null,
   },
   mutations: {
     toggleSideBar(state) {
       state.sideBarOpen = !state.sideBarOpen;
+    },
+    changeUser(state, user) {
+      state.user = user;
     },
   },
 });

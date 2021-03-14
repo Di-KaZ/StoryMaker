@@ -60,11 +60,20 @@ export default class BaseStoryComponent extends Vue {
    * @returns server response (DTO)
    */
   // eslint-disable-next-line
-  public fetch<T>(url: string, method: METHODS, body?: any): Promise<T> {
-    if (body !== undefined) {
-      return this.post(BaseStoryComponent.BASE_API_URL + url, body);
+  public fetch<T>(
+    url: string,
+    method: METHODS,
+    params?: any,
+    body?: any
+  ): Promise<T> {
+    let urlhttp = BaseStoryComponent.BASE_API_URL + url;
+    if (params !== undefined) {
+      urlhttp += new URLSearchParams(params);
     }
-    return this.getOrDelete(BaseStoryComponent.BASE_API_URL + url, method);
+    if (body !== undefined) {
+      return this.post(urlhttp, body);
+    }
+    return this.getOrDelete(urlhttp, method);
   }
 
   /**
@@ -89,9 +98,7 @@ export default class BaseStoryComponent extends Vue {
         "[" + METHODS.POST.toUpperCase() + "] " + response.status.toString()
       );
     }
-    const jsonToDto: T = await response
-      .json()
-      .catch((error) => this.errorToast(error.message, error.status));
+    const jsonToDto: T = await response.json();
     return jsonToDto;
   }
 
@@ -115,9 +122,7 @@ export default class BaseStoryComponent extends Vue {
         "[" + method.toUpperCase() + "] " + response.status.toString()
       );
     }
-    const jsonToDto: T = await response
-      .json()
-      .catch((error) => this.errorToast(error.message, error.status));
+    const jsonToDto: T = await response.json();
     return jsonToDto;
   }
 }

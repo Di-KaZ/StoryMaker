@@ -31,6 +31,12 @@ html {
   <div id="app">
     <nav-bar />
     <side-bar />
-    <router-view />
+    <transition
+      mode="out-in"
+      enter-active-class="animate__animated animate__fadeInUp animate__faster"
+      leave-active-class="animate__animated animate__fadeOut animate__faster"
+    >
+      <router-view />
+    </transition>
   </div>
 </template>

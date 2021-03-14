@@ -52,7 +52,7 @@ html {
     </vs-navbar-item>
     <vs-navbar-item index="2">
       <router-link to="/story/search">
-        Rchercher
+        Rechercher
       </router-link>
     </vs-navbar-item>
     <vs-avatar

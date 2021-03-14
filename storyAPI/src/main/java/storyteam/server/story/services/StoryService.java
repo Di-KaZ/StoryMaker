@@ -40,7 +40,8 @@ public class StoryService {
 	public Page<Story> search(Integer pageNum, Optional<String> username, Optional<String> storyname,
 			Optional<String> tags, Optional<String> orderby) {
 		Pageable page = PageRequest.of(pageNum, PAGE_STORY_SIZE);
-		return storyRepository.search(page);
+		// return storyRepository.search(page);
+		return storyRepository.findAll(page);
 	}
 
 	/**
