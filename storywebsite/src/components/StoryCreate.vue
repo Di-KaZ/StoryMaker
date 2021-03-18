@@ -1,17 +1,17 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import StoryDTO from '@/dto/StoryDTO';
+import Story from '../types/Story';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class StoryCreate extends BaseStoryComponent {
 	//Changer creationDate
 	//On admet ici que l'utilisateur s'est connecté et il y'a un cookie qui a son id
-	story: StoryDTO = { id: 0, name: '', description: '', creationDate: '', userId: 2, coverUrl: '', firstIdBloc: 1 };
+	story: Story = { id: 0, name: '', description: '', creationDate: '', user: { name: 'GET_MOUSSED' } };
 
 	public createNewStory(event: Event) {
 		event.preventDefault();
 		//Voir pour essayer de passer l'id d'un utilisateur connecté !
-		this.fetch<StoryDTO>('stories/create', METHODS.POST, this.story);
+		this.fetch<Story>('stories/create', METHODS.POST, this.story);
 	}
 }
 </script>

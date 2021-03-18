@@ -60,11 +60,12 @@ export default class BaseStoryComponent extends Vue {
 	 * @param body data to send via post
 	 * @returns server response (DTO)
 	 */
+	// eslint-disable-next-line
 	public fetch<T>(url: string, method: METHODS, body?: any): Promise<T> {
 		if (body !== undefined) {
 			return this.post(BaseStoryComponent.BASE_API_URL + url, body);
 		}
-		return this.getOrDelete(BaseStoryComponent.BASE_API_URL , method);
+		return this.getOrDelete(BaseStoryComponent.BASE_API_URL + url, method);
 	}
 
 	/**
@@ -73,6 +74,7 @@ export default class BaseStoryComponent extends Vue {
 	 * @param body object to send (DTOS)
 	 * @returns response of the server
 	 */
+	// eslint-disable-next-line
 	private async post<T>(url: string, body?: any): Promise<T> {
 		const response = await fetch(url, {
 			method: METHODS.POST,
@@ -84,7 +86,6 @@ export default class BaseStoryComponent extends Vue {
 			body: JSON.stringify(body),
 		});
 		if (!response.ok) {
-			this.errorToast(response.statusText);
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();
@@ -107,7 +108,6 @@ export default class BaseStoryComponent extends Vue {
 			},
 		});
 		if (!response.ok) {
-			this.errorToast(response.statusText);
 			throw new Error(response.statusText);
 		}
 		const jsonToDto: T = await response.json();

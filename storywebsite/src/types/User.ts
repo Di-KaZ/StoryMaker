@@ -1,8 +1,6 @@
-export default interface UserDTO {
+export default interface User {
 	//Décaration d'interface + attributs
-	id: number;
 	name: string;
-	password: string;
-	email: string;
+	email?: string;
 	//TODO Voir pour installer des roles pour les utilisateurs
 }

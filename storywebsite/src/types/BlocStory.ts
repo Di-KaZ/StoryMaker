@@ -1,8 +1,6 @@
-export default interface StoryBlocDTO {
+export default interface BlocStory {
 	id: number;
 	name: string;
 	text: string;
-	storyId: number;
-	coverUrl: string;
 	/*	choices: string[]; => a afficher dans les boutons*/
 }

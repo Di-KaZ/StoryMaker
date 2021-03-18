@@ -1,7 +1,7 @@
 <script lang="ts">
 //Les import NE PAS OUBLIER lang="ts"
 import { Vue } from 'vue-class-component';
-import UserDTO from '@/dto/UserDTO';
+import User from '../types/User';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class Subscription extends BaseStoryComponent {
@@ -13,9 +13,9 @@ export default class Subscription extends BaseStoryComponent {
 	/*Déclaration d'une méthode*/
 	public send(event: Event) {
 		event.preventDefault();
-		const user: UserDTO = { id: 0, name: this.name, password: this.password, email: this.email };
+		const user: User = { name: this.name, email: this.email };
 		//Remplacer le console.log par un fetch
-		this.fetch<UserDTO>('users/create', METHODS.POST, user);
+		this.fetch<User>('users/create', METHODS.POST, user);
 
 		// Le then ici va récupérer les infos de l'utilisateur et on stock son id, son pseudo dans un cookie.
 	}

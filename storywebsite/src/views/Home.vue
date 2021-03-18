@@ -1,18 +1,15 @@
 <script lang="ts">
-import StoryDTO from '../dto/StoryDTO';
+import Story from '../types/Story';
 import { Vue } from 'vue-class-component';
+import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
-export default class Home extends Vue {
-	stories: StoryDTO[] = Array(10).fill({
-		name: 'Hey',
-		coverUrl: 'https://source.unsplash.com/random',
-		blocs: [],
-		likes: 0,
-		description: "Ceci est une description de test rien d'interessant ici...",
-	});
+export default class Home extends BaseStoryComponent {
+	stories: Story[] | null = null;
 
 	mounted() {
-		// Fetcher.fetch<StoryDTO[]>('', METHODS.GET).then(res => (this.stories = res));
+		this.fetch<Story[]>('story/page/0', METHODS.GET)
+			.then(res => (this.stories = res))
+			.catch(error => this.errorToast(error.message));
 	}
 }
 </script>
@@ -30,9 +27,9 @@ export default class Home extends Vue {
 
 <template>
 	<div class="centered">
-		<Toast position="top-right" />
 		<h2 class="title">📖 Les Stories du moment 📖</h2>
 		<Carousel
+			v-if="stories !== null"
 			:value="stories"
 			:numVisible="2"
 			:numScroll="1"

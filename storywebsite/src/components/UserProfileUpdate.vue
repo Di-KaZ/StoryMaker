@@ -1,15 +1,19 @@
 <script lang="ts">
+<<<<<<< HEAD
 import UserDTO from '../dto/UserDTO';
 import Cookies from 'js-cookie';
+=======
+import User from '../types/User';
+>>>>>>> 5fba128bac05a18e724ef8fe20547f464ffd582f
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class UserProfileUpdate extends BaseStoryComponent {
 	//Fausse initialisation d'un utilisateur => "Il s'est connecté et ile veux modifier ses informations de profil"
-	user: UserDTO = { id: 1, name: 'azerty', password: '12345', email: 'jacques.ducroux@gmail.com' };
+	user: User = { name: 'azerty', email: 'jacques.ducroux@gmail.com' };
 
 	public update(event: Event) {
 		event.preventDefault();
-		this.fetch<UserDTO>('users/update', METHODS.POST, this.user);
+		this.fetch<User>('users/update', METHODS.POST, this.user);
 	}
 }
 </script>

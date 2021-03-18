@@ -19,7 +19,7 @@ import PrimveVue from 'primevue/config';
 import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import 'primevue/resources/primevue.min.css'; //core css
-import 'primevue/resources/themes/vela-green/theme.css'; //theme
+import 'primevue/resources/themes/arya-green/theme.css'; //theme
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import { createApp } from 'vue';
