@@ -64,7 +64,7 @@ export default class BaseStoryComponent extends Vue {
 		if (body !== undefined) {
 			return this.post(BaseStoryComponent.BASE_API_URL + url, body);
 		}
-		return this.getOrDelete((BaseStoryComponent.BASE_API_URL , method);
+		return this.getOrDelete(BaseStoryComponent.BASE_API_URL , method);
 	}
 
 	/**

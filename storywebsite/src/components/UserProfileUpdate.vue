@@ -1,5 +1,6 @@
 <script lang="ts">
 import UserDTO from '../dto/UserDTO';
+import Cookies from 'js-cookie';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class UserProfileUpdate extends BaseStoryComponent {
