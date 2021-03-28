@@ -67,7 +67,6 @@ export default class SideBar extends BaseStoryComponent {
     })
       .then((user) => {
         if (user === undefined) {
-          console.log("here");
           this.user = null;
         } else {
           this.user = user;

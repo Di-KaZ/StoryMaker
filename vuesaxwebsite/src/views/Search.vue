@@ -26,7 +26,7 @@ export default class Search extends BaseStoryComponent {
           if (index % 2 === 0) {
             this.storiesRight = [...this.storiesRight, story];
           } else {
-            this.storiesRight = [...this.storiesRight, story];
+            this.storiesLeft = [...this.storiesLeft, story];
           }
         });
       })

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import Create from "../views/Create.vue";
 import Home from "../views/Home.vue";
 import Search from "../views/Search.vue";
 
@@ -15,6 +16,11 @@ const routes: Array<RouteConfig> = [
     path: "/story/search",
     name: "Search",
     component: Search,
+  },
+  {
+    path: "/story/create",
+    name: "StoryCreate",
+    component: Create,
   },
 ];
 

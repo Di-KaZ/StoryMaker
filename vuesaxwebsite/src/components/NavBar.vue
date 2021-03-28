@@ -46,7 +46,7 @@ html {
       </router-link>
     </vs-navbar-item>
     <vs-navbar-item index="1">
-      <router-link to="/">
+      <router-link to="/story/create">
         Créer
       </router-link>
     </vs-navbar-item>
