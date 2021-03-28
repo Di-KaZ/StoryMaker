@@ -4,10 +4,6 @@ import Story from "./types/Story";
 
 let lastId = 0;
 
-/**
- * Global state to share variable in all component of the app
- * to use wisely 🧙‍♂️
- */
 export const CreatorState = new Vuex.Store({
   state: {
     story: {
@@ -19,9 +15,6 @@ export const CreatorState = new Vuex.Store({
     } as Story,
     selectedBloc: null as CreatorBlocStoryDTO | null,
     blocs: [] as CreatorBlocStoryDTO[],
-  },
-  getters: {
-    getBlocs: (state) => state.blocs,
   },
   mutations: {
     /**
@@ -48,7 +41,6 @@ export const CreatorState = new Vuex.Store({
      * @param dto bloc to modify
      */
     modifySelectedBloc(state, dto: CreatorBlocStoryDTO): void {
-      console.log(dto.bloc);
       // if no bloc are selected exit
       if (state.selectedBloc === null) {
         return;

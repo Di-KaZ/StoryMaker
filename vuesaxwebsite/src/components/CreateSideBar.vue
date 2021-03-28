@@ -5,12 +5,7 @@ import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 
 @Component({})
-export default class StoryCard extends BaseStoryComponent {
-  private test = 0;
-  constructor() {
-    super();
-  }
-
+export default class CreateSideBar extends BaseStoryComponent {
   get name(): string | null {
     if (CreatorState.state.selectedBloc?.bloc.name) {
       return CreatorState.state.selectedBloc.bloc.name;
@@ -27,6 +22,11 @@ export default class StoryCard extends BaseStoryComponent {
 
   public addNewBloc(): void {
     CreatorState.commit("addNewBloc");
+  }
+
+  public debug(): void {
+    console.log("blocs :", this.$store.state.blocs);
+    console.log("Selected bloc :", this.$store.state.selectedBloc);
   }
 }
 </script>
@@ -46,6 +46,8 @@ export default class StoryCard extends BaseStoryComponent {
     <vs-button color="primary" type="gradient" @click="addNewBloc"
       >Add new bloc</vs-button
     >
+
+    <vs-button color="danger" type="gradient" @click="debug">debug</vs-button>
     <vs-input v-model="name"></vs-input>
   </div>
 </template>

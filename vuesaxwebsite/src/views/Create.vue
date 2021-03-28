@@ -1,7 +1,7 @@
 <script lang="ts">
 import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
 import CreateSideBar from "@/components/CreateSideBar.vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorBlocStory from "@/components/CreatorBlocStory.vue";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
@@ -62,7 +62,7 @@ body,
       <v-layer>
         <creator-bloc-story
           v-for="dto in $store.state.blocs"
-          v-bind:key="dto.bloc.id"
+          v-bind:key="JSON.stringify(dto)"
           :dto="dto"
         ></creator-bloc-story>
       </v-layer>
