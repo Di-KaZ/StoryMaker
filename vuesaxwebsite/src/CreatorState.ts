@@ -63,6 +63,7 @@ export const CreatorState = new Vuex.Store({
         },
         x: 10,
         y: 10,
+        bgcolor: "gray",
       };
       state.selectedBloc = newBloc;
       state.blocs = [...state.blocs, newBloc];

@@ -18,13 +18,14 @@ export default class CreatorBlocStory extends Props {
     y: 0,
     width: 200,
     height: 300,
+    cornerRadius: 10,
     fill: "gray",
   };
 
   private nameConf = {
     x: 0,
     y: 0,
-    text: this.$props.dto.bloc.name,
+    text: "Nom :\n" + this.$props.dto.bloc.name,
     fontSize: 20,
     fontFamily: "Calibri",
     fill: "white",
@@ -55,6 +56,7 @@ export default class CreatorBlocStory extends Props {
 
 <template>
   <v-group
+    ref="group"
     draggable="true"
     :config="{ x: $props.dto.x, y: $props.dto.y }"
     @dragstart="select"
