@@ -4,7 +4,7 @@ import { Vue } from 'vue-class-component';
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class Home extends BaseStoryComponent {
-	stories: Story[] | null = null;
+	stories: Story[] | null = null;	
 
 	mounted() {
 		this.fetch<Story[]>('story/page/0', METHODS.GET)

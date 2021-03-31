@@ -21,19 +21,19 @@ export default class StoryCard extends Vue.with(Props) {
 	// 	return this.dto?.coverUrl;
 	// }
 
-	public getTitle(): string | null {
+	public getTitle(): string | undefined {
 		return this.dto?.name;
 	}
 
-	public getAuthor(): string | null {
+	public getAuthor(): string | undefined {
 		return this.dto?.user.name;
 	}
 
-	public getDescription(): string | null {
+	public getDescription(): string | undefined {
 		return this.dto?.description;
 	}
 
-	public getDateCrea(): string | null {
+	public getDateCrea(): string | undefined {
 		return this.dto?.creationDate;
 	}
 

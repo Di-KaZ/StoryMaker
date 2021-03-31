@@ -1,14 +1,23 @@
 package storyteam.server.story.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
@@ -23,9 +32,9 @@ public class User {
     @Column(name = "user_mail")
     private String email;
 
-    //Revoir les JsonIgnoreProperties
+    // Revoir les JsonIgnoreProperties
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"user"})
+    @JsonIgnoreProperties({ "user" })
     private Set<Story> stories = new HashSet<>();
 
     public User() {
@@ -76,4 +85,11 @@ public class User {
     public void setStories(Set<Story> stories) {
         this.stories = stories;
     }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", password='" + getPassword() + "'"
+                + ", email='" + getEmail() + "'" + "}";
+    }
+
 }
