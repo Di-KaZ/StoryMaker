@@ -1,5 +1,10 @@
 <script lang="ts">
+<<<<<<< HEAD
+import UserDTO from '../dto/UserDTO';
+import Cookies from 'js-cookie';
+=======
 import User from '../types/User';
+>>>>>>> 5fba128bac05a18e724ef8fe20547f464ffd582f
 import BaseStoryComponent, { METHODS } from '../utils/BaseStoryComponent';
 
 export default class UserProfileUpdate extends BaseStoryComponent {
