@@ -1,3 +1,4 @@
+import cookie from "js-cookie";
 import { Component, Vue } from "vue-property-decorator";
 // Fetch an object from JAVA REST API
 export enum METHODS {
@@ -86,19 +87,13 @@ export default class BaseStoryComponent extends Vue {
   private async post<T>(url: string, body?: any): Promise<T> {
     const response = await fetch(url, {
       method: METHODS.POST,
-      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      this.errorToast(
-        "Error when fetching data",
-        "[" + METHODS.POST.toUpperCase() + "] " + response.status.toString()
-      );
-    }
     const jsonToDto: T = await response.json();
+    console.log(response.body);
     return jsonToDto;
   }
 
@@ -111,7 +106,6 @@ export default class BaseStoryComponent extends Vue {
   private async getOrDelete<T>(url: string, method: METHODS): Promise<T> {
     const response = await fetch(url, {
       method: method,
-      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
       },
@@ -121,6 +115,11 @@ export default class BaseStoryComponent extends Vue {
         "Error when fetching data",
         "[" + method.toUpperCase() + "] " + response.status.toString()
       );
+    }
+    console.log(response.headers.get('token'));
+    const tokenResponse = response.headers.get('token');
+    if (tokenResponse != null) {
+      cookie.set('token', tokenResponse);
     }
     const jsonToDto: T = await response.json();
     return jsonToDto;

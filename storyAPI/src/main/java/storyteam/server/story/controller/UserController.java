@@ -6,13 +6,15 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,6 +33,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	@Qualifier("passwordEncoder")
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	/**
 	 * Permet a un utilisateur de se connecté la requetre renvoit un utilisateur et
 	 * le token de conncetion via le header de la reponse
@@ -39,7 +45,7 @@ public class UserController {
 	 * @param password
 	 * @return
 	 */
-	@GetMapping(value = "/login")
+	// @GetMapping(value = "/login")
 	public ResponseEntity<User> getUser(@RequestParam("username") String username,
 			@RequestParam("password") String password) {
 		LOGGER.info("{} {}", username, password);
@@ -59,7 +65,10 @@ public class UserController {
 		}
 		// user connected we return it and add token in header
 		LOGGER.info("Good on renvoit les infos", username, password);
-		return ResponseEntity.ok(user.get());
+		ResponseEntity<User> response = ResponseEntity.ok().header("token", "AZ489456EZ546456").body(user.get());
+		LOGGER.info("test {}", response);
+
+		return ResponseEntity.ok().header("token", "AZ489456EZ546456").body(user.get());
 	}
 
 	/**
@@ -72,23 +81,22 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping(value = "/register")
-	public ResponseEntity<User> createUser(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("email") String email) {
-		Optional<User> user = userService.findByName(username);
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		Optional<User> userCheck = userService.findByName(user.getName());
 
 		// Si un utilistateur avec ce nom exister erreur
-		if (user.isPresent()) {
+		if (userCheck.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
 
 		// check if the email IS an email
-		if (!emailRegex.matcher(email).matches()) {
+		if (!emailRegex.matcher(user.getEmail()).matches()) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
 
 		try {
-			User newUser = new User(username, password, email);
-			return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(newUser));
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
 		}

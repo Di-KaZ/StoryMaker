@@ -4,6 +4,7 @@ import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
 import { use } from "chai";
 import User from "@/types/User";
+import jscookie from "js-cookie";
 
 @Component({})
 export default class SideBar extends BaseStoryComponent {
@@ -47,7 +48,18 @@ export default class SideBar extends BaseStoryComponent {
    * Function applé l'orsque l'utilisateur clique le bouton Nous rejoindre !
    */
   public registerNewUser(): void {
-    this.user = { name: "GET_MOUSSED", email: "test@gmail.com" };
+    // this.user = { name: "GET_MOUSSED", email: "test@gmail.com" };
+    this.fetch<User>("user/login", METHODS.POST, "", {
+      name: this.username,
+      email: this.email,
+      password: this.password,
+    })
+      .then((user) => {
+        console.log("test");
+      })
+      .catch(() => {
+        this.errorToast("Fail");
+      });
   }
 
   /**
@@ -61,8 +73,8 @@ export default class SideBar extends BaseStoryComponent {
    * Connecte l'utilisateur
    */
   public connectUser(): void {
-    this.fetch<User>("user/login?", METHODS.GET, {
-      username: this.username,
+    this.fetch<User>("user/login", METHODS.POST, "", {
+      name: this.username,
       password: this.password,
     })
       .then((user) => {
@@ -70,6 +82,7 @@ export default class SideBar extends BaseStoryComponent {
           this.user = null;
         } else {
           this.user = user;
+          // console.log(jscookie.get('token'));
         }
       })
       .catch(() => {
@@ -151,9 +164,7 @@ export default class SideBar extends BaseStoryComponent {
       <vs-sidebar-item index="1" icon="account_box">
         Mon profile
       </vs-sidebar-item>
-      <vs-sidebar-item index="2" icon="book">
-        Mes histoires
-      </vs-sidebar-item>
+      <vs-sidebar-item index="2" icon="book"> Mes histoires </vs-sidebar-item>
       <div class="footer-sidebar" slot="footer">
         <vs-button
           @click="disconnectUser"
