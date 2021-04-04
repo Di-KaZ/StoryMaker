@@ -27,10 +27,24 @@ export const CreatorState = new Vuex.Store({
     /**
      * set the current selected bloc id
      * @param state prebious state (this)
-     * @param bloc the selected bloc for modification
+     * @param dto the selected bloc for modification
      */
-    selectBloc(state, bloc: CreatorBlocStoryDTO): void {
-      state.selectedBloc = bloc;
+    selectBloc(state, dto: CreatorBlocStoryDTO): void {
+      const { selectedBloc, blocs } = state;
+      dto.bgcolor = "black";
+
+      state.selectedBloc!.bgcolor = "gray";
+
+      state.blocs = [
+        ...blocs.filter(
+          (b) =>
+            b.bloc.id !== selectedBloc!.bloc.id && b.bloc.id !== dto.bloc.id
+        ),
+        selectedBloc!,
+        dto,
+      ];
+
+      state.selectedBloc = dto;
     },
     setBlocs(state, blocs: CreatorBlocStoryDTO[]) {
       state.blocs = blocs;
@@ -42,12 +56,12 @@ export const CreatorState = new Vuex.Store({
      */
     modifySelectedBloc(state, dto: CreatorBlocStoryDTO): void {
       // if no bloc are selected exit
-      if (state.selectedBloc === null) {
-        return;
-      }
+      if (state.selectedBloc === null) return;
       state.selectedBloc = dto;
-      state.blocs = state.blocs.filter((b) => b.bloc.id !== dto.bloc.id);
-      state.blocs = [...state.blocs, dto];
+      state.blocs = [
+        ...state.blocs.filter((b) => b.bloc.id !== dto.bloc.id),
+        dto,
+      ];
     },
     /**
      * Add a new bloc to the list
@@ -63,10 +77,13 @@ export const CreatorState = new Vuex.Store({
         },
         x: 10,
         y: 10,
-        bgcolor: "gray",
+        bgcolor: "black",
       };
-      state.selectedBloc = newBloc;
+      if (state.selectedBloc !== null) {
+        state.selectedBloc.bgcolor = "gray";
+      }
       state.blocs = [...state.blocs, newBloc];
+      state.selectedBloc = newBloc;
     },
   },
 });

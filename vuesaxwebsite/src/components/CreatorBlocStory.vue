@@ -1,18 +1,14 @@
 <script lang="ts">
 import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
-
-const Props = BaseStoryComponent.extend({
-  props: {
-    dto: { type: Object as () => CreatorBlocStoryDTO },
-  },
-});
 
 @Component({
   components: {},
 })
-export default class CreatorBlocStory extends Props {
+export default class CreatorBlocStory extends BaseStoryComponent {
+  @Prop(Object) readonly dto: CreatorBlocStoryDTO | undefined;
+
   private backgroundConf = {
     x: 0,
     y: 0,
@@ -31,22 +27,28 @@ export default class CreatorBlocStory extends Props {
     fill: "white",
   };
 
-  public select(event: Event): void {
+  constructor() {
+    super();
+    this.backgroundConf.fill = this.dto!.bgcolor;
+  }
+
+  public select(event: any): void {
     // on set le bloc dans le creator state afin de l'afficher dans la sidebar
-    const node = event.target as any;
+    const { x, y } = event.target.absolutePosition();
     this.$store.commit("selectBloc", {
-      ...this.$props.dto,
-      x: node.x(),
-      y: node.y(),
+      ...this.dto,
+      x,
+      y,
     });
   }
 
-  public savePos(event: Event): void {
-    const node = event.target as any;
+  public savePos(event: any): void {
+    const { x, y } = event.target.absolutePosition();
+
     this.$store.commit("modifySelectedBloc", {
-      ...this.$store.state.selectedBloc,
-      x: node.x(),
-      y: node.y(),
+      ...this.dto,
+      x,
+      y,
     });
   }
 }
@@ -59,7 +61,6 @@ export default class CreatorBlocStory extends Props {
     ref="group"
     draggable="true"
     :config="{ x: $props.dto.x, y: $props.dto.y }"
-    @dragstart="select"
     @dragend="savePos"
     @click="select"
   >
