@@ -1,8 +1,11 @@
 <script lang="ts">
 import { Component } from "vue-property-decorator";
-import BaseStoryComponent from "./components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "./components/BaseStoryComponent";
 import SideBar from "./components/SideBar.vue";
 import NavBar from "./components/NavBar.vue";
+import Cookies from "js-cookie";
+import User from "./types/User";
+import { GlobalState } from "./GlobalState";
 
 @Component({
   components: {
@@ -10,7 +13,27 @@ import NavBar from "./components/NavBar.vue";
     sideBar: SideBar,
   },
 })
-export default class App extends BaseStoryComponent {}
+export default class App extends BaseStoryComponent {
+  async beforeMount() {
+    const token = Cookies.get("token");
+    if (token !== undefined) {
+      try {
+        const user = await this.fetch<User>("user/infos", METHODS.GET);
+        this.user = user;
+      } catch (error) {
+        this.errorToast("Session Invalide", "Veuillez vous reconnecter");
+      }
+    }
+  }
+
+  get user(): User | null {
+    return GlobalState.state.user;
+  }
+
+  set user(user: User | null) {
+    GlobalState.commit("changeUser", user);
+  }
+}
 </script>
 
 <style lang="scss">

@@ -1,5 +1,6 @@
-import cookie from "js-cookie";
+import Cookies from "js-cookie";
 import { Component, Vue } from "vue-property-decorator";
+
 // Fetch an object from JAVA REST API
 export enum METHODS {
   POST = "post",
@@ -24,6 +25,7 @@ export default class BaseStoryComponent extends Vue {
       text: detail,
       color: "danger",
       icon: "error",
+      position: "bottom-left",
     });
   }
 
@@ -37,6 +39,7 @@ export default class BaseStoryComponent extends Vue {
       text: detail,
       color: "primary",
       icon: "help",
+      position: "bottom-left",
     });
   }
 
@@ -50,6 +53,7 @@ export default class BaseStoryComponent extends Vue {
       text: detail,
       color: "success",
       icon: "done",
+      position: "bottom-left",
     });
   }
 
@@ -58,23 +62,33 @@ export default class BaseStoryComponent extends Vue {
    * @param url url to fetch from JAVA
    * @param method get post or delete
    * @param body data to send via post
-   * @returns server response (DTO)
+   * @returns server response
    */
-  // eslint-disable-next-line
   public fetch<T>(
     url: string,
     method: METHODS,
-    params?: any,
-    body?: any
+    { urlparams, body }: { urlparams?: any; body?: any } = {}
   ): Promise<T> {
     let urlhttp = BaseStoryComponent.BASE_API_URL + url;
-    if (params !== undefined) {
-      urlhttp += new URLSearchParams(params);
+    let headers: any = {
+      "Content-Type": "application/json",
+    };
+
+    // Si les url params ne sont pas vide on les ajoute a l'url
+    if (urlparams !== undefined) {
+      urlhttp += "?" + new URLSearchParams(urlparams);
     }
-    if (body !== undefined) {
-      return this.post(urlhttp, body);
+
+    const token = Cookies.get("token");
+    if (token !== undefined) {
+      headers = { ...headers, Authorization: token };
     }
-    return this.getOrDelete(urlhttp, method);
+
+    if (method === METHODS.POST) {
+      return this.post(urlhttp, headers, body);
+    }
+
+    return this.getOrDelete(urlhttp, headers, method);
   }
 
   /**
@@ -83,17 +97,13 @@ export default class BaseStoryComponent extends Vue {
    * @param body object to send (DTOS)
    * @returns response of the server
    */
-  // eslint-disable-next-line
-  private async post<T>(url: string, body?: any): Promise<T> {
+  private async post<T>(url: string, headers: any, body?: any): Promise<T> {
     const response = await fetch(url, {
       method: METHODS.POST,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify(body),
     });
     const jsonToDto: T = await response.json();
-    console.log(response.body);
     return jsonToDto;
   }
 
@@ -103,25 +113,37 @@ export default class BaseStoryComponent extends Vue {
    * @param method get or delete
    * @returns reponse of server
    */
-  private async getOrDelete<T>(url: string, method: METHODS): Promise<T> {
+  private async getOrDelete<T>(
+    url: string,
+    headers: any,
+    method: METHODS
+  ): Promise<T> {
     const response = await fetch(url, {
+      headers,
       method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-    if (!response.ok) {
-      this.errorToast(
-        "Error when fetching data",
-        "[" + method.toUpperCase() + "] " + response.status.toString()
-      );
-    }
-    console.log(response.headers.get('token'));
-    const tokenResponse = response.headers.get('token');
-    if (tokenResponse != null) {
-      cookie.set('token', tokenResponse);
-    }
     const jsonToDto: T = await response.json();
     return jsonToDto;
   }
+
+  //   private async getUserToken(
+  //     url: string,
+  //     body: { name: string; password: string }
+  //   ): Promise<{ token: string }> {
+  //     const response = await fetch(url, {
+  //       method: METHODS.POST,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       this.errorToast(
+  //         "Impossible de vous connecté",
+  //         "Verifiez vos informations de connection."
+  //       );
+  //     }
+
+  //     return await response.json();
+  //   }
 }

@@ -18,46 +18,43 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 public class StoryAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public static final String SECRET = "SECRET_KEY";
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
+	public static final String SECRET = "SECRET_KEY";
+	public static final String HEADER_STRING = "Authorization";
 
-    public StoryAuthorizationFilter(AuthenticationManager authManager) {
-        super(authManager);
-    }
+	public StoryAuthorizationFilter(AuthenticationManager authManager) {
+		super(authManager);
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        // REGISTER PASS HERE
-        String header = request.getHeader(HEADER_STRING);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		String header = request.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(request, response);
-            return;
-        }
+		if (header == null) {
+			chain.doFilter(request, response);
+			return;
+		}
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+		UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(request, response);
-    }
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		chain.doFilter(request, response);
+	}
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
+	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+		String token = request.getHeader(HEADER_STRING);
 
-        if (token != null) {
-            String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
-                    .verify(token.replace(TOKEN_PREFIX, "")).getSubject();
+		if (token != null) {
+			String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build().verify(token).getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-            }
+			if (user != null) {
+				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
 }

@@ -4,7 +4,7 @@ import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
 import { use } from "chai";
 import User from "@/types/User";
-import jscookie from "js-cookie";
+import Cookies from "js-cookie";
 
 @Component({})
 export default class SideBar extends BaseStoryComponent {
@@ -47,19 +47,25 @@ export default class SideBar extends BaseStoryComponent {
   /**
    * Function applé l'orsque l'utilisateur clique le bouton Nous rejoindre !
    */
-  public registerNewUser(): void {
-    // this.user = { name: "GET_MOUSSED", email: "test@gmail.com" };
-    this.fetch<User>("user/login", METHODS.POST, "", {
-      name: this.username,
-      email: this.email,
-      password: this.password,
-    })
-      .then((user) => {
-        console.log("test");
-      })
-      .catch(() => {
-        this.errorToast("Fail");
+  public async registerNewUser(): Promise<void> {
+    try {
+      this.fetch<User>("user/register", METHODS.POST, {
+        body: {
+          name: this.username,
+          email: this.email,
+          password: this.password,
+        },
       });
+    } catch (error) {
+      this.errorToast(
+        "Impossible de creér un compte",
+        "Veuillez réessayez plus tard"
+      );
+    }
+    this.infoToast(
+      `Bienvenue ${this.username}!`,
+      `Ils faut encore vous connecter !`
+    );
   }
 
   /**
@@ -67,32 +73,36 @@ export default class SideBar extends BaseStoryComponent {
    */
   public disconnectUser(): void {
     this.user = null;
+    Cookies.remove("token");
+    location.reload();
   }
 
   /**
    * Connecte l'utilisateur
    */
-  public connectUser(): void {
-    this.fetch<User>("user/login", METHODS.POST, "", {
-      name: this.username,
-      password: this.password,
-    })
-      .then((user) => {
-        if (user === undefined) {
-          this.user = null;
-        } else {
-          this.user = user;
-          // console.log(jscookie.get('token'));
+  public async connectUser(): Promise<void> {
+    try {
+      const { token } = await this.fetch<{ token: string }>(
+        "user/login",
+        METHODS.POST,
+        {
+          body: {
+            name: this.username,
+            password: this.password,
+          },
         }
-      })
-      .catch(() => {
-        this.errorToast(
-          "Désolé !",
-          "Auncun compte n'a été trouver avec ces informations."
-        );
-      });
+      );
+      Cookies.set("token", token);
+      const user = await this.fetch<User>("user/infos", METHODS.GET);
+      this.user = user;
+      location.reload();
+    } catch (error) {
+      this.errorToast(
+        "Désolé !",
+        "Auncun compte n'a été trouver avec ces informations."
+      );
+    }
     this.loginRegister = false;
-    // this.user = { name: "GET_MOUSSED", email: "test@gmail.com" };
   }
 }
 </script>

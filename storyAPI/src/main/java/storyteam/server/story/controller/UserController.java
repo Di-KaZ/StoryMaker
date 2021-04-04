@@ -3,6 +3,9 @@ package storyteam.server.story.controller;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,6 +32,7 @@ import storyteam.server.story.services.UserService;
 @RequestMapping(value = "/user")
 public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	public static final String SECRET = "SECRET_KEY";
 
 	Pattern emailRegex = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
@@ -36,40 +42,6 @@ public class UserController {
 	@Autowired
 	@Qualifier("passwordEncoder")
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	/**
-	 * Permet a un utilisateur de se connecté la requetre renvoit un utilisateur et
-	 * le token de conncetion via le header de la reponse
-	 *
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	// @GetMapping(value = "/login")
-	public ResponseEntity<User> getUser(@RequestParam("username") String username,
-			@RequestParam("password") String password) {
-		LOGGER.info("{} {}", username, password);
-
-		// We check if a user exist with this username
-		Optional<User> user = userService.findByName(username);
-
-		if (user.isEmpty()) {
-			LOGGER.info("Pas d'utilisateurs inscrit avec ce nom");
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-		}
-
-		// if password does not match
-		if (!(user.get().getPassword().equals(password))) {
-			LOGGER.info("mot de passe incorrect");
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-		}
-		// user connected we return it and add token in header
-		LOGGER.info("Good on renvoit les infos", username, password);
-		ResponseEntity<User> response = ResponseEntity.ok().header("token", "AZ489456EZ546456").body(user.get());
-		LOGGER.info("test {}", response);
-
-		return ResponseEntity.ok().header("token", "AZ489456EZ546456").body(user.get());
-	}
 
 	/**
 	 * Enregistre un nouvel utilisateur en bdd renvoit l'utilisateur nouvellement
@@ -136,5 +108,15 @@ public class UserController {
 	public void deleteUser(@PathVariable("username") String username) {
 		userService.deleteByName(username);
 
+	}
+
+	@GetMapping(value = "/infos")
+	public ResponseEntity<User> getAccountInfos(@RequestHeader("Authorization") String auth) {
+		String username = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build().verify(auth).getSubject();
+		Optional<User> user = userService.findByName(username);
+		if (user.isPresent()) {
+			return ResponseEntity.of(user);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 }

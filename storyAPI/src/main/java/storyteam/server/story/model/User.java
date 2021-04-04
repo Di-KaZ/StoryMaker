@@ -18,78 +18,80 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userid")
-    private Integer id;
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "username")
-    private String name;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "userid")
+	private Integer id;
 
-    @Column(name = "user_password")
-    private String password;
+	@Column(name = "username")
+	private String name;
 
-    @Column(name = "user_mail")
-    private String email;
+	@Column(name = "user_password")
+	private String password;
 
-    // Revoir les JsonIgnoreProperties
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({ "user" })
-    private Set<Story> stories = new HashSet<>();
+	@Column(name = "user_mail")
+	private String email;
 
-    public User() {
-    }
+	// Revoir les JsonIgnoreProperties
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({ "user" })
+	private Set<Story> stories = new HashSet<>();
 
-    public User(String name, String password, String email) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-    }
+	public User() {
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public User(String name, String password, String email) {
+		this.name = name;
+		this.password = password;
+		this.email = email;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public Set<Story> getStories() {
-        return stories;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setStories(Set<Story> stories) {
-        this.stories = stories;
-    }
+	public Set<Story> getStories() {
+		return stories;
+	}
 
-    @Override
-    public String toString() {
-        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", password='" + getPassword() + "'"
-                + ", email='" + getEmail() + "'" + "}";
-    }
+	public void setStories(Set<Story> stories) {
+		this.stories = stories;
+	}
+
+	@Override
+	public String toString() {
+		return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", password='" + getPassword() + "'"
+				+ ", email='" + getEmail() + "'" + "}";
+	}
 
 }
