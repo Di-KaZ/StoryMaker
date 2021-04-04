@@ -6,11 +6,13 @@ import { CreatorState } from "@/CreatorState";
 import CreatorBlocStory from "@/components/CreatorBlocStory.vue";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
 import BlocStory from "@/types/BlocStory";
+import CreatorConnection from "@/components/CreatorConnection.vue";
 
 @Component({
   components: {
     sidebar: CreateSideBar,
     creatorBlocStory: CreatorBlocStory,
+    creatorConnection: CreatorConnection,
   },
   store: CreatorState,
 })
@@ -65,6 +67,7 @@ body,
           v-bind:key="JSON.stringify(dto)"
           :dto="dto"
         ></creator-bloc-story>
+        <creator-connection :coord="{ xP: 10, yP: 15, xC: 100, yC: 90 }" />
       </v-layer>
     </v-stage>
   </div>

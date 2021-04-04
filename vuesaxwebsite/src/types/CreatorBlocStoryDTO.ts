@@ -1,8 +1,9 @@
-import BlocStory from "./BlocStory";
-
 export default interface CreatorBlocStoryDTO {
-  bloc: BlocStory;
+  id: number;
+  name: string;
+  text: string;
   x: number;
   y: number;
   bgcolor: string;
+  parent: { id?: number; name?: string };
 }

@@ -25,43 +25,36 @@ export const CreatorState = new Vuex.Store({
       state.story = story;
     },
     /**
-     * set the current selected bloc id
-     * @param state prebious state (this)
-     * @param dto the selected bloc for modification
-     */
-    selectBloc(state, dto: CreatorBlocStoryDTO): void {
-      const { selectedBloc, blocs } = state;
-      dto.bgcolor = "black";
-
-      state.selectedBloc!.bgcolor = "gray";
-
-      state.blocs = [
-        ...blocs.filter(
-          (b) =>
-            b.bloc.id !== selectedBloc!.bloc.id && b.bloc.id !== dto.bloc.id
-        ),
-        selectedBloc!,
-        dto,
-      ];
-
-      state.selectedBloc = dto;
-    },
-    setBlocs(state, blocs: CreatorBlocStoryDTO[]) {
-      state.blocs = blocs;
-    },
-    /**
      * modify a single bloc of the sotry
      * @param state prebious state (this)
      * @param dto bloc to modify
      */
     modifySelectedBloc(state, dto: CreatorBlocStoryDTO): void {
+      const { selectedBloc, blocs } = state;
+
       // if no bloc are selected exit
-      if (state.selectedBloc === null) return;
+      if (selectedBloc === null) return;
+      //   if (selectedBloc.id === dto.id) return;
+      selectedBloc.bgcolor = "gray";
+      dto.bgcolor = "black";
+
       state.selectedBloc = dto;
-      state.blocs = [
-        ...state.blocs.filter((b) => b.bloc.id !== dto.bloc.id),
-        dto,
-      ];
+      if (selectedBloc.id !== dto.id) {
+        state.blocs = [
+          ...blocs.filter((b) => b.id !== selectedBloc!.id && b.id !== dto.id),
+          selectedBloc,
+          dto,
+        ];
+      } else {
+        // le selected bloc est le meme que celui recu en param donc on ajoute pas les deux
+        state.blocs = [
+          ...blocs.filter((b) => b.id !== selectedBloc!.id && b.id !== dto.id),
+          dto,
+        ];
+      }
+    },
+    setBlocs(state, blocs: CreatorBlocStoryDTO[]) {
+      state.blocs = blocs;
     },
     /**
      * Add a new bloc to the list
@@ -70,14 +63,13 @@ export const CreatorState = new Vuex.Store({
      */
     addNewBloc(state): void {
       const newBloc = {
-        bloc: {
-          id: lastId,
-          name: "new_block_" + lastId++,
-          text: "",
-        },
+        id: lastId,
+        name: "new_block_" + lastId++,
+        text: "",
         x: 10,
         y: 10,
         bgcolor: "black",
+        parent: {},
       };
       if (state.selectedBloc !== null) {
         state.selectedBloc.bgcolor = "gray";
