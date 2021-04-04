@@ -14,9 +14,9 @@ export default class Home extends BaseStoryComponent {
   private page = 0;
 
   beforeMount() {
-    this.fetch<Story[]>("story/trending", METHODS.GET)
-      .then((res) => (this.stories = res))
-      .catch((error) => this.errorToast(error.message, error.status));
+    this.fetch<Story[]>("story/trending", METHODS.GET).then(
+      (res) => (this.stories = res)
+    );
   }
 }
 </script>

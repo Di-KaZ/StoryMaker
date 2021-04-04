@@ -15,27 +15,31 @@ export default class Search extends BaseStoryComponent {
   private page = 1;
   private search = "";
   private busy = false;
+  private finalPage = false;
 
-  public loadNewPage(): void {
+  public async loadNewPage() {
+    if (this.finalPage) return;
     this.busy = true;
-
-    this.fetch<Story[]>("story/search/" + this.page, METHODS.GET)
-      .then((stories) => {
-        // on separe les stories en deux listes pour pouvoir les afficher cote a cote
-        stories.forEach((story, index) => {
-          if (index % 2 === 0) {
-            this.storiesRight = [...this.storiesRight, story];
-          } else {
-            this.storiesLeft = [...this.storiesLeft, story];
-          }
-        });
-      })
-      .catch((error) =>
-        this.infoToast(
-          "Désolé !",
-          "aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
-        )
+    try {
+      const stories = await this.fetch<Story[]>(
+        "story/search/" + this.page,
+        METHODS.GET
       );
+      // on separe les stories en deux listes pour pouvoir les afficher cote a cote
+      stories.forEach((story, index) => {
+        if (index % 2 === 0) {
+          this.storiesRight = [...this.storiesRight, story];
+        } else {
+          this.storiesLeft = [...this.storiesLeft, story];
+        }
+      });
+    } catch (error) {
+      this.finalPage = true;
+      this.infoToast(
+        "Désolé !",
+        "aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
+      );
+    }
     this.page++;
     this.busy = false;
   }
