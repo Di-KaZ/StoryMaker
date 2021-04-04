@@ -42,6 +42,19 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     };
   }
 
+  get parentConf() {
+    const name = this.dto!.parent.name;
+
+    return {
+      x: 15,
+      y: 100,
+      text: "Parent : " + (name ? name : "Non defini"),
+      fontSize: 20,
+      fontFamily: "Calibri",
+      fill: "white",
+    };
+  }
+
   public select(event: any): void {
     // on set le bloc dans le creator state afin de l'afficher dans la sidebar
     const { x, y } = event.target.absolutePosition();
@@ -67,5 +80,6 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     <v-rect :config="backgroundConf" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
+    <v-text :config="parentConf" />
   </v-group>
 </template>

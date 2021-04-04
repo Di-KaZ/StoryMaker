@@ -1,8 +1,24 @@
 import Vuex from "vuex";
 import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
+import { default as CreatorConnectionDTO } from "./types/CreatorConnectionDTO";
 import Story from "./types/Story";
 
-let lastId = 0;
+let lastIdBloc = 0;
+
+function updateConnection(
+  blocs: CreatorBlocStoryDTO[]
+): CreatorConnectionDTO[] {
+  const newConnections: CreatorConnectionDTO[] = [];
+
+  blocs.forEach((b) => {
+    if (b.parent.id) {
+      console.log(`Connection between ${b.name} and ${b.parent.name}`);
+      const { x, y } = blocs.find((bl) => bl.id === b.parent.id)!;
+      newConnections.push({ blocId: b.id, xP: x, yP: y, xC: b.x, yC: b.y });
+    }
+  });
+  return newConnections;
+}
 
 export const CreatorState = new Vuex.Store({
   state: {
@@ -15,6 +31,7 @@ export const CreatorState = new Vuex.Store({
     } as Story,
     selectedBloc: null as CreatorBlocStoryDTO | null,
     blocs: [] as CreatorBlocStoryDTO[],
+    connections: [] as CreatorConnectionDTO[],
   },
   mutations: {
     /**
@@ -34,11 +51,11 @@ export const CreatorState = new Vuex.Store({
 
       // if no bloc are selected exit
       if (selectedBloc === null) return;
-      //   if (selectedBloc.id === dto.id) return;
+
       selectedBloc.bgcolor = "gray";
       dto.bgcolor = "black";
-
       state.selectedBloc = dto;
+
       if (selectedBloc.id !== dto.id) {
         state.blocs = [
           ...blocs.filter((b) => b.id !== selectedBloc!.id && b.id !== dto.id),
@@ -52,6 +69,7 @@ export const CreatorState = new Vuex.Store({
           dto,
         ];
       }
+      state.connections = updateConnection(state.blocs);
     },
     setBlocs(state, blocs: CreatorBlocStoryDTO[]) {
       state.blocs = blocs;
@@ -63,8 +81,8 @@ export const CreatorState = new Vuex.Store({
      */
     addNewBloc(state): void {
       const newBloc = {
-        id: lastId,
-        name: "new_block_" + lastId++,
+        id: lastIdBloc,
+        name: "new_block_" + lastIdBloc++,
         text: "",
         x: 10,
         y: 10,

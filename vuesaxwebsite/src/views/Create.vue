@@ -62,12 +62,16 @@ body,
       }"
     >
       <v-layer>
+        <creator-connection
+          v-for="(dto, index) in $store.state.connections"
+          :coord="dto"
+          :key="index"
+        />
         <creator-bloc-story
           v-for="dto in $store.state.blocs"
           v-bind:key="JSON.stringify(dto)"
           :dto="dto"
         ></creator-bloc-story>
-        <creator-connection :coord="{ xP: 10, yP: 15, xC: 100, yC: 90 }" />
       </v-layer>
     </v-stage>
   </div>
