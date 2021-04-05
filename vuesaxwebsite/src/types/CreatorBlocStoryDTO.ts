@@ -1,9 +1,10 @@
 export default interface CreatorBlocStoryDTO {
-  id: number;
+  id: string;
   name: string;
   text: string;
   x: number;
   y: number;
-  bgcolor: string;
-  parent: { id?: number; name?: string };
+  selected: boolean;
+  in?: CreatorBlocStoryDTO;
+  out: CreatorBlocStoryDTO[];
 }

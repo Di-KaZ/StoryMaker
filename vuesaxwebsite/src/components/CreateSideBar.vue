@@ -3,27 +3,35 @@ import BaseStoryComponent from "./BaseStoryComponent";
 import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
+import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+
+const ID = function() {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return (
+    "_" +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+  );
+};
 
 @Component({})
 export default class CreateSideBar extends BaseStoryComponent {
-  get parentSelect(): number | undefined {
-    if (
-      CreatorState.state.selectedBloc !== null &&
-      CreatorState.state.selectedBloc.parent.id
-    ) {
-      return CreatorState.state.selectedBloc.parent.id;
+  get currentParent(): string | undefined {
+    const { selectedBloc } = CreatorState.state;
+    if (selectedBloc !== null && selectedBloc.in) {
+      return selectedBloc.in.id;
     }
     return undefined;
   }
 
-  set parentSelect(id: number | undefined) {
-    CreatorState.commit("modifySelectedBloc", {
-      ...CreatorState.state.selectedBloc,
-      parent: {
-        id: id,
-        name: CreatorState.state.blocs.find((b) => b.id === id)?.name,
-      },
-    });
+  set currentParent(id: string | undefined) {
+    CreatorState.commit(
+      "SET_CONNECTION",
+      CreatorState.state.blocs.find((b) => b.id === id)
+    );
   }
 
   get name(): string | null {
@@ -35,14 +43,14 @@ export default class CreateSideBar extends BaseStoryComponent {
   }
 
   set name(name: string | null) {
-    CreatorState.commit("modifySelectedBloc", {
+    CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
       name,
     });
   }
 
   set text(text: string | null) {
-    CreatorState.commit("modifySelectedBloc", {
+    CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
       text,
     });
@@ -56,26 +64,36 @@ export default class CreateSideBar extends BaseStoryComponent {
     return null;
   }
 
-  get parents(): { id: number; name: string }[] {
+  get parents(): CreatorBlocStoryDTO[] {
     const { blocs, selectedBloc } = CreatorState.state;
-
-    return blocs
-      .filter((b) => b.id !== selectedBloc?.id)
-      .map(({ id, name }) => {
-        return {
-          id,
-          name,
-        };
-      });
+    if (selectedBloc) {
+      return blocs.filter((b) => b.id !== selectedBloc?.id);
+    }
+    return [];
   }
 
-  public addNewBloc(): void {
-    CreatorState.commit("addNewBloc");
+  public addBloc(): void {
+    const id = ID();
+
+    CreatorState.commit("ADD_BLOC", {
+      id,
+      name: "bloc_" + id,
+      text: "",
+      x: 0,
+      y: 0,
+      selected: false,
+      out: [],
+    } as CreatorBlocStoryDTO);
+  }
+
+  public deleteBloc(): void {
+    CreatorState.commit("DELETE_BLOC");
   }
 
   public debug(): void {
     console.log("blocs :", this.$store.state.blocs);
     console.log("Selected bloc :", this.$store.state.selectedBloc);
+    console.log("links:", this.$store.state.links);
   }
 }
 </script>
@@ -92,18 +110,17 @@ export default class CreateSideBar extends BaseStoryComponent {
 
 <template>
   <div id="panel">
-    <vs-button color="primary" type="gradient" @click="addNewBloc"
+    <vs-button color="primary" type="gradient" @click="addBloc"
       >Add new bloc</vs-button
     >
-
     <vs-button color="danger" type="gradient" @click="debug">debug</vs-button>
     <vs-input v-model="name" label="Nom"></vs-input>
     <vs-input v-model="text" label="Texte"></vs-input>
     <vs-select
       autocomplete
       placeholder="select"
-      v-model="parentSelect"
       label="Parent"
+      v-model="currentParent"
     >
       <vs-select-item
         v-for="parent in parents"
@@ -112,5 +129,8 @@ export default class CreateSideBar extends BaseStoryComponent {
         :text="parent.name"
       />
     </vs-select>
+    <vs-button color="danger" type="gradient" @click="deleteBloc"
+      >Delete</vs-button
+    >
   </div>
 </template>

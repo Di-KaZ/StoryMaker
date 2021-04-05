@@ -1,134 +1,147 @@
 import Vuex from "vuex";
 import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
-import { default as CreatorConnectionDTO } from "./types/CreatorConnectionDTO";
+import { default as Link } from "./types/CreatorConnectionDTO";
 import Story from "./types/Story";
 
-let lastIdBloc = 0;
+const story: Story = {
+  id: 0,
+  name: "",
+  description: "",
+  creationDate: "",
+  user: { name: "" },
+};
+const links: Link[] = [];
+const blocs: CreatorBlocStoryDTO[] = [];
+const selectedBloc: CreatorBlocStoryDTO | null = null;
 
-function updateConnection(
-  blocs: CreatorBlocStoryDTO[]
-): CreatorConnectionDTO[] {
-  const newConnections: CreatorConnectionDTO[] = [];
-
-  blocs.forEach((b) => {
-    if (b.parent.id) {
-      const { x, y } = blocs.find((bl) => bl.id === b.parent.id)!;
-      newConnections.push({
-        childId: b.id,
-        parentId: b.parent.id,
-        xP: x + 100,
-        yP: y + 300,
-        xC: b.x + 100,
-        yC: b.y,
-      });
+function updateLinks(blocs: CreatorBlocStoryDTO[]): Link[] {
+  const links: Link[] = [];
+  blocs.forEach((bloc) => {
+    if (bloc.in) {
+      // mise a jour du parent
+      bloc.in = blocs.find((b) => b.id === bloc.in?.id);
+      // creation d'un link
+      links.push({ in: bloc.in!, out: bloc });
     }
   });
-  return newConnections;
+  return links;
 }
 
 export const CreatorState = new Vuex.Store({
   state: {
-    story: {
-      id: 0,
-      name: "",
-      description: "",
-      creationDate: "",
-      user: { name: "" },
-    } as Story,
-    selectedBloc: null as CreatorBlocStoryDTO | null,
-    blocs: [] as CreatorBlocStoryDTO[],
-    connections: [] as CreatorConnectionDTO[],
+    story,
+    selectedBloc: selectedBloc as CreatorBlocStoryDTO | null,
+    blocs,
+    links,
   },
   mutations: {
     /**
-     * @param state previous state (this)
-     * @param story story object with modification
+     *
+     * @param state current state
+     * @param payload new bloc to add
      */
-    modifyStory(state, story: Story): void {
-      state.story = story;
-    },
-    /**
-     * modify a single bloc of the sotry
-     * @param state prebious state (this)
-     * @param dto bloc to modify
-     */
-    modifySelectedBloc(state, dto: CreatorBlocStoryDTO): void {
-      const { selectedBloc, blocs } = state;
-
-      // if no bloc are selected exit
-      if (selectedBloc === null) return;
-
-      selectedBloc.bgcolor = "gray";
-      dto.bgcolor = "black";
-      state.selectedBloc = dto;
-
-      if (selectedBloc.id !== dto.id) {
-        state.blocs = [
-          ...blocs.filter((b) => b.id !== selectedBloc!.id && b.id !== dto.id),
-          selectedBloc,
-          dto,
-        ];
-      } else {
-        // le selected bloc est le meme que celui recu en param donc on ajoute pas les deux
-        state.blocs = [
-          ...blocs.filter((b) => b.id !== selectedBloc!.id && b.id !== dto.id),
-          dto,
-        ];
-      }
-      state.connections = updateConnection(state.blocs);
-    },
-    setBlocs(state, blocs: CreatorBlocStoryDTO[]) {
-      state.blocs = blocs;
-    },
-    /**
-     * Add a new bloc to the list
-     * @param state
-     * @param bloc
-     */
-    addNewBloc(state): void {
-      const newBloc = {
-        id: lastIdBloc,
-        name: "new_block_" + lastIdBloc++,
-        text: "",
-        x: 10,
-        y: 10,
-        bgcolor: "black",
-        parent: {},
-      };
+    ADD_BLOC(state, payload: CreatorBlocStoryDTO) {
       if (state.selectedBloc !== null) {
-        state.selectedBloc.bgcolor = "gray";
+        state.blocs.splice(
+          state.blocs.findIndex((b) => b.id === state.selectedBloc!.id),
+          1,
+          { ...state.selectedBloc, selected: false }
+        );
       }
-      state.blocs = [...state.blocs, newBloc];
-      state.selectedBloc = newBloc;
+      payload.selected = true;
+      state.selectedBloc = payload;
+      state.blocs.push(payload);
     },
-
-    updateConnection(state, draggedBloc: { id: number; x: number; y: number }) {
-      // Récuperation des connections au enfants et mise a jour des coord du parent
-      const childsConnections = state.connections
-        .filter((c) => c.parentId && c.parentId === draggedBloc.id)
-        .map((c) => {
-          return { ...c, yP: draggedBloc.y + 300, xP: draggedBloc.x + 100 };
-        });
-      state.connections = [
-        ...state.connections.filter(
-          (c) =>
-            c.childId &&
-            c.childId !== draggedBloc.id &&
-            c.parentId !== draggedBloc.id
-        ),
-        ...childsConnections,
-      ];
-
-      // Récuperation de la connection au parent
-      const parentConnection = state.connections.find(
-        (c) => c.childId === draggedBloc.id
-      );
-      if (parentConnection) {
-        console.log("yahooo");
-        parentConnection.xC = draggedBloc.x + 100;
-        parentConnection.yC = draggedBloc.y;
-        state.connections.push(parentConnection);
+    /**
+     * Delete selected bloc
+     * @param state current state
+     * @returns
+     */
+    DELETE_BLOC(state) {
+      // FIXME ne supprime pas le bon bloc
+      if (state.selectedBloc === null) return;
+      //remove ref to this bloc
+      for (let i = 0; i < state.blocs.length; i++) {
+        if (
+          state.blocs[i].in &&
+          state.blocs[i].in?.id == state.selectedBloc.id
+        ) {
+          state.blocs[i].in = undefined;
+        }
+        // TODO creer un nouveau tableau puis l'assigné au lieu de retirer des elements pendant l'iteration
+        for (let j = 0; j < state.blocs[i].out.length; j++) {
+          if (state.blocs[i].out[j].id == state.selectedBloc.id) {
+            state.blocs[i].out.splice(j, 1);
+          }
+        }
       }
+      state.blocs.splice(
+        state.blocs.findIndex((b) => b.id === state.selectedBloc!.id),
+        1
+      );
+      state.links = updateLinks(state.blocs);
+    },
+    /**
+     * Selectionne et/ou modifie un bloc
+     * @param state current state
+     * @param payload : CreatorBlocStoryDTO bloc to modify
+     * @returns
+     */
+    MODIFY_BLOC(state, payload: CreatorBlocStoryDTO) {
+      if (!state.selectedBloc) return;
+      if (state.selectedBloc.id !== payload.id) {
+        // Désélection de l'ancien
+        state.blocs.splice(
+          state.blocs.findIndex((b) => b.id === state.selectedBloc?.id),
+          1,
+          { ...state.selectedBloc, selected: false }
+        );
+      }
+      payload.selected = true;
+      state.selectedBloc = payload;
+      state.blocs.splice(
+        state.blocs.findIndex((b) => b.id === payload.id),
+        1,
+        payload
+      );
+      state.links = updateLinks(state.blocs);
+    },
+    /**
+     *
+     * @param state current state
+     * @param payload parent bloc
+     * @returns
+     */
+    SET_CONNECTION(state, payload: CreatorBlocStoryDTO) {
+      if (!state.selectedBloc) return;
+      state.selectedBloc = { ...state.selectedBloc, in: payload };
+
+      state.blocs.splice(
+        state.blocs.findIndex((b) => b.id === state.selectedBloc?.id),
+        1,
+        state.selectedBloc
+      );
+
+      state.blocs.splice(
+        state.blocs.findIndex((b) => b.id === payload.id),
+        1,
+        { ...payload, out: [...payload.out, state.selectedBloc] }
+      );
+      state.links = updateLinks(state.blocs);
+    },
+    /**
+     * update position of links when bloc is dragged
+     * @param state current state
+     * @param payload dragged bloc
+     */
+    UPDATE_CONNECTION(state, payload) {
+      state.blocs.splice(
+        state.blocs.findIndex((b) => b.id === payload.id),
+        1,
+        payload
+      );
+      // TODO optimize this to refresh only the connection needed
+      state.links = updateLinks(state.blocs);
     },
   },
 });

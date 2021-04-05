@@ -8,8 +8,6 @@ import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
 })
 export default class CreatorBlocStory extends BaseStoryComponent {
   @Prop(Object) readonly bloc: CreatorBlocStoryDTO | undefined;
-  private outHover = false;
-  private inHover = false;
 
   get backgroundConf() {
     return {
@@ -49,7 +47,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       x: 100,
       y: 0,
       radius: 10,
-      fill: this.inHover ? "red" : "lightblue",
+      fill: "lightblue",
     };
   }
 
@@ -58,7 +56,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       x: 100,
       y: 200,
       radius: 10,
-      fill: this.outHover ? "red" : "pink",
+      fill: "pink",
     };
   }
 
@@ -71,30 +69,6 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       y,
     });
   }
-
-  public drag(event: any) {
-    const { x, y } = event.target.absolutePosition();
-    this.$store.commit("UPDATE_CONNECTION", {
-      ...this.bloc,
-      x,
-      y,
-    });
-  }
-
-  public onOutHover() {
-    this.outHover = true;
-  }
-  public onInHover() {
-    this.inHover = true;
-  }
-
-  public onOutLeave() {
-    this.outHover = false;
-  }
-
-  public onInLeave() {
-    this.inHover = false;
-  }
 }
 </script>
 
@@ -104,23 +78,14 @@ export default class CreatorBlocStory extends BaseStoryComponent {
   <v-group
     ref="group"
     draggable="true"
-    @dragmove="drag"
     @dragend="select"
-    @dblclick="select"
+    @click="select"
     :config="{ x: bloc.x, y: bloc.y }"
   >
     <v-rect :config="backgroundConf" />
-    <v-circle
-      @mouseenter="onInHover"
-      @mouseleave="onInLeave"
-      :config="inConf"
-    />
+    <v-circle :config="inConf" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
-    <v-circle
-      @mouseenter="onOutHover"
-      @mouseleave="onOutLeave"
-      :config="outConf"
-    />
+    <v-circle @click="() => console.log('test')" :config="outConf" />
   </v-group>
 </template>

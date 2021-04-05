@@ -1,8 +1,6 @@
+import CreatorBlocStoryDTO from "./CreatorBlocStoryDTO";
+
 export default interface CreatorConnection {
-  parentId: number;
-  childId: number;
-  xP: number;
-  yP: number;
-  xC: number;
-  yC: number;
+  in: CreatorBlocStoryDTO;
+  out: CreatorBlocStoryDTO;
 }
