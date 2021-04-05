@@ -6,17 +6,17 @@ import { CreatorState } from "@/CreatorState";
 
 @Component({})
 export default class CreateSideBar extends BaseStoryComponent {
-  get parentSelect() {
+  get parentSelect(): number | undefined {
     if (
       CreatorState.state.selectedBloc !== null &&
       CreatorState.state.selectedBloc.parent.id
     ) {
       return CreatorState.state.selectedBloc.parent.id;
     }
-    return 0;
+    return undefined;
   }
 
-  set parentSelect(id: number) {
+  set parentSelect(id: number | undefined) {
     CreatorState.commit("modifySelectedBloc", {
       ...CreatorState.state.selectedBloc,
       parent: {

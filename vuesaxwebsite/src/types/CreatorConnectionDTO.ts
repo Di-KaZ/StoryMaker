@@ -1,5 +1,6 @@
 export default interface CreatorConnection {
-  blocId: number;
+  parentId: number;
+  childId: number;
   xP: number;
   yP: number;
   xC: number;

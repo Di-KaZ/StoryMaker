@@ -12,9 +12,15 @@ function updateConnection(
 
   blocs.forEach((b) => {
     if (b.parent.id) {
-      console.log(`Connection between ${b.name} and ${b.parent.name}`);
       const { x, y } = blocs.find((bl) => bl.id === b.parent.id)!;
-      newConnections.push({ blocId: b.id, xP: x, yP: y, xC: b.x, yC: b.y });
+      newConnections.push({
+        childId: b.id,
+        parentId: b.parent.id,
+        xP: x + 100,
+        yP: y + 300,
+        xC: b.x + 100,
+        yC: b.y,
+      });
     }
   });
   return newConnections;
@@ -94,6 +100,35 @@ export const CreatorState = new Vuex.Store({
       }
       state.blocs = [...state.blocs, newBloc];
       state.selectedBloc = newBloc;
+    },
+
+    updateConnection(state, draggedBloc: { id: number; x: number; y: number }) {
+      // Récuperation des connections au enfants et mise a jour des coord du parent
+      const childsConnections = state.connections
+        .filter((c) => c.parentId && c.parentId === draggedBloc.id)
+        .map((c) => {
+          return { ...c, yP: draggedBloc.y + 300, xP: draggedBloc.x + 100 };
+        });
+      state.connections = [
+        ...state.connections.filter(
+          (c) =>
+            c.childId &&
+            c.childId !== draggedBloc.id &&
+            c.parentId !== draggedBloc.id
+        ),
+        ...childsConnections,
+      ];
+
+      // Récuperation de la connection au parent
+      const parentConnection = state.connections.find(
+        (c) => c.childId === draggedBloc.id
+      );
+      if (parentConnection) {
+        console.log("yahooo");
+        parentConnection.xC = draggedBloc.x + 100;
+        parentConnection.yC = draggedBloc.y;
+        state.connections.push(parentConnection);
+      }
     },
   },
 });

@@ -64,6 +64,11 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       y,
     });
   }
+
+  public updateConnection(event: any) {
+    const { x, y } = event.target.absolutePosition();
+    this.$store.commit("updateConnection", { id: this.dto!.id, x, y });
+  }
 }
 </script>
 
@@ -74,6 +79,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     ref="group"
     draggable="true"
     :config="{ x: $props.dto.x, y: $props.dto.y }"
+    @dragmove="updateConnection"
     @dragend="select"
     @click="select"
   >
