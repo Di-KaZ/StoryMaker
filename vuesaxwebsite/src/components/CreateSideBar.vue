@@ -6,9 +6,6 @@ import { CreatorState } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
 
 const ID = function() {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
   return (
     "_" +
     Math.random()
@@ -17,8 +14,11 @@ const ID = function() {
   );
 };
 
-@Component({})
+@Component({
+  components: {},
+})
 export default class CreateSideBar extends BaseStoryComponent {
+  private counterDanger = false;
   get currentParent(): string | undefined {
     const { selectedBloc } = CreatorState.state;
     if (selectedBloc !== null && selectedBloc.in) {
@@ -72,6 +72,16 @@ export default class CreateSideBar extends BaseStoryComponent {
     return [];
   }
 
+  public exportstory() {
+    CreatorState.commit("EXPORT_JSON");
+  }
+
+  public async loadFile(event: any): Promise<void> {
+    const file: File = event.target.files[0];
+    const text = await file.text();
+    CreatorState.commit("LOAD_JSON", text);
+  }
+
   public addBloc(): void {
     const id = ID();
 
@@ -110,12 +120,23 @@ export default class CreateSideBar extends BaseStoryComponent {
 
 <template>
   <div id="panel">
+    <vs-input type="file" @change="loadFile" />
     <vs-button color="primary" type="gradient" @click="addBloc"
       >Add new bloc</vs-button
     >
+    <vs-button color="primary" type="gradient" @click="exportstory"
+      >Export Story</vs-button
+    >
     <vs-button color="danger" type="gradient" @click="debug">debug</vs-button>
     <vs-input v-model="name" label="Nom"></vs-input>
-    <vs-input v-model="text" label="Texte"></vs-input>
+    <vs-textarea
+      counter="250"
+      :counter-danger.sync="counterDanger"
+      v-model="text"
+      label="Texte"
+      width="100%"
+      heigth="300px"
+    ></vs-textarea>
     <vs-select
       autocomplete
       placeholder="select"

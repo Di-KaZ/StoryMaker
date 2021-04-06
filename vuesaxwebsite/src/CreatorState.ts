@@ -143,5 +143,22 @@ export const CreatorState = new Vuex.Store({
       // TODO optimize this to refresh only the connection needed
       state.links = updateLinks(state.blocs);
     },
+    EXPORT_JSON({ blocs }) {
+      const jsonBlocs = JSON.stringify(blocs, (key, value) => {
+        if (key === "in") {
+          return { id: value.id, x: value.x, y: value.y };
+        }
+        if (key === "out") {
+          return undefined;
+        }
+        return value;
+      });
+      window.open("data:text/plain," + jsonBlocs);
+      console.log(jsonBlocs);
+    },
+    LOAD_JSON(state, payload) {
+      state.blocs = JSON.parse(payload);
+      state.links = updateLinks(state.blocs);
+    },
   },
 });
