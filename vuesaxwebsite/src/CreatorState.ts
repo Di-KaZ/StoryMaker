@@ -160,6 +160,5 @@ export const CreatorState = new Vuex.Store({
       state.blocs = JSON.parse(payload);
       state.links = updateLinks(state.blocs);
     },
-    UPDATE_ON_ZOOM(srate, payl);,
   },
 });
