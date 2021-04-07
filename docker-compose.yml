@@ -1,0 +1,23 @@
+services:
+  website:
+    build:
+      context: ./vuesaxwebsite
+    ports:
+      - "3000:80"
+    depends_on:
+      - "db"
+  db:
+    build:
+      context: ./bdd
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+    ports:
+      - "3001:3306"
+  backend:
+    build:
+      context: ./storyAPI
+    ports:
+      - "3002:8080"
+    depends_on:
+      - "db"
