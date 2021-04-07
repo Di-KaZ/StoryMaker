@@ -58,5 +58,4 @@ build/
 ### VS Code ###
 .vscode/
 package-lock.json
-package.json
 .idea
