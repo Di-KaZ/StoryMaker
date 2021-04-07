@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import storyteam.server.story.model.BlocStory;
+import storyteam.server.story.model.CreatorBloc;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.services.StoryService;
@@ -65,18 +66,6 @@ public class StoryController {
 	}
 
 	/**
-	 * Save une story en bdd depuis son json envoyé dans le body TODO algo de
-	 * creation
-	 *
-	 * @param storyDTO
-	 * @return
-	 */
-	@PostMapping(value = "/save")
-	public ResponseEntity<Story> createStory(@RequestBody Story story) {
-		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-	}
-
-	/**
 	 * Supprime une story via son id /!\ TODO verif si la story appartient a l'user
 	 * connecté
 	 *
@@ -113,7 +102,7 @@ public class StoryController {
 			@RequestParam("username") Optional<String> username, @RequestParam("storyname") Optional<String> storyname,
 			@RequestParam("tags") Optional<String> tags, @RequestParam("orderby") Optional<String> orderby) {
 
-		// normalize page to the first being 1 but ehre we start at 0
+		// normalize page to the first being 1 but here we start at 0
 		if (--page < 0) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -122,5 +111,11 @@ public class StoryController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		return ResponseEntity.ok(storiesSearched);
+	}
+
+	@PostMapping("save")
+	public ResponseEntity<List<BlocStory>> saveNewStory(@RequestBody List<CreatorBloc> blocs) {
+		LOGGER.info("blocs : {}", blocs);
+		return ResponseEntity.ok(storyService.mapCreatorStory(blocs));
 	}
 }

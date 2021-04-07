@@ -1,6 +1,8 @@
 package storyteam.server.story.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import storyteam.server.story.model.BlocStory;
+import storyteam.server.story.model.CreatorBloc;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.repository.StoryRepository;
@@ -94,5 +97,10 @@ public class StoryService {
 	 */
 	public void delete(Integer storyid) {
 		storyRepository.deleteById(storyid);
+	}
+
+	public List<BlocStory> mapCreatorStory(List<CreatorBloc> blocs) {
+		Story story = new Story();
+		return blocs.stream().map((bloc) -> new BlocStory(0, bloc.getName(), bloc.getText(), story)).collect(Collectors.toList());
 	}
 }

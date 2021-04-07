@@ -31,6 +31,24 @@ export default class Create extends BaseStoryComponent {
     this.width = canva.offsetWidth;
     this.height = canva.offsetHeight;
   }
+
+  public handleZoom(event: any) {
+    const stage = event.target;
+    const oldScale = stage.scaleX();
+    const pointer = stage.getPointerPosition();
+    const mousePointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+    const newScale = event.evt.deltaY < 0 ? oldScale * 1.1 : oldScale / 1.1;
+    const newPos = {
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    };
+    stage.scale({ x: newScale, y: newScale });
+    stage.position(newPos);
+    stage.batchDraw();
+  }
 }
 </script>
 
@@ -39,6 +57,7 @@ html,
 body,
 #app {
   height: 100vh;
+  overflow: hidden;
 }
 
 #create {
@@ -59,7 +78,9 @@ body,
       :config="{
         width: width,
         height: height,
+        draggable: true,
       }"
+      @wheel="handleZoom"
     >
       <v-layer>
         <creator-bloc-story

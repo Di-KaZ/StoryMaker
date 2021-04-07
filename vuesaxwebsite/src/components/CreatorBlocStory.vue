@@ -64,7 +64,9 @@ export default class CreatorBlocStory extends BaseStoryComponent {
 
   public select(event: any): void {
     // on set le bloc dans le creator state afin de l'afficher dans la sidebar
-    const { x, y } = event.target.absolutePosition();
+    const x = event.target.x();
+    const y = event.target.y();
+
     this.$store.commit("MODIFY_BLOC", {
       ...this.bloc,
       x,
@@ -73,7 +75,8 @@ export default class CreatorBlocStory extends BaseStoryComponent {
   }
 
   public drag(event: any) {
-    const { x, y } = event.target.absolutePosition();
+    const x = event.target.x();
+    const y = event.target.y();
     this.$store.commit("UPDATE_CONNECTION", {
       ...this.bloc,
       x,
