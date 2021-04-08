@@ -101,10 +101,15 @@ export default class CreatorBlocStory extends BaseStoryComponent {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.blocStory {
+  cursor: pointer;
+}
+</style>
 
 <template>
   <v-group
+    class="blocStory"
     ref="group"
     draggable="true"
     @dragmove="drag"

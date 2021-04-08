@@ -19,6 +19,7 @@ const ID = function() {
 })
 export default class CreateSideBar extends BaseStoryComponent {
   private counterDanger = false;
+  private active = true;
   get currentParent(): string | undefined {
     const { selectedBloc } = CreatorState.state;
     if (selectedBloc !== null && selectedBloc.in) {
@@ -110,11 +111,9 @@ export default class CreateSideBar extends BaseStoryComponent {
 
 <style scoped lang="scss">
 #panel {
-  width: 30%;
-  flex-grow: 2;
+  width: 300px;
   border-right: 1px solid blue;
-  margin-left: 20px;
-  margin-right: 20px;
+  padding: 0;
 }
 </style>
 
