@@ -202,7 +202,7 @@ export default class SideBar extends BaseStoryComponent {
       :active.sync="loginRegister"
     >
       <vs-tabs alignment="center">
-        <vs-tab label="Connection" value="1">
+        <vs-tab label="Connection">
           <vs-row>
             <vs-col
               vs-type="flex"

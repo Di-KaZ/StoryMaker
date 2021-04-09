@@ -160,5 +160,8 @@ export const CreatorState = new Vuex.Store({
       state.blocs = JSON.parse(payload);
       state.links = updateLinks(state.blocs);
     },
+    MODIFY_STORY(state, payload) {
+      state.story = payload;
+    },
   },
 });

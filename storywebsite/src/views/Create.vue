@@ -4,11 +4,13 @@ import CreateSideBar from "@/components/CreateSideBar.vue";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorStage from "@/components/CreatorStage.vue";
+import ToolBar from "@/components/Toolbar.vue";
 
 @Component({
   components: {
     sidebar: CreateSideBar,
-    CreatorStage: CreatorStage,
+    creatorStage: CreatorStage,
+    toolBar: ToolBar,
   },
   store: CreatorState,
 })
@@ -24,14 +26,24 @@ body,
 }
 
 #create {
-  height: 100%;
   display: flex;
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 </style>
 
 <template>
-  <div id="create">
-    <sidebar />
-    <creator-stage :blocs="$store.state.blocs" :links="$store.state.links" />
+  <div class="wrapper">
+    <vs-navbar> </vs-navbar>
+    <div id="create">
+      <sidebar />
+      <creator-stage :blocs="$store.state.blocs" :links="$store.state.links" />
+      <tool-bar />
+    </div>
   </div>
 </template>
