@@ -4,6 +4,7 @@ import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import ToolBar from "./Toolbar.vue";
 
 const ID = function() {
   return (
@@ -15,7 +16,9 @@ const ID = function() {
 };
 
 @Component({
-  components: {},
+  components: {
+    toolBar: ToolBar,
+  },
 })
 export default class CreateSideBar extends BaseStoryComponent {
   private counterDanger = false;
@@ -147,6 +150,10 @@ export default class CreateSideBar extends BaseStoryComponent {
 
 <template>
   <div id="panel">
+    <tool-bar />
+    <vs-divider icon="person" position="left">
+      Action
+    </vs-divider>
     <vs-tabs>
       <vs-tab label="Story" icon="book">
         <vs-input type="file" @change="loadFile" />

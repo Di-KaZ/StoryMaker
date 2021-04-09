@@ -42,13 +42,8 @@ export default class ToolBar extends BaseStoryComponent {
 
 <style scoped lang="scss">
 .toolbar {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
   padding: 15px;
   display: flex;
-  border-radius: 35px;
-  box-shadow: 0px 0px 20px -6px rgba(0, 0, 0, 0.75);
 }
 
 button {

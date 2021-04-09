@@ -25,6 +25,9 @@ export default class App extends BaseStoryComponent {
       }
     }
   }
+  mounted() {
+    this.$vs.theme = "dark";
+  }
 
   get user(): User | null {
     return GlobalState.state.user;
@@ -42,7 +45,6 @@ html {
   font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
-  background-size: cover;
   height: 100vh;
 }
 .logo {

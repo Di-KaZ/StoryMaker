@@ -10,7 +10,6 @@ import ToolBar from "@/components/Toolbar.vue";
   components: {
     sidebar: CreateSideBar,
     creatorStage: CreatorStage,
-    toolBar: ToolBar,
   },
   store: CreatorState,
 })
@@ -43,7 +42,6 @@ body,
     <div id="create">
       <sidebar />
       <creator-stage :blocs="$store.state.blocs" :links="$store.state.links" />
-      <tool-bar />
     </div>
   </div>
 </template>
