@@ -8,6 +8,7 @@ export default class PlayStory extends Vue {
 	private toast = useToast();
 	private story: StoryDTO | null = null;
 	declare $route: any;
+	private blocStory: BlocStoryDTO | null = null;
 
 	/**
 	 * JAVA => Responentity<Story> = {name: "fwesgf", }
@@ -19,6 +20,9 @@ export default class PlayStory extends Vue {
 		console.log('OUI');
 		fetchApi<StoryDTO>('http://localhost:8080/story/play/' + this.$route.params.id, METHODS.GET).then(
 			res => (this.story = res),
+		);
+		fetchAPI<BlocStoryDTO>('http://localhost:8080/blocstories/get/' + this.story.firstIdBloc, METHODS.GET).then(
+			res => (this.blocStory = res),
 		);
 	}
 
@@ -48,7 +52,7 @@ export default class PlayStory extends Vue {
 	<Button @click="testToast">Vous etes sur la story numéro : {{ story?.name }}</Button>
 	<img alt="name" :src="getCoverUrl()" style="height: 300px; object-fit: cover" />
 	<h2>Vous êtes en train de jouer à {{ story?.name }}</h2>
-	<!--<h3>{{story.blocs.first}}</h3>-->
+	<!--<h3> Chapitre {{story.blocs.id}}</h3>-->
 	<Button @click="fecthBlocStory" value="choice1">Choix 1</Button>
 	<Button @click="fecthBlocStory" value="choice2">Choix 2</Button>
 </template>

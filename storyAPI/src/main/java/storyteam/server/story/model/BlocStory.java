@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bloc_story")
+@JsonIgnoreProperties({"story"})
 public class BlocStory {
 
     @Id
@@ -32,14 +33,18 @@ public class BlocStory {
     @JsonIgnoreProperties({"user", "blocStories", "story"})
     private Story story;
 
+    @Column(name="previousIdBloc")
+    private Integer previousIdBloc;
+
     public BlocStory() {
     }
 
-    public BlocStory(Integer id, String name, String text,Story story) {
+    public BlocStory(Integer id, String name, String text, Story story, Integer previousIdBloc) {
         this.id = id;
         this.name = name;
         this.story = story;
         this.text = text;
+        this.previousIdBloc = previousIdBloc;
     }
 
     public Integer getId() {
@@ -72,5 +77,13 @@ public class BlocStory {
 
     public void setStory(Story story) {
         this.story = story;
+    }
+
+    public Integer getPreviousIdBloc(){
+        return previousIdBloc;
+    }
+
+    public void setPreviousIdBloc(Integer previousIdBloc) {
+        this.previousIdBloc = previousIdBloc;
     }
 }

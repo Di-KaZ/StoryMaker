@@ -1,21 +1,35 @@
 package storyteam.server.story.dto;
 
-import java.util.List;
+import java.util.Set;
+
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 /**
  * A class used to send data about the story bloc as json without exta methods
  */
 public class StoryBlocDTO {
+	public Integer id;
 	public String name;
+	public String text;
 	public String urlImage;
-	public List<String> choices;
+	public Set<Integer> choices;
 
-	public StoryBlocDTO(String name, String urlImage, List<String> choices) {
+	public StoryBlocDTO(Integer id, String name, String text, String urlImage, Set<Integer> choices) {
+		this.id = id;
 		this.name = name;
+		this.text = text;
 		this.urlImage = urlImage;
 		this.choices = choices;
 	}
 
+	public Integer getId(){
+		return this.id;
+	}
+
+	public void setId(Integer id){
+		this.id = id;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -32,11 +46,19 @@ public class StoryBlocDTO {
 		this.urlImage = urlImage;
 	}
 
-	public List<String> getChoices() {
+	public Set<Integer> getChoices() {
 		return this.choices;
 	}
 
-	public void setChoices(List<String> choices) {
+	public void setChoices(Set<Integer> choices) {
 		this.choices = choices;
+	}
+
+	public String getText(){
+		return this.text;
+	}
+
+	public void setText(String text){
+		this.text = text;
 	}
 }

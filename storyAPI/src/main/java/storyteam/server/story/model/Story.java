@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,8 +40,9 @@ public class Story {
 	@JoinColumn(name = "userid")
 	private User user;
 
-	@Column(name = "firstIdBloc")
-	private Integer firstIdBloc;
+	@OneToOne
+	@JoinColumn(name = "firstIdBloc")
+	private BlocStory firstBloc;
 
 	// Revoir les JsonIgnoreProperties
 	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
@@ -50,7 +52,7 @@ public class Story {
 	public Story() {
 	}
 
-	public Story(Integer id, String name, String description, LocalDate creationDate, User user, Integer firstIdBloc,
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
 			Set<BlocStory> blocStories) {
 		this.name = name;
 		this.description = description;
@@ -79,8 +81,8 @@ public class Story {
 		return user;
 	}
 
-	public Integer getFirstIdBloc() {
-		return firstIdBloc;
+	public BlocStory getFirstBloc() {
+		return firstBloc;
 	}
 
 	public Set<BlocStory> getBlocStories() {
@@ -107,8 +109,8 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setFirstIdBloc(Integer firstIdBloc) {
-		this.firstIdBloc = firstIdBloc;
+	public void setFirstBloc(BlocStory firstBloc) {
+		this.firstBloc = firstBloc;
 	}
 
 	public void setBlocStories(Set<BlocStory> blocStories) {
