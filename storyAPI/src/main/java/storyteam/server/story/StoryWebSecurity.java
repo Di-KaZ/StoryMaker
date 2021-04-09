@@ -26,24 +26,20 @@ public class StoryWebSecurity extends WebSecurityConfigurerAdapter {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /**
+     * On paramètre l'API pour que lorsque l'on tente de s'inscrire ou de se
+     * connecter on applique des filtres que nous avons créer pour JWT
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        // Pour éviter les erreur de cors authenticator on autorise les inscription et
+        // les connections.
         http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll()
                 .anyRequest().authenticated().and()
                 .addFilter(new StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
                 .addFilter(new StoryAuthorizationFilter(authenticationManager())).sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        // http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST,
-        // SIGN_UP_URL).permitAll()
-        // .antMatchers(HttpMethod.POST,
-        // SIGN_IN_URL).permitAll().anyRequest().authenticated().and()
-        // .addFilter(new
-        // StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
-        // .addFilter(new
-        // StoryAuthorizationFilter(authenticationManager())).sessionManagement()
-        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override

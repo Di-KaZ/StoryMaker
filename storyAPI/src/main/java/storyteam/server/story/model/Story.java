@@ -37,23 +37,27 @@ public class Story {
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
-	@JsonIgnoreProperties({ "id", "password", "email", "stories" })
+	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
 
 	// Revoir les JsonIgnoreProperties
 	@OneToMany(mappedBy = "story")
 	private Set<BlocStory> blocStories = new HashSet<>();
 
+	@OneToMany(mappedBy = "story")
+	private Set<Comment> comments = new HashSet<>();
+
 	public Story() {
 	}
 
 	public Story(Integer id, String name, String description, LocalDate creationDate, User user, Integer firstIdBloc,
-			Set<BlocStory> blocStories) {
+			Set<BlocStory> blocStories, Set<Comment> comments) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
 		this.blocStories = blocStories;
+		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -103,4 +107,13 @@ public class Story {
 	public void setBlocStories(Set<BlocStory> blocStories) {
 		this.blocStories = blocStories;
 	}
+
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 }

@@ -58,6 +58,13 @@ public class StoryController {
 	@GetMapping("/play/{storyId}")
 	ResponseEntity<Story> playStoryStart(@PathVariable("storyId") Integer storyId) {
 		Optional<Story> story = storyService.getStory(storyId);
+
+		// Je vais effectuer ici mes test pour récupérer mes futurs commentaires
+		// Attention il faudra prendre garde a ne pas faire de boucle Recup story->
+		// recup comment -> recup user -> recup story -> ...
+		// Voir quand on récup un commentaire un moyen pour ne récupérer que les données
+		// utilisateurs qui nous intéresse
+
 		if (story.isPresent()) {
 			return ResponseEntity.ok(story.get());
 		}
