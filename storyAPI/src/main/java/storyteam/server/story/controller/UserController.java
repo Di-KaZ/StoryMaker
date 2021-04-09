@@ -34,6 +34,10 @@ public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	public static final String SECRET = "SECRET_KEY";
 
+	// Pour récupérer des variables d'environnement
+	// Dotenv dotenv = Dotenv.load();
+	// Ensuite faire dotenv.get("indexVariable") du fichier .env
+
 	Pattern emailRegex = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
 	@Autowired

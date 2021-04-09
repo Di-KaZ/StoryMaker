@@ -16,6 +16,7 @@ import { GlobalState } from "./GlobalState";
 export default class App extends BaseStoryComponent {
   async beforeMount() {
     const token = Cookies.get("token");
+    console.log(token);
     if (token !== undefined) {
       try {
         const user = await this.fetch<User>("user/infos", METHODS.GET);

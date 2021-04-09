@@ -15,6 +15,6 @@ public class StoryApplication {
 
 	@Bean(name = "passwordEncoder")
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder(); 
+		return new BCryptPasswordEncoder();
 	}
 }

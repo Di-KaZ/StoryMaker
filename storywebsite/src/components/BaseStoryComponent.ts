@@ -73,7 +73,7 @@ export default class BaseStoryComponent extends Vue {
     let headers: any = {
       "Content-Type": "application/json",
     };
-
+    console.log(url);
     // Si les url params ne sont pas vide on les ajoute a l'url
     if (urlparams !== undefined) {
       urlhttp += "?" + new URLSearchParams(urlparams);
@@ -126,24 +126,4 @@ export default class BaseStoryComponent extends Vue {
     return jsonToDto;
   }
 
-  //   private async getUserToken(
-  //     url: string,
-  //     body: { name: string; password: string }
-  //   ): Promise<{ token: string }> {
-  //     const response = await fetch(url, {
-  //       method: METHODS.POST,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       this.errorToast(
-  //         "Impossible de vous connecté",
-  //         "Verifiez vos informations de connection."
-  //       );
-  //     }
-
-  //     return await response.json();
-  //   }
 }

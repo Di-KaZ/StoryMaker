@@ -44,7 +44,6 @@ public class StoryUsernamePasswordAuthenticationFilter extends UsernamePasswordA
 			throws AuthenticationException {
 		try {
 			User credentials = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			LOGGER.info("USER : {}", credentials);
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getName(),
 					credentials.getPassword(), new ArrayList<>()));
 		} catch (Exception e) {
