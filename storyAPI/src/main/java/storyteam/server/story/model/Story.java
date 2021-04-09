@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "story")
+@JsonIgnoreProperties({ "blocStories" })
 public class Story {
 
 	@Id
@@ -38,6 +38,7 @@ public class Story {
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
+	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
 
 	@OneToOne
@@ -45,20 +46,23 @@ public class Story {
 	private BlocStory firstBloc;
 
 	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties({ "story" })
-	private Set<BlocStory> BlocStories = new HashSet<>();
+	@OneToMany(mappedBy = "story")
+	private Set<BlocStory> blocStories = new HashSet<>();
+
+	@OneToMany(mappedBy = "story")
+	private Set<Comment> comments = new HashSet<>();
 
 	public Story() {
 	}
 
 	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
-			Set<BlocStory> blocStories) {
+			Set<BlocStory> blocStories, Set<Comment> comments) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
-		BlocStories = blocStories;
+		this.blocStories = blocStories;
+		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -86,7 +90,7 @@ public class Story {
 	}
 
 	public Set<BlocStory> getBlocStories() {
-		return BlocStories;
+		return blocStories;
 	}
 
 	public void setId(Integer id) {
@@ -113,7 +117,12 @@ public class Story {
 		this.firstBloc = firstBloc;
 	}
 
-	public void setBlocStories(Set<BlocStory> blocStories) {
-		BlocStories = blocStories;
+	public Set<Comment> getComments() {
+		return this.comments;
 	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 }

@@ -1,29 +1,33 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import UserSubscription from '../components/UserSubscription.vue';
-import Home from '../views/Home.vue';
-import PlayStory from '../views/PlayStory.vue';
+import Vue from "vue";
+import VueRouter, { RouteConfig } from "vue-router";
+import Create from "../views/Create.vue";
+import Home from "../views/Home.vue";
+import Search from "../views/Search.vue";
 
-const routes: Array<RouteRecordRaw> = [
-	{
-		path: '/',
-		name: 'Home',
-		component: Home,
-	},
-	{
-		path: '/users/create',
-		name: 'CreateUser',
-		component: UserSubscription,
-	},
-	{
-		path: '/story/play/:id',
-		name: 'PlayStory',
-		component: PlayStory,
-	},
+Vue.use(VueRouter);
+
+const routes: Array<RouteConfig> = [
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/story/search",
+    name: "Search",
+    component: Search,
+  },
+  {
+    path: "/story/create",
+    name: "StoryCreate",
+    component: Create,
+  },
 ];
 
-const router = createRouter({
-	history: createWebHashHistory(),
-	routes,
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
 });
 
 export default router;

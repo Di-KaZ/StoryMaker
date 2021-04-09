@@ -1,72 +1,66 @@
 <script lang="ts">
-import Menu from 'primevue/menu';
-import { Vue } from 'vue-class-component';
+import { Component } from "vue-property-decorator";
+import BaseStoryComponent, { METHODS } from "./components/BaseStoryComponent";
+import SideBar from "./components/SideBar.vue";
+import NavBar from "./components/NavBar.vue";
+import Cookies from "js-cookie";
+import User from "./types/User";
+import { GlobalState } from "./GlobalState";
 
-export default class App extends Vue {
-	declare $refs: {
-		menu: Menu;
-	};
+@Component({
+  components: {
+    navBar: NavBar,
+    sideBar: SideBar,
+  },
+})
+export default class App extends BaseStoryComponent {
+  async beforeMount() {
+    const token = Cookies.get("token");
+    console.log(token);
+    if (token !== undefined) {
+      try {
+        const user = await this.fetch<User>("user/infos", METHODS.GET);
+        this.user = user;
+      } catch (error) {
+        this.errorToast("Session Invalide", "Veuillez vous reconnecter");
+      }
+    }
+  }
 
-	user_menu = [
-		{
-			label: 'Profil / Connextion',
-			to: '/profile',
-		},
-		{
-			label: 'Parametres',
-			to: '/',
-		},
-	];
-	menu_items = [
-		{
-			label: 'Acceuil',
-			to: '/',
-		},
-		{
-			label: 'Créer',
-			to: '/',
-			items: [
-				{
-					label: 'Nouveau',
-				},
-				{
-					label: 'Mes histoires',
-				},
-			],
-		},
-	];
+  get user(): User | null {
+    return GlobalState.state.user;
+  }
 
-	toggle(event: Event) {
-		this.$refs.menu.toggle(event);
-	}
+  set user(user: User | null) {
+    GlobalState.commit("changeUser", user);
+  }
 }
 </script>
 
 <style lang="scss">
-@import url('https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css');
-body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Victor Mono', Avenir, Helvetica, Arial, sans-serif !important;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+html {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  height: 100vh;
 }
-
 .logo {
-	height: 60px;
+  height: 40px;
 }
 </style>
 
 <template>
-	<Toast />
-	<Menubar :model="menu_items">
-		<template #start>
-			<img class="logo" src="./assets/logo.png" alt="Logo" />
-		</template>
-		<template #end>
-			<Avatar icon="pi pi-user" shape="circle" size="large" @click="toggle" />
-			<Menu id="user_menu" ref="menu" :model="user_menu" :popup="true" />
-		</template>
-	</Menubar>
-	<router-view />
+  <div id="app">
+    <nav-bar />
+    <side-bar />
+    <transition
+      mode="out-in"
+      enter-active-class="animate__animated animate__fadeInUp animate__faster"
+      leave-active-class="animate__animated animate__fadeOut animate__faster"
+    >
+      <router-view />
+    </transition>
+  </div>
 </template>

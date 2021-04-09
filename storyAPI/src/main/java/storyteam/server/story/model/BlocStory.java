@@ -16,22 +16,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"story"})
 public class BlocStory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bloc_story_id")
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bloc_story_id")
+	private Integer id;
 
-    @Column(name = "bloc_story_name")
-    private String name;
+	@Column(name = "bloc_story_name")
+	private String name;
 
-    @Column(name = "bloc_story_text")
-    private String text;
+	@Column(name = "bloc_story_text")
+	private String text;
 
-    //Revoir les JsonIgnoreProperties
-    @ManyToOne
-    @JoinColumn(name = "story_Id")
-    @JsonIgnoreProperties({"user", "blocStories", "story"})
-    private Story story;
+	@ManyToOne
+	@JoinColumn(name = "story_Id")
+	private Story story;
 
     @Column(name="previousIdBloc")
     private Integer previousIdBloc;
@@ -47,33 +45,33 @@ public class BlocStory {
         this.previousIdBloc = previousIdBloc;
     }
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getText() {
-        return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public Story getStory() {
-        return story;
-    }
+	public Story getStory() {
+		return story;
+	}
 
     public void setStory(Story story) {
         this.story = story;

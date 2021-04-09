@@ -1,15 +1,17 @@
 package storyteam.server.story.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import storyteam.server.story.model.User;
 
-import java.util.Optional;
+import storyteam.server.story.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    //Method that find a user
-    Optional<User> findByName(String name);
+	Optional<User> findByName(String name);
+
+	void deleteByName(String name);
 
 }

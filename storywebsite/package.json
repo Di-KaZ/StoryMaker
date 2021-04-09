@@ -3,36 +3,51 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint --fix"
+    "serve": "vue-cli-service serve --port 3000",
+    "build": "vue-cli-service build --port 3000",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/js-cookie": "^2.2.6",
+    "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
-    "mitt": "^2.1.0",
-    "node-sass": "^5.0.0",
-    "primeicons": "^4.1.0",
-    "primevue": "^3.2.1",
-    "sass-loader": "^10.1.1",
-    "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.0-0"
+    "js-cookie": "^2.2.1",
+    "konva": "^7.2.5",
+    "material-icons": "^0.5.4",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-konva": "^2.1.7",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.2.0",
+    "vuesax": "^3.12.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.4",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/test-utils": "^1.0.3",
+    "chai": "^4.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-vue": "^7.0.0-0",
+    "eslint-plugin-vue": "^6.2.2",
+    "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
-    "typescript": "~3.9.3"
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "typescript": "~3.9.3",
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
@@ -40,7 +55,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/vue3-essential",
+      "plugin:vue/essential",
       "eslint:recommended",
       "@vue/typescript/recommended",
       "@vue/prettier",
@@ -49,11 +64,31 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "mocha": true
+        }
+      }
+    ]
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

@@ -1,79 +1,111 @@
 package storyteam.server.story.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userid")
-    private Integer id;
+@JsonIgnoreProperties({ "comments" })
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "username")
-    private String name;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "userid")
+	private Integer id;
 
-    @Column(name = "user_password")
-    private String password;
+	@Column(name = "username")
+	private String name;
 
-    @Column(name = "user_mail")
-    private String email;
+	@Column(name = "user_password")
+	private String password;
 
-    //Revoir les JsonIgnoreProperties
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"user"})
-    private Set<Story> stories = new HashSet<>();
+	@Column(name = "user_mail")
+	private String email;
 
-    public User() {
-    }
+	// Revoir les JsonIgnoreProperties
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({ "user" })
+	private Set<Story> stories = new HashSet<>();
 
-    public User(String name, String password, String email) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-    }
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({ "user" })
+	private Set<Comment> comments = new HashSet<>();
 
-    public Integer getId() {
-        return id;
-    }
+	public User() {
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public User(String name, String password, String email, Set<Comment> comments) {
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.comments = comments;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public Set<Story> getStories() {
-        return stories;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setStories(Set<Story> stories) {
-        this.stories = stories;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Set<Story> getStories() {
+		return stories;
+	}
+
+	public void setStories(Set<Story> stories) {
+		this.stories = stories;
+	}
+
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	@Override
+	public String toString() {
+		return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", password='" + getPassword() + "'"
+				+ ", email='" + getEmail() + "'" + "}";
+	}
+
 }
