@@ -143,8 +143,10 @@ export const CreatorState = new Vuex.Store({
       // TODO optimize this to refresh only the connection needed
       state.links = updateLinks(state.blocs);
     },
-    EXPORT_JSON({ blocs }) {
-      const jsonBlocs = JSON.stringify(blocs, (key, value) => {
+    EXPORT_JSON({ blocs, story }) {
+      const total = { story, blocs };
+
+      const jsonBlocs = JSON.stringify(total, (key, value) => {
         if (key === "in") {
           return { id: value.id, x: value.x, y: value.y };
         }
@@ -153,7 +155,6 @@ export const CreatorState = new Vuex.Store({
         }
         return value;
       });
-      window.open("data:text/plain," + jsonBlocs);
       console.log(jsonBlocs);
     },
     LOAD_JSON(state, payload) {

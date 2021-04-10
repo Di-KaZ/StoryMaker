@@ -4,11 +4,13 @@ import { Component, Prop } from "vue-property-decorator";
 import Link from "./Link.vue";
 import CreatorBlocStory from "@/components/CreatorBlocStory.vue";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import Zoomer from "./Zoomer.vue";
 
 @Component({
   components: {
     creatorBlocStory: CreatorBlocStory,
     creatorLink: Link,
+    Zoomer: Zoomer,
   },
 })
 export default class CreatorStage extends BaseStoryComponent {
@@ -53,7 +55,6 @@ export default class CreatorStage extends BaseStoryComponent {
 
 <style scoped lang="scss">
 #canva {
-  cursor: grab;
   flex-grow: 2;
 }
 </style>
@@ -78,5 +79,6 @@ export default class CreatorStage extends BaseStoryComponent {
         <creator-link v-for="(dto, index) in links" :link="dto" :key="index" />
       </v-layer>
     </v-stage>
+    <zoomer />
   </div>
 </template>

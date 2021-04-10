@@ -37,6 +37,10 @@ export default class ToolBar extends BaseStoryComponent {
     console.log("Selected bloc :", this.$store.state.selectedBloc);
     console.log("links:", this.$store.state.links);
   }
+
+  public exportstory() {
+    CreatorState.commit("EXPORT_JSON");
+  }
 }
 </script>
 

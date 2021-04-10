@@ -1,6 +1,5 @@
 <script lang="ts">
 import BaseStoryComponent from "./BaseStoryComponent";
-import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
@@ -102,10 +101,6 @@ export default class CreateSideBar extends BaseStoryComponent {
 
   get blocs() {
     return CreatorState.state.blocs;
-  }
-
-  public exportstory() {
-    CreatorState.commit("EXPORT_JSON");
   }
 
   public async loadFile(event: any): Promise<void> {
