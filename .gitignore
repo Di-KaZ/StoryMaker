@@ -4,6 +4,8 @@ node_modules
 /dist
 yarn.lock
 
+vuesaxwebsite
+
 # local env files
 .env.local
 .env.*.local
