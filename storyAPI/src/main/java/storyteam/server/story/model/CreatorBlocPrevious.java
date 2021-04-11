@@ -1,15 +1,22 @@
 package storyteam.server.story.model;
 
-public class CcreatorBlocParent {
-	String id;
+/**
+ * Class used to convert story from the tory creator into strory savable in bdd
+ */
+public class CreatorBlocPrevious {
+	Integer id;
 	Double x;
 	Double y;
 
-	public String getId() {
+	public CreatorBlocPrevious() {
+
+	}
+
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -33,5 +40,4 @@ public class CcreatorBlocParent {
 	public String toString() {
 		return "{" + " id='" + getId() + "'" + ", x='" + getX() + "'" + ", y='" + getY() + "'" + "}";
 	}
-
 }

@@ -53,7 +53,7 @@ public class StoryService {
 	 * @param storyId
 	 * @return
 	 */
-	public Optional<Story> getStory(Integer storyId) {
+	public Optional<Story> findById(Integer storyId) {
 		return storyRepository.findById(storyId);
 	}
 
@@ -99,8 +99,16 @@ public class StoryService {
 		storyRepository.deleteById(storyid);
 	}
 
+	/**
+	 * Map json of a story into object savable in bdd
+	 *
+	 * @param blocs
+	 * @return
+	 */
 	public List<BlocStory> mapCreatorStory(List<CreatorBloc> blocs) {
 		Story story = new Story();
-		return blocs.stream().map((bloc) -> new BlocStory(0, bloc.getName(), bloc.getText(), story, 0)).collect(Collectors.toList());
+		return blocs.stream()
+				.map((bloc) -> new BlocStory(bloc.getName(), bloc.getContent(), story.getId(), bloc.getIn().getId()))
+				.collect(Collectors.toList());
 	}
 }

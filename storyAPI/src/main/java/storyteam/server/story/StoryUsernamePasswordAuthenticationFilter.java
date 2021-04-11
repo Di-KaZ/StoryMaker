@@ -13,8 +13,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,9 +25,8 @@ import storyteam.server.story.model.User;
 public class StoryUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
-	private static final Logger LOGGER = LoggerFactory.getLogger(StoryUsernamePasswordAuthenticationFilter.class);
 
-	public static final String SECRET = "SECRET_KEY"; // TODO pass this via environement
+	public static final String SECRET = "SECRET_KEY";
 	public static final long EXPIRATION_TIME = 900_000;
 	public static final String SIGN_IN_URL = "/user/login";
 

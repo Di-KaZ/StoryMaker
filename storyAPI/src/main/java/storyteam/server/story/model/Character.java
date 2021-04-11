@@ -1,65 +1,71 @@
 package storyteam.server.story.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "story_character")
+@Table(name = "character")
 public class Character {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "character_id")
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
 
-    @Column(name = "character_name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "character_stat")
-    private String stat;
+	@Column(name = "stat")
+	private String stat;
 
-    @ManyToOne
-    @JoinColumn(name = "story_id")
-    private Story story;
+	@ManyToOne
+	@Column(name = "storyId")
+	private Integer storyId;
 
-    public Character() {
-    }
+	public Character() {
+	}
 
-    public Character(Integer id, String name, String stat, Story story) {
-        this.id = id;
-        this.name = name;
-        this.stat = stat;
-        this.story = story;
-    }
+	public Character(Integer id, String name, String stat, Integer storyId) {
+		this.id = id;
+		this.name = name;
+		this.stat = stat;
+		this.storyId = storyId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getStat() {
-        return stat;
-    }
+	public String getStat() {
+		return stat;
+	}
 
-    public void setStat(String stat) {
-        this.stat = stat;
-    }
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
 
-    public Story getStory() {
-        return story;
-    }
+	public Integer getStoryId() {
+		return storyId;
+	}
 
-    public void setStory(Story story) {
-        this.story = story;
-    }
+	public void setStory(Integer storyId) {
+		this.storyId = storyId;
+	}
 }

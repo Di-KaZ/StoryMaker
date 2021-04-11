@@ -1,8 +1,8 @@
 package storyteam.server.story.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,16 +24,16 @@ public class Story {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "story_id")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "story_name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "story_description")
+	@Column(name = "description")
 	private String description;
 
-	@Column(name = "story_date")
+	@Column(name = "creationDate")
 	private LocalDate creationDate;
 
 	@ManyToOne
@@ -42,21 +42,20 @@ public class Story {
 	private User user;
 
 	@OneToOne
-	@JoinColumn(name = "firstIdBloc")
-	private BlocStory firstBloc;
-
-	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "story")
-	private Set<BlocStory> blocStories = new HashSet<>();
+	@Column(name = "firstBlocId")
+	private Integer firstBlocId;
 
 	@OneToMany(mappedBy = "story")
-	private Set<Comment> comments = new HashSet<>();
+	private List<BlocStory> blocStories = new ArrayList<>();
+
+	@OneToMany(mappedBy = "story")
+	private List<Comment> comments = new ArrayList<>();
 
 	public Story() {
 	}
 
 	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
-			Set<BlocStory> blocStories, Set<Comment> comments) {
+			List<BlocStory> blocStories, List<Comment> comments) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
@@ -85,11 +84,11 @@ public class Story {
 		return user;
 	}
 
-	public BlocStory getFirstBloc() {
-		return firstBloc;
+	public Integer getFirstBlocId() {
+		return firstBlocId;
 	}
 
-	public Set<BlocStory> getBlocStories() {
+	public List<BlocStory> getBlocStories() {
 		return blocStories;
 	}
 
@@ -113,16 +112,15 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setFirstBloc(BlocStory firstBloc) {
-		this.firstBloc = firstBloc;
+	public void setFirstBloc(Integer firstBlocId) {
+		this.firstBlocId = firstBlocId;
 	}
 
-	public Set<Comment> getComments() {
+	public List<Comment> getComments() {
 		return this.comments;
 	}
 
-	public void setComments(Set<Comment> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-
 }

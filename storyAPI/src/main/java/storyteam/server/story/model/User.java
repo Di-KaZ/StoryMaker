@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,35 +22,33 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userid")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "username")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "user_password")
+	@Column(name = "password")
 	private String password;
 
-	@Column(name = "user_mail")
+	@Column(name = "mail")
 	private String email;
 
-	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({ "user" })
 	private Set<Story> stories = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({ "user" })
 	private Set<Comment> comments = new HashSet<>();
 
 	public User() {
 	}
 
-	public User(String name, String password, String email, Set<Comment> comments) {
+	public User(String name, String password, String email) {
 		this.name = name;
 		this.password = password;
 		this.email = email;
-		this.comments = comments;
 	}
 
 	public Integer getId() {

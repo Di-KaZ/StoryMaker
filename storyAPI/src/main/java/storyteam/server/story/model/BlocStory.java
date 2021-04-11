@@ -5,45 +5,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "bloc_story")
-@JsonIgnoreProperties({"story"})
+@Table(name = "blocStory")
+@JsonIgnoreProperties({ "story" })
 public class BlocStory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bloc_story_id")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "bloc_story_name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "bloc_story_text")
-	private String text;
+	@Column(name = "content")
+	private String content;
 
 	@ManyToOne
-	@JoinColumn(name = "story_Id")
-	private Story story;
+	@Column(name = "storyId")
+	private Integer storyId;
 
-    @Column(name="previousIdBloc")
-    private Integer previousIdBloc;
+	@Column(name = "previousBlocId")
+	private Integer previousBlocId;
 
-    public BlocStory() {
-    }
+	public BlocStory() {
+	}
 
-    public BlocStory(Integer id, String name, String text, Story story, Integer previousIdBloc) {
-        this.id = id;
-        this.name = name;
-        this.story = story;
-        this.text = text;
-        this.previousIdBloc = previousIdBloc;
-    }
+	public BlocStory(String name, String content, Integer storyId, Integer previousIdBloc) {
+		this.name = name;
+		this.storyId = storyId;
+		this.content = content;
+		this.previousBlocId = previousIdBloc;
+	}
 
 	public Integer getId() {
 		return id;
@@ -61,27 +59,27 @@ public class BlocStory {
 		this.name = name;
 	}
 
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setText(String content) {
+		this.content = content;
 	}
 
-	public Story getStory() {
-		return story;
+	public Integer getStoryId() {
+		return storyId;
 	}
 
-    public void setStory(Story story) {
-        this.story = story;
-    }
+	public void setStoryId(Integer storyId) {
+		this.storyId = storyId;
+	}
 
-    public Integer getPreviousIdBloc(){
-        return previousIdBloc;
-    }
+	public Integer getPreviousBlocId() {
+		return previousBlocId;
+	}
 
-    public void setPreviousIdBloc(Integer previousIdBloc) {
-        this.previousIdBloc = previousIdBloc;
-    }
+	public void setPreviousBlocId(Integer previousBlocId) {
+		this.previousBlocId = previousBlocId;
+	}
 }
