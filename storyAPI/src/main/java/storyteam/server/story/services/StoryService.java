@@ -101,6 +101,6 @@ public class StoryService {
 
 	public List<BlocStory> mapCreatorStory(List<CreatorBloc> blocs) {
 		Story story = new Story();
-		return blocs.stream().map((bloc) -> new BlocStory(0, bloc.getName(), bloc.getText(), story)).collect(Collectors.toList());
+		return blocs.stream().map((bloc) -> new BlocStory(0, bloc.getName(), bloc.getText(), story, 0)).collect(Collectors.toList());
 	}
 }

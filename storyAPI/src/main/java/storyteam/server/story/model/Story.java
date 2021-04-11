@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,23 +38,31 @@ public class Story {
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
-	@JsonIgnoreProperties({ "id", "password", "email", "stories" })
+	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
+
+	@OneToOne
+	@JoinColumn(name = "firstIdBloc")
+	private BlocStory firstBloc;
 
 	// Revoir les JsonIgnoreProperties
 	@OneToMany(mappedBy = "story")
 	private Set<BlocStory> blocStories = new HashSet<>();
 
+	@OneToMany(mappedBy = "story")
+	private Set<Comment> comments = new HashSet<>();
+
 	public Story() {
 	}
 
-	public Story(Integer id, String name, String description, LocalDate creationDate, User user, Integer firstIdBloc,
-			Set<BlocStory> blocStories) {
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
+			Set<BlocStory> blocStories, Set<Comment> comments) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
 		this.blocStories = blocStories;
+		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -74,6 +83,10 @@ public class Story {
 
 	public User getUser() {
 		return user;
+	}
+
+	public BlocStory getFirstBloc() {
+		return firstBloc;
 	}
 
 	public Set<BlocStory> getBlocStories() {
@@ -100,7 +113,16 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setBlocStories(Set<BlocStory> blocStories) {
-		this.blocStories = blocStories;
+	public void setFirstBloc(BlocStory firstBloc) {
+		this.firstBloc = firstBloc;
 	}
+
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 }

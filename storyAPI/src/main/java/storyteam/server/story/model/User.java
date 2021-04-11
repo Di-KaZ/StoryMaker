@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({ "comments" })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,13 +40,18 @@ public class User implements Serializable {
 	@JsonIgnoreProperties({ "user" })
 	private Set<Story> stories = new HashSet<>();
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({ "user" })
+	private Set<Comment> comments = new HashSet<>();
+
 	public User() {
 	}
 
-	public User(String name, String password, String email) {
+	public User(String name, String password, String email, Set<Comment> comments) {
 		this.name = name;
 		this.password = password;
 		this.email = email;
+		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -86,6 +92,14 @@ public class User implements Serializable {
 
 	public void setStories(Set<Story> stories) {
 		this.stories = stories;
+	}
+
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override
