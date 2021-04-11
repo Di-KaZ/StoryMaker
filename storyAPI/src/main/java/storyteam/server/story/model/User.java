@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,27 +16,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({ "comments" })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userid")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "username")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "user_password")
+	@Column(name = "password")
 	private String password;
 
-	@Column(name = "user_mail")
+	@Column(name = "email")
 	private String email;
 
-	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({ "user" })
 	private Set<Story> stories = new HashSet<>();
+
+	@OneToMany(mappedBy = "user")
+	@JsonIgnoreProperties({ "user" })
+	private Set<Comment> comments = new HashSet<>();
 
 	public User() {
 	}
@@ -86,6 +89,14 @@ public class User implements Serializable {
 
 	public void setStories(Set<Story> stories) {
 		this.stories = stories;
+	}
+
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

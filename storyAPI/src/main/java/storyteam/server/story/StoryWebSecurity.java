@@ -15,50 +15,47 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class StoryWebSecurity extends WebSecurityConfigurerAdapter {
 
-    public static final String SIGN_UP_URL = "/user/register";
-    public static final String SIGN_IN_URL = "/user/login";
+	public static final String SIGN_UP_URL = "/user/register";
+	public static final String SIGN_IN_URL = "/user/login";
+	public static final String TRENDING = "/story/trending";
 
-    private GetUserService getUserService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private GetUserService getUserService;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public StoryWebSecurity(GetUserService getUserService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.getUserService = getUserService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+	public StoryWebSecurity(GetUserService getUserService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.getUserService = getUserService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll()
-                .anyRequest().authenticated().and()
-                .addFilter(new StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
-                .addFilter(new StoryAuthorizationFilter(authenticationManager())).sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	/**
+	 * On paramètre l'API pour que lorsque l'on tente de s'inscrire ou de se
+	 * connecter on applique des filtres que nous avons créer pour JWT
+	 */
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable();
+		// Pour éviter les erreur de cors authenticator on autorise les inscription et
+		// les connections.
+		http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET, TRENDING).permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll().anyRequest()
+				.authenticated().and().addFilter(new StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
+				.addFilter(new StoryAuthorizationFilter(authenticationManager())).sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	}
 
-        // http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST,
-        // SIGN_UP_URL).permitAll()
-        // .antMatchers(HttpMethod.POST,
-        // SIGN_IN_URL).permitAll().anyRequest().authenticated().and()
-        // .addFilter(new
-        // StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
-        // .addFilter(new
-        // StoryAuthorizationFilter(authenticationManager())).sessionManagement()
-        // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(getUserService).passwordEncoder(bCryptPasswordEncoder);
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(getUserService).passwordEncoder(bCryptPasswordEncoder);
-    }
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+		source.registerCorsConfiguration("/**", corsConfiguration);
 
-        CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-
-        return source;
-    }
+		return source;
+	}
 
 }

@@ -1,0 +1,24 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Rest API (local)",
+			"request": "launch",
+			"mainClass": "storyteam.server.story.StoryApplication",
+			"projectName": "story",
+			"args": "--spring.profiles.active="
+		},
+		{
+			"type": "java",
+			"name": "Rest API (docker)",
+			"request": "launch",
+			"mainClass": "storyteam.server.story.StoryApplication",
+			"projectName": "story",
+			"args": "--spring.profiles.active=docker"
+		}
+	]
+}

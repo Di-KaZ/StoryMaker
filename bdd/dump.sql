@@ -3,54 +3,59 @@ CREATE DATABASE IF NOT EXISTS story_maker;
 USE story_maker;
 
 CREATE TABLE IF NOT EXISTS user (
-    userid INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(150) NOT NULL UNIQUE,
-    user_password VARCHAR(100) NOT NULL,
-    user_mail VARCHAR(100) NOT NULL UNIQUE
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS story (
-    story_id INT PRIMARY KEY AUTO_INCREMENT,
-    story_name VARCHAR(150) NOT NULL,
-    story_description TEXT NOT NULL,
-    story_date DATE NOT NULL,
-    userid INT NOT NULL,
-    firstIdBloc INT NOT NULL,
-    FOREIGN KEY (userid)
-    REFERENCES user (userid)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    creationDate DATE NOT NULL,
+    userId INT NOT NULL,
+    firstBlocId INT NOT NULL,
+    FOREIGN KEY (userId)
+    REFERENCES user (id)
         ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS bloc_story (
-    bloc_story_id INT PRIMARY KEY AUTO_INCREMENT,
-    bloc_story_name VARCHAR(250) NOT NULL,
-    bloc_story_text TEXT NOT NULL,
-    story_id INT,
-    FOREIGN KEY (story_id)
-    REFERENCES story (story_id)
+CREATE TABLE IF NOT EXISTS blocStory (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL,
+    content TEXT NOT NULL,
+    storyId INT,
+	previousBlocId INT NOT NULL,
+    FOREIGN KEY (storyId)
+    REFERENCES story (id)
         ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS story_character (
-    character_id INT PRIMARY KEY AUTO_INCREMENT,
-    character_name VARCHAR(200) NOT NULL,
-    character_stat VARCHAR(250) NOT NULL,
-    story_id INT,
-    FOREIGN KEY (story_id)
-    REFERENCES story (story_id)
+CREATE TABLE IF NOT EXISTS characters (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(200) NOT NULL,
+    stats VARCHAR(250) NOT NULL,
+    storyId INT,
+    FOREIGN KEY (storyId)
+    REFERENCES story (id)
         ON DELETE CASCADE
 );
 
-INSERT INTO user (username,user_password,user_mail)
-VALUES('toto', '12345', 'toto@gmail.com'),
-      ('John', '45678', 'john@gmail.com'),
-      ('Moussa', '12345', 'Moussa@gmail.com');
+CREATE TABLE IF NOT EXISTS comment (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    content TEXT NOT NULL,
+    creationDate DATE NOT NULL,
+    userId INT,
+    storyId INT,
+    subCommentId INT,
+    FOREIGN KEY (userId)
+    REFERENCES user (id),
+    FOREIGN KEY (storyId)
+    REFERENCES story (id),
+    FOREIGN KEY (subCommentId)
+    REFERENCES comment (id)
+        ON DELETE CASCADE
+);
 
-INSERT INTO story (story_name, story_description, story_date, userid, firstIdBloc)
-VALUES('story', 'This is my first story !', '2020-01-12',1, 1);
-
-INSERT INTO bloc_story (bloc_story_name,bloc_story_text, story_id)
-VALUES('choix', 'Ble ble ble', 1);
-
-INSERT INTO story_character (character_name,character_stat, story_id)
-VALUES('Hubert', 'stat', 1);
+INSERT INTO `user` (`id`,`name`,`password`,`email`) VALUES (1,'root','$2a$10$O53VvxRtlyKRhHLfrffJHeYE2JGvpNaoPOGJUYwzNGEcZBNk/yXuy','root@root.com');

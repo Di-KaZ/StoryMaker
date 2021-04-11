@@ -1,8 +1,6 @@
 package storyteam.server.story.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,37 +20,40 @@ public class Story {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "story_id")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "story_name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "story_description")
+	@Column(name = "description")
 	private String description;
 
-	@Column(name = "story_date")
+	@Column(name = "creationDate")
 	private LocalDate creationDate;
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
-	@JsonIgnoreProperties({ "id", "password", "email", "stories" })
+	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
 
-	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "story")
-	private Set<BlocStory> blocStories = new HashSet<>();
+	@Column(name = "firstBlocId")
+	private Integer firstBlocId;
+
+	// @OneToMany(mappedBy = "story")
+	// private List<BlocStory> blocStories = new ArrayList<>();
+
+	// @OneToMany(mappedBy = "story")
+	// private List<Comment> comments = new ArrayList<>();
 
 	public Story() {
 	}
 
-	public Story(Integer id, String name, String description, LocalDate creationDate, User user, Integer firstIdBloc,
-			Set<BlocStory> blocStories) {
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
-		this.blocStories = blocStories;
 	}
 
 	public Integer getId() {
@@ -76,8 +76,8 @@ public class Story {
 		return user;
 	}
 
-	public Set<BlocStory> getBlocStories() {
-		return blocStories;
+	public Integer getFirstBlocId() {
+		return firstBlocId;
 	}
 
 	public void setId(Integer id) {
@@ -100,7 +100,7 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setBlocStories(Set<BlocStory> blocStories) {
-		this.blocStories = blocStories;
+	public void setFirstBloc(Integer firstBlocId) {
+		this.firstBlocId = firstBlocId;
 	}
 }
