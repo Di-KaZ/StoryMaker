@@ -10,7 +10,6 @@
 			"request": "launch",
 			"mainClass": "storyteam.server.story.StoryApplication",
 			"projectName": "story",
-			"args": "--spring.profiles.active="
 		},
 		{
 			"type": "java",
