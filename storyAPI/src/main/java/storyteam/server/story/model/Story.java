@@ -1,8 +1,6 @@
 package storyteam.server.story.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -41,27 +37,23 @@ public class Story {
 	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
 
-	@OneToOne
 	@Column(name = "firstBlocId")
 	private Integer firstBlocId;
 
-	@OneToMany(mappedBy = "story")
-	private List<BlocStory> blocStories = new ArrayList<>();
+	// @OneToMany(mappedBy = "story")
+	// private List<BlocStory> blocStories = new ArrayList<>();
 
-	@OneToMany(mappedBy = "story")
-	private List<Comment> comments = new ArrayList<>();
+	// @OneToMany(mappedBy = "story")
+	// private List<Comment> comments = new ArrayList<>();
 
 	public Story() {
 	}
 
-	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
-			List<BlocStory> blocStories, List<Comment> comments) {
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
-		this.blocStories = blocStories;
-		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -88,10 +80,6 @@ public class Story {
 		return firstBlocId;
 	}
 
-	public List<BlocStory> getBlocStories() {
-		return blocStories;
-	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -114,13 +102,5 @@ public class Story {
 
 	public void setFirstBloc(Integer firstBlocId) {
 		this.firstBlocId = firstBlocId;
-	}
-
-	public List<Comment> getComments() {
-		return this.comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 }

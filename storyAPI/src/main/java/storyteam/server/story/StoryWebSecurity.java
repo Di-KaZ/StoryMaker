@@ -36,9 +36,9 @@ public class StoryWebSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// Pour éviter les erreur de cors authenticator on autorise les inscription et
 		// les connections.
-		http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll()
-				.anyRequest().authenticated().and()
-				.addFilter(new StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
+		http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET, TRENDING).permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll().anyRequest()
+				.authenticated().and().addFilter(new StoryUsernamePasswordAuthenticationFilter(authenticationManager()))
 				.addFilter(new StoryAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}

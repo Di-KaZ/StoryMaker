@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS story (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
-    date DATE NOT NULL,
+    creationDate DATE NOT NULL,
     userId INT NOT NULL,
-    firstIdBloc INT NOT NULL,
+    firstBlocId INT NOT NULL,
     FOREIGN KEY (userId)
     REFERENCES user (id)
         ON DELETE CASCADE
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS characters (
 CREATE TABLE IF NOT EXISTS comment (
     id INT PRIMARY KEY AUTO_INCREMENT,
     content TEXT NOT NULL,
-    date DATE NOT NULL,
+    creationDate DATE NOT NULL,
     userId INT,
     storyId INT,
     subCommentId INT,
@@ -57,3 +57,5 @@ CREATE TABLE IF NOT EXISTS comment (
     REFERENCES comment (id)
         ON DELETE CASCADE
 );
+
+INSERT INTO `user` (`id`,`name`,`password`,`email`) VALUES (1,'root','$2a$10$O53VvxRtlyKRhHLfrffJHeYE2JGvpNaoPOGJUYwzNGEcZBNk/yXuy','root@root.com');
