@@ -1,3 +1,5 @@
+-- Création de la bdd et des tables
+
 CREATE DATABASE IF NOT EXISTS story_maker;
 
 USE story_maker;
@@ -57,5 +59,8 @@ CREATE TABLE IF NOT EXISTS comment (
     REFERENCES comment (id)
         ON DELETE CASCADE
 );
+--
 
+
+-- Insertion des donées
 INSERT INTO `user` (`id`,`name`,`password`,`email`) VALUES (1,'root','$2a$10$O53VvxRtlyKRhHLfrffJHeYE2JGvpNaoPOGJUYwzNGEcZBNk/yXuy','root@root.com');
