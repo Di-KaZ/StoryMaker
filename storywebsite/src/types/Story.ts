@@ -1,3 +1,4 @@
+import Comment from "./Comment";
 import User from "./User";
 
 export default interface Story {
@@ -6,4 +7,5 @@ export default interface Story {
   description: string;
   creationDate: string;
   user: User;
+  comments: Comment[];
 }

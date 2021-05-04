@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bloc_story")
-@JsonIgnoreProperties({"story"})
+@JsonIgnoreProperties({ "story" })
 public class BlocStory {
 
 	@Id
@@ -31,19 +31,19 @@ public class BlocStory {
 	@JoinColumn(name = "story_Id")
 	private Story story;
 
-    @Column(name="previousIdBloc")
-    private Integer previousIdBloc;
+	@Column(name = "bloc_story_previous_id")
+	private Integer previousIdBloc;
 
-    public BlocStory() {
-    }
+	public BlocStory() {
+	}
 
-    public BlocStory(Integer id, String name, String text, Story story, Integer previousIdBloc) {
-        this.id = id;
-        this.name = name;
-        this.story = story;
-        this.text = text;
-        this.previousIdBloc = previousIdBloc;
-    }
+	public BlocStory(Integer id, String name, String text, Story story, Integer previousIdBloc) {
+		this.id = id;
+		this.name = name;
+		this.story = story;
+		this.text = text;
+		this.previousIdBloc = previousIdBloc;
+	}
 
 	public Integer getId() {
 		return id;
@@ -73,15 +73,15 @@ public class BlocStory {
 		return story;
 	}
 
-    public void setStory(Story story) {
-        this.story = story;
-    }
+	public void setStory(Story story) {
+		this.story = story;
+	}
 
-    public Integer getPreviousIdBloc(){
-        return previousIdBloc;
-    }
+	public Integer getPreviousIdBloc() {
+		return previousIdBloc;
+	}
 
-    public void setPreviousIdBloc(Integer previousIdBloc) {
-        this.previousIdBloc = previousIdBloc;
-    }
+	public void setPreviousIdBloc(Integer previousIdBloc) {
+		this.previousIdBloc = previousIdBloc;
+	}
 }

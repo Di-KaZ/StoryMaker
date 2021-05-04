@@ -51,6 +51,22 @@ public class StoryController {
 	}
 
 	/**
+	 * Récupère un bloc d'une certaine story
+	 *
+	 * @param storyId
+	 * @param blocId
+	 * @return
+	 */
+	@GetMapping("/info/{storyId}")
+	public ResponseEntity<Story> getStory(@PathVariable("storyId") Integer storyId) {
+		Optional<Story> story = storyService.getStory(storyId);
+		if (story.isPresent()) {
+			return ResponseEntity.ok(story.get());
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	/**
 	 * Requete pour commencé a jouer une story
 	 *
 	 * @param storyId

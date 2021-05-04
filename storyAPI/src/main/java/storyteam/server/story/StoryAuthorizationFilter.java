@@ -41,6 +41,7 @@ public class StoryAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
+	// Quand on s'identifie on passe par la pour crypter/decrypter le mdp
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
 

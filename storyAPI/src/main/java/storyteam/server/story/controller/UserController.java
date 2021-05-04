@@ -60,6 +60,10 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		Optional<User> userCheck = userService.findByName(user.getName());
 
+		// Pour éviter l'erreur du token expired.
+		// Avant envoie de la request => supprimer le cookie token
+		// Dans le front.
+
 		// Si un utilistateur avec ce nom exister erreur
 		if (userCheck.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);

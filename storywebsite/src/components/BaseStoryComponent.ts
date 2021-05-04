@@ -73,7 +73,6 @@ export default class BaseStoryComponent extends Vue {
     let headers: any = {
       "Content-Type": "application/json",
     };
-    console.log(url);
     // Si les url params ne sont pas vide on les ajoute a l'url
     if (urlparams !== undefined) {
       urlhttp += "?" + new URLSearchParams(urlparams);
@@ -122,6 +121,7 @@ export default class BaseStoryComponent extends Vue {
       headers,
       method: method,
     });
+    console.log(Cookies.get("token"));
     const jsonToDto: T = await response.json();
     return jsonToDto;
   }

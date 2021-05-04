@@ -1,6 +1,6 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
-import StoryCard from "@/components/StoryCard.vue";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
+import StoryCard from "../components/StoryCard.vue";
 import { Component } from "vue-property-decorator";
 import Story from "../types/Story";
 

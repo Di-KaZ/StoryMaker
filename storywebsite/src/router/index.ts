@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Create from "../views/Create.vue";
 import Home from "../views/Home.vue";
 import Search from "../views/Search.vue";
+import StoryInfo from "../views/StoryInfo.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,12 @@ const routes: Array<RouteConfig> = [
     path: "/story/create",
     name: "StoryCreate",
     component: Create,
+  },
+  //A changer après, faudrait une URL du genre /story/1/info
+  {
+    path: "/story/:id/info",
+    name: "StoryInfo",
+    component: StoryInfo,
   },
 ];
 
