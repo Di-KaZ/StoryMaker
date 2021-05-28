@@ -49,6 +49,18 @@ export default class CreateSideBar extends BaseStoryComponent {
     });
   }
 
+  get firstBlocStory(): string | undefined {
+    const { firstBlocId } = CreatorState.state.story;
+    return firstBlocId;
+  }
+
+  set firstBlocStory(firstBlocId: string | undefined) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      firstBlocId,
+    });
+  }
+
   get descStory(): string | null {
     const { description } = CreatorState.state.story;
     return description;
@@ -126,12 +138,6 @@ export default class CreateSideBar extends BaseStoryComponent {
   public deleteBloc(): void {
     CreatorState.commit("DELETE_BLOC");
   }
-
-  public debug(): void {
-    console.log("blocs :", this.$store.state.blocs);
-    console.log("Selected bloc :", this.$store.state.selectedBloc);
-    console.log("links:", this.$store.state.links);
-  }
 }
 </script>
 
@@ -154,6 +160,19 @@ export default class CreateSideBar extends BaseStoryComponent {
         <vs-input type="file" @change="loadFile" />
         <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
         <vs-textarea v-model="descStory" label="Description"></vs-textarea>
+        <vs-select
+          autocomplete
+          placeholder="select"
+          label="First Bloc"
+          v-model="firstBlocStory"
+        >
+          <vs-select-item
+            v-for="bloc in blocs"
+            :key="bloc.id"
+            :value="bloc.id"
+            :text="bloc.name"
+          />
+        </vs-select>
       </vs-tab>
       <vs-tab label="Selection" icon="highlight_alt">
         <vs-input v-model="name" label="Nom"></vs-input>

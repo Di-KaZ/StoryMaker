@@ -1,8 +1,8 @@
 <script lang="ts">
-import BaseStoryComponent from "./BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
-import { CreatorState } from "@/CreatorState";
+import { CreatorState, getStoryToJson } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
 
 const ID = function() {
@@ -32,10 +32,10 @@ export default class ToolBar extends BaseStoryComponent {
     } as CreatorBlocStoryDTO);
   }
 
-  public debug(): void {
-    console.log("blocs :", this.$store.state.blocs);
-    console.log("Selected bloc :", this.$store.state.selectedBloc);
-    console.log("links:", this.$store.state.links);
+  public save(): void {
+    this.fetch("creator/save", METHODS.POST, {
+      body: getStoryToJson(this.$store.state.story, this.$store.state.blocs),
+    });
   }
 
   public exportstory() {
@@ -66,6 +66,6 @@ button {
     <vs-button color="primary" type="gradient" @click="exportstory"
       >Exporter</vs-button
     >
-    <vs-button color="danger" type="gradient" @click="debug">Debug</vs-button>
+    <vs-button color="danger" type="gradient" @click="save">Save</vs-button>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
-import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
 
 @Component({
   components: {},

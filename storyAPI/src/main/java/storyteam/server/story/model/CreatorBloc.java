@@ -1,19 +1,19 @@
 package storyteam.server.story.model;
 
 public class CreatorBloc {
-	Integer id;
+	String id;
 	String name;
-	String content;
+	String text;
 	Double x;
 	Double y;
 	Boolean selected;
 	CreatorBlocPrevious in;
 
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -25,12 +25,12 @@ public class CreatorBloc {
 		this.name = name;
 	}
 
-	public String getContent() {
-		return this.content;
+	public String getText() {
+		return this.text;
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		this.text = content;
 	}
 
 	public Double getX() {
@@ -71,7 +71,7 @@ public class CreatorBloc {
 
 	@Override
 	public String toString() {
-		return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", text='" + getContent() + "'" + ", x='"
+		return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", text='" + getText() + "'" + ", x='"
 				+ getX() + "'" + ", y='" + getY() + "'" + ", selected='" + isSelected() + "'" + ", in='" + getIn() + "'"
 				+ "}";
 	}

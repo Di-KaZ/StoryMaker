@@ -8,7 +8,7 @@ const story: Story = {
   name: "",
   description: "",
   creationDate: "",
-  user: { name: "" },
+  userName: "",
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];
@@ -166,3 +166,18 @@ export const CreatorState = new Vuex.Store({
     },
   },
 });
+
+export const getStoryToJson = (story: Story, blocs: CreatorBlocStoryDTO[]) => {
+  const total = { story, blocs };
+
+  const jsonBlocs = JSON.stringify(total, (key, value) => {
+    if (key === "in") {
+      return { id: value.id, x: value.x, y: value.y };
+    }
+    if (key === "out") {
+      return undefined;
+    }
+    return value;
+  });
+  return jsonBlocs;
+};

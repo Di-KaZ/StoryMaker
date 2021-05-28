@@ -4,7 +4,7 @@ package storyteam.server.story.model;
  * Class used to convert story from the tory creator into strory savable in bdd
  */
 public class CreatorBlocPrevious {
-	Integer id;
+	String id;
 	Double x;
 	Double y;
 
@@ -12,11 +12,11 @@ public class CreatorBlocPrevious {
 
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
