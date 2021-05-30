@@ -3,8 +3,9 @@ import { Component } from "vue-property-decorator";
 import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
 import { use } from "chai";
-import User from "@/types/User";
+import User from "../types/User";
 import Cookies from "js-cookie";
+import jwt from "jsonwebtoken";
 
 @Component({})
 export default class SideBar extends BaseStoryComponent {
@@ -92,6 +93,11 @@ export default class SideBar extends BaseStoryComponent {
           },
         }
       );
+      jwt.verify("token", "SECRET_KEY", function (error) {
+        if (error) {
+          Cookies.remove("token");
+        }
+      });
       Cookies.set("token", token);
       const user = await this.fetch<User>("user/infos", METHODS.GET);
       this.user = user;

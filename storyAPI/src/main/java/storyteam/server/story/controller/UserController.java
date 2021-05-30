@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import storyteam.server.story.model.User;
 import storyteam.server.story.services.UserService;
 
@@ -32,11 +33,13 @@ import storyteam.server.story.services.UserService;
 @RequestMapping(value = "/user")
 public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-	public static final String SECRET = "SECRET_KEY";
+	public static final Dotenv dotenv = Dotenv.load();
+	public static final String SECRET = dotenv.get("SECRET_KEY");
 
 	// Pour récupérer des variables d'environnement
 	// Dotenv dotenv = Dotenv.load();
 	// Ensuite faire dotenv.get("indexVariable") du fichier .env
+	// https://github.com/cdimascio/dotenv-java
 
 	Pattern emailRegex = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
@@ -59,10 +62,6 @@ public class UserController {
 	@PostMapping(value = "/register")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		Optional<User> userCheck = userService.findByName(user.getName());
-
-		// Pour éviter l'erreur du token expired.
-		// Avant envoie de la request => supprimer le cookie token
-		// Dans le front.
 
 		// Si un utilistateur avec ce nom exister erreur
 		if (userCheck.isPresent()) {

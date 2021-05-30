@@ -1,16 +1,21 @@
 package storyteam.server.story.controller;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import storyteam.server.story.dto.CommentDto;
 import storyteam.server.story.model.Comment;
+import storyteam.server.story.model.Story;
+import storyteam.server.story.model.User;
 import storyteam.server.story.repository.CommentRepository;
+import storyteam.server.story.repository.StoryRepository;
+import storyteam.server.story.repository.UserRepository;
 
 @RestController
 @RequestMapping(value = "/comment")
@@ -22,10 +27,27 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
-    @GetMapping("/show")
-    public ResponseEntity<Comment> getComment() {
-        Optional<Comment> comment = commentRepository.findById(1);
-        return ResponseEntity.ok(comment.get());
+    @Autowired
+    StoryRepository storyRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    // Créer une route pour accéder à add pour pouvoir ajouter des commentaires en
+    // Passer par un DTO et le convertir en BDD
+    @PostMapping(value = "/create")
+    public void registerComment(@RequestBody CommentDto commentDto) {
+        Story story = storyRepository.findById(commentDto.getStory()).get();
+        User user = userRepository.findByName(commentDto.getUsername()).get();
+        LocalDate dateCreation = LocalDate.now();
+        Comment comment = new Comment();
+        comment.setContent(commentDto.getContent());
+        comment.setStory(story);
+        comment.setUser(user);
+        comment.setCreationDate(dateCreation);
+
+        commentRepository.save(comment);
+        // commentRepository.save(commentDto);
     }
 
 }

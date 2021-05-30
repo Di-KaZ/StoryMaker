@@ -5,13 +5,8 @@ import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
 
-const ID = function() {
-  return (
-    "_" +
-    Math.random()
-      .toString(36)
-      .substr(2, 9)
-  );
+const ID = function () {
+  return "_" + Math.random().toString(36).substr(2, 9);
 };
 
 @Component({

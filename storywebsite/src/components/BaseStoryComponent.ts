@@ -83,6 +83,9 @@ export default class BaseStoryComponent extends Vue {
       headers = { ...headers, Authorization: token };
     }
 
+    // console.log(body);
+    // console.log(body.story);
+
     if (method === METHODS.POST) {
       return this.post(urlhttp, headers, body);
     }
@@ -103,6 +106,7 @@ export default class BaseStoryComponent extends Vue {
       body: JSON.stringify(body),
     });
     const jsonToDto: T = await response.json();
+    console.log(jsonToDto);
     return jsonToDto;
   }
 
@@ -121,7 +125,8 @@ export default class BaseStoryComponent extends Vue {
       headers,
       method: method,
     });
-    console.log(Cookies.get("token"));
+    // console.log(Cookies.get("token"));
+    // console.log(response.json());
     const jsonToDto: T = await response.json();
     return jsonToDto;
   }

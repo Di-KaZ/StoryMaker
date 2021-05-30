@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar.vue";
 import Cookies from "js-cookie";
 import User from "./types/User";
 import { GlobalState } from "./GlobalState";
+import jwt from "jsonwebtoken";
 
 @Component({
   components: {
@@ -15,8 +16,13 @@ import { GlobalState } from "./GlobalState";
 })
 export default class App extends BaseStoryComponent {
   async beforeMount() {
+    jwt.verify(Cookies.get("token"), "SECRET_KEY", function (err, decoded) {
+      if (err) {
+        Cookies.remove("token");
+      }
+    });
+
     const token = Cookies.get("token");
-    console.log(token);
     if (token !== undefined) {
       try {
         const user = await this.fetch<User>("user/infos", METHODS.GET);
