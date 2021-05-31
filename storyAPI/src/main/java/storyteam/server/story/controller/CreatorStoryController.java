@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ import storyteam.server.story.model.CreatorStory;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.repository.StoryRepository;
-import storyteam.server.story.repository.UserRepository;
+import storyteam.server.story.services.UserService;
 
 
 @RestController
@@ -29,17 +30,16 @@ public class CreatorStoryController {
 	BlocStoryRepository blocRepo;
 
 	@Autowired
-	UserRepository userRepo;
+	UserService userRepo;
 
 	@PostMapping(value="/save")
-	public ResponseEntity<Story> postMethodName(@RequestBody CreatorStory story) {
+	public ResponseEntity<Story> postMethodName(@RequestHeader("Authorization") String auth, @RequestBody CreatorStory story) {
 		var rStory = storyRepo.findById(story.getStory().getId());
 
 		if (rStory.isEmpty()) {
 			Story newStory = new Story();
 			newStory.setDescription(story.getStory().getDescription());
-			// TODO get user from token
-			newStory.setUser(userRepo.findAll().get(0));
+			newStory.setUser(userRepo.findUserByToken(auth).get());
 			newStory.setName(story.getStory().getName());
 			newStory.setCreationDate(LocalDate.now());
 			newStory.setFirstBloc(-1);
@@ -65,17 +65,4 @@ public class CreatorStoryController {
 		}
 		return ResponseEntity.ok(rStory.get());
 	}
-
-	// 	/**
-	//  * Map json of a story into ocbject savable in bdd
-	//  *
-	//  * @param blocs
-	//  * @return
-	//  */
-	// public List<BlocStory> mapCreatorStory(List<CreatorBloc> blocs) {
-	// 	Story story = new Story();
-	// 	return blocs.stream()
-	// 			.map((bloc) -> new BlocStory(bloc.getName(), bloc.getText(), story.getId(), bloc.getIn().getId()))
-	// 			.collect(Collectors.toList());
-	// }
 }

@@ -15,7 +15,7 @@ export default class StoryCard extends StoryCardProps {
   public likes = 0;
 
   get username(): string {
-    return this.infos.userName + " " + this.infos.creationDate;
+    return this.infos.user.name + " " + this.infos.creationDate;
   }
 
   get storyname(): string {

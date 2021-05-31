@@ -179,5 +179,5 @@ export const getStoryToJson = (story: Story, blocs: CreatorBlocStoryDTO[]) => {
     }
     return value;
   });
-  return jsonBlocs;
+  return JSON.parse(jsonBlocs);
 };
