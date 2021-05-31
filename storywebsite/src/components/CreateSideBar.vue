@@ -16,8 +16,8 @@ const ID = function() {
 
 @Component({
   components: {
-    toolBar: ToolBar,
-  },
+    toolBar: ToolBar
+  }
 })
 export default class CreateSideBar extends BaseStoryComponent {
   private counterDanger = false;
@@ -33,7 +33,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set currentParent(id: string | undefined) {
     CreatorState.commit(
       "SET_CONNECTION",
-      CreatorState.state.blocs.find((b) => b.id === id)
+      CreatorState.state.blocs.find(b => b.id === id)
     );
   }
 
@@ -45,7 +45,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set nameStory(name: string | null) {
     CreatorState.commit("MODIFY_STORY", {
       ...CreatorState.state.story,
-      name,
+      name
     });
   }
 
@@ -57,7 +57,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set firstBlocStory(firstBlocId: string | undefined) {
     CreatorState.commit("MODIFY_STORY", {
       ...CreatorState.state.story,
-      firstBlocId,
+      firstBlocId
     });
   }
 
@@ -69,7 +69,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set descStory(desc: string | null) {
     CreatorState.commit("MODIFY_STORY", {
       ...CreatorState.state.story,
-      description: desc,
+      description: desc
     });
   }
 
@@ -84,14 +84,14 @@ export default class CreateSideBar extends BaseStoryComponent {
   set name(name: string | null) {
     CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
-      name,
+      name
     });
   }
 
   set text(text: string | null) {
     CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
-      text,
+      text
     });
   }
 
@@ -106,7 +106,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   get parents(): CreatorBlocStoryDTO[] {
     const { blocs, selectedBloc } = CreatorState.state;
     if (selectedBloc) {
-      return blocs.filter((b) => b.id !== selectedBloc?.id);
+      return blocs.filter(b => b.id !== selectedBloc?.id);
     }
     return [];
   }
@@ -131,7 +131,7 @@ export default class CreateSideBar extends BaseStoryComponent {
       x: 0,
       y: 0,
       selected: false,
-      out: [],
+      out: []
     } as CreatorBlocStoryDTO);
   }
 
@@ -160,18 +160,8 @@ export default class CreateSideBar extends BaseStoryComponent {
         <vs-input type="file" @change="loadFile" />
         <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
         <vs-textarea v-model="descStory" label="Description"></vs-textarea>
-        <vs-select
-          autocomplete
-          placeholder="select"
-          label="First Bloc"
-          v-model="firstBlocStory"
-        >
-          <vs-select-item
-            v-for="bloc in blocs"
-            :key="bloc.id"
-            :value="bloc.id"
-            :text="bloc.name"
-          />
+        <vs-select autocomplete placeholder="select" label="First Bloc" v-model="firstBlocStory">
+          <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
         </vs-select>
       </vs-tab>
       <vs-tab label="Selection" icon="highlight_alt">
@@ -184,12 +174,7 @@ export default class CreateSideBar extends BaseStoryComponent {
           width="100%"
           heigth="300px"
         ></vs-textarea>
-        <vs-select
-          autocomplete
-          placeholder="select"
-          label="Parent"
-          v-model="currentParent"
-        >
+        <vs-select autocomplete placeholder="select" label="Parent" v-model="currentParent">
           <vs-select-item
             v-for="parent in parents"
             :key="parent.id"
@@ -197,16 +182,11 @@ export default class CreateSideBar extends BaseStoryComponent {
             :text="parent.name"
           />
         </vs-select>
-        <vs-button color="danger" type="gradient" @click="deleteBloc"
-          >Delete</vs-button
-        >
+        <vs-button color="danger" type="gradient" @click="deleteBloc">Delete</vs-button>
       </vs-tab>
       <vs-tab label="Blocs" icon="view_list">
         <vs-collapse accordion>
-          <vs-collapse-item
-            v-for="bloc in blocs"
-            v-bind:key="JSON.stringify(bloc, ['id', 'name'])"
-          >
+          <vs-collapse-item v-for="bloc in blocs" v-bind:key="JSON.stringify(bloc, ['id', 'name'])">
             <div slot="header">{{ bloc.name }}</div>
           </vs-collapse-item>
         </vs-collapse>

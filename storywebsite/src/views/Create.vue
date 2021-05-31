@@ -4,14 +4,13 @@ import CreateSideBar from "@/components/CreateSideBar.vue";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorStage from "@/components/CreatorStage.vue";
-import ToolBar from "@/components/Toolbar.vue";
 
 @Component({
   components: {
     sidebar: CreateSideBar,
-    creatorStage: CreatorStage,
+    creatorStage: CreatorStage
   },
-  store: CreatorState,
+  store: CreatorState
 })
 export default class Create extends BaseStoryComponent {}
 </script>

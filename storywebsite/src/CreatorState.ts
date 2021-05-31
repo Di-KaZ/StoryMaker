@@ -3,23 +3,24 @@ import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
 import { default as Link } from "./types/CreatorConnectionDTO";
 import Story from "./types/Story";
 
-const story: Story = {
+const story = {
   id: 0,
   name: "",
   description: "",
   creationDate: "",
-  userName: "",
+  userName: ""
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];
 const selectedBloc: CreatorBlocStoryDTO | null = null;
+const firstBlocId = undefined;
 
 function updateLinks(blocs: CreatorBlocStoryDTO[]): Link[] {
   const links: Link[] = [];
-  blocs.forEach((bloc) => {
+  blocs.forEach(bloc => {
     if (bloc.in) {
       // mise a jour du parent
-      bloc.in = blocs.find((b) => b.id === bloc.in?.id);
+      bloc.in = blocs.find(b => b.id === bloc.in?.id);
       // creation d'un link
       links.push({ in: bloc.in!, out: bloc });
     }
@@ -33,6 +34,7 @@ export const CreatorState = new Vuex.Store({
     selectedBloc: selectedBloc as CreatorBlocStoryDTO | null,
     blocs,
     links,
+    firstBlocId
   },
   mutations: {
     /**
@@ -43,7 +45,7 @@ export const CreatorState = new Vuex.Store({
     ADD_BLOC(state, payload: CreatorBlocStoryDTO) {
       if (state.selectedBloc !== null) {
         state.blocs.splice(
-          state.blocs.findIndex((b) => b.id === state.selectedBloc!.id),
+          state.blocs.findIndex(b => b.id === state.selectedBloc!.id),
           1,
           { ...state.selectedBloc, selected: false }
         );
@@ -62,10 +64,7 @@ export const CreatorState = new Vuex.Store({
       if (state.selectedBloc === null) return;
       //remove ref to this bloc
       for (let i = 0; i < state.blocs.length; i++) {
-        if (
-          state.blocs[i].in &&
-          state.blocs[i].in?.id == state.selectedBloc.id
-        ) {
+        if (state.blocs[i].in && state.blocs[i].in?.id == state.selectedBloc.id) {
           state.blocs[i].in = undefined;
         }
         // TODO creer un nouveau tableau puis l'assigné au lieu de retirer des elements pendant l'iteration
@@ -76,7 +75,7 @@ export const CreatorState = new Vuex.Store({
         }
       }
       state.blocs.splice(
-        state.blocs.findIndex((b) => b.id === state.selectedBloc!.id),
+        state.blocs.findIndex(b => b.id === state.selectedBloc!.id),
         1
       );
       state.links = updateLinks(state.blocs);
@@ -92,7 +91,7 @@ export const CreatorState = new Vuex.Store({
       if (state.selectedBloc.id !== payload.id) {
         // Désélection de l'ancien
         state.blocs.splice(
-          state.blocs.findIndex((b) => b.id === state.selectedBloc?.id),
+          state.blocs.findIndex(b => b.id === state.selectedBloc?.id),
           1,
           { ...state.selectedBloc, selected: false }
         );
@@ -100,7 +99,7 @@ export const CreatorState = new Vuex.Store({
       payload.selected = true;
       state.selectedBloc = payload;
       state.blocs.splice(
-        state.blocs.findIndex((b) => b.id === payload.id),
+        state.blocs.findIndex(b => b.id === payload.id),
         1,
         payload
       );
@@ -117,13 +116,13 @@ export const CreatorState = new Vuex.Store({
       state.selectedBloc = { ...state.selectedBloc, in: payload };
 
       state.blocs.splice(
-        state.blocs.findIndex((b) => b.id === state.selectedBloc?.id),
+        state.blocs.findIndex(b => b.id === state.selectedBloc?.id),
         1,
         state.selectedBloc
       );
 
       state.blocs.splice(
-        state.blocs.findIndex((b) => b.id === payload.id),
+        state.blocs.findIndex(b => b.id === payload.id),
         1,
         { ...payload, out: [...payload.out, state.selectedBloc] }
       );
@@ -136,7 +135,7 @@ export const CreatorState = new Vuex.Store({
      */
     UPDATE_CONNECTION(state, payload) {
       state.blocs.splice(
-        state.blocs.findIndex((b) => b.id === payload.id),
+        state.blocs.findIndex(b => b.id === payload.id),
         1,
         payload
       );
@@ -163,8 +162,8 @@ export const CreatorState = new Vuex.Store({
     },
     MODIFY_STORY(state, payload) {
       state.story = payload;
-    },
-  },
+    }
+  }
 });
 
 export const getStoryToJson = (story: Story, blocs: CreatorBlocStoryDTO[]) => {

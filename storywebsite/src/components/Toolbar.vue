@@ -15,7 +15,7 @@ const ID = function() {
 };
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class ToolBar extends BaseStoryComponent {
   public addBloc(): void {
@@ -28,13 +28,13 @@ export default class ToolBar extends BaseStoryComponent {
       x: 0,
       y: 0,
       selected: false,
-      out: [],
+      out: []
     } as CreatorBlocStoryDTO);
   }
 
   public save(): void {
     this.fetch("creator/save", METHODS.POST, {
-      body: getStoryToJson(this.$store.state.story, this.$store.state.blocs),
+      body: getStoryToJson(this.$store.state.story, this.$store.state.blocs)
     });
   }
 
@@ -59,13 +59,9 @@ button {
 <template>
   <div class="toolbar">
     <vs-tooltip text="Ajouter un nouveau bloc">
-      <vs-button color="primary" type="gradient" @click="addBloc"
-        >Nouveau</vs-button
-      >
+      <vs-button color="primary" type="gradient" @click="addBloc">Nouveau</vs-button>
     </vs-tooltip>
-    <vs-button color="primary" type="gradient" @click="exportstory"
-      >Exporter</vs-button
-    >
+    <vs-button color="primary" type="gradient" @click="exportstory">Exporter</vs-button>
     <vs-button color="danger" type="gradient" @click="save">Save</vs-button>
   </div>
 </template>
