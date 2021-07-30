@@ -9,6 +9,7 @@ const story: Story = {
   description: "",
   creationDate: "",
   user: { name: "" },
+  firstBlocId:0,
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];

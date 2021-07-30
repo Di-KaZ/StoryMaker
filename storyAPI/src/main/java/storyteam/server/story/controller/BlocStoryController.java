@@ -17,7 +17,7 @@ import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.services.BlocStoryService;
 
 @RestController
-@RequestMapping("/blocstories")
+@RequestMapping("/blocstory")
 public class BlocStoryController {
 
 	@Autowired

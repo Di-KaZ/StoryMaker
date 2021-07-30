@@ -3,6 +3,8 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Create from "../views/Create.vue";
 import Home from "../views/Home.vue";
 import Search from "../views/Search.vue";
+import PlayStory from "../views/PlayStory.vue";
+import PlayStoryBloc from "../views/PlayStoryBloc.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +23,17 @@ const routes: Array<RouteConfig> = [
     path: "/story/create",
     name: "StoryCreate",
     component: Create,
+  },
+  {
+    path:"/story/play/:id",
+    name:"PlayStory",
+    component: PlayStory,
+  },
+  // FIXME voir si ça marche : oui, ca marche
+  {
+    path:"/story/play/:id/blocstory/:idbloc",
+    name:"PlayStoryBloc",
+    component: PlayStoryBloc,
   },
 ];
 
