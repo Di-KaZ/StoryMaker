@@ -31,6 +31,7 @@ export default class StoryCard extends StoryCardProps {
   }
 
   public play(): void {
+    this.$router.push("/story/play/"+ this.infos.id);
     this.infoToast("Play clicked !");
   }
 }
