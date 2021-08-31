@@ -6,16 +6,23 @@
 	"configurations": [
 		{
 			"type": "java",
-			"name": "Rest API (local)",
+			"name": "Launch StoryApplication",
 			"request": "launch",
 			"mainClass": "storyteam.server.story.StoryApplication",
-			"projectName": "story",
+			"projectName": "story"
+		},
+		{
+			"type": "java",
+			"name": "Rest API (local)",
+			"request": "launch",
+			"mainClass": "storyteam.server.story.StoryApplication.java",
+			"projectName": "story"
 		},
 		{
 			"type": "java",
 			"name": "Rest API (docker)",
 			"request": "launch",
-			"mainClass": "storyteam.server.story.StoryApplication",
+			"mainClass": "storyteam.server.story.StoryApplication.java",
 			"projectName": "story",
 			"args": "--spring.profiles.active=docker"
 		}
