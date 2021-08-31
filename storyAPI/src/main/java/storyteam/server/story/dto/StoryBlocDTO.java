@@ -2,8 +2,6 @@ package storyteam.server.story.dto;
 
 import java.util.Set;
 
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
 /**
  * A class used to send data about the story bloc as json without exta methods
  */
@@ -22,14 +20,14 @@ public class StoryBlocDTO {
 		this.choices = choices;
 	}
 
-	public Integer getId(){
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id){
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -54,11 +52,11 @@ public class StoryBlocDTO {
 		this.choices = choices;
 	}
 
-	public String getText(){
+	public String getText() {
 		return this.text;
 	}
 
-	public void setText(String text){
+	public void setText(String text) {
 		this.text = text;
 	}
 }
