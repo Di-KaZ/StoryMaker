@@ -7,7 +7,7 @@ public class CreatorBloc {
 	Double x;
 	Double y;
 	Boolean selected;
-	CcreatorBlocParent in;
+	CreatorBlocPrevious in;
 
 	public String getId() {
 		return this.id;
@@ -29,8 +29,8 @@ public class CreatorBloc {
 		return this.text;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.text = content;
 	}
 
 	public Double getX() {
@@ -61,11 +61,11 @@ public class CreatorBloc {
 		this.selected = selected;
 	}
 
-	public CcreatorBlocParent getIn() {
+	public CreatorBlocPrevious getIn() {
 		return this.in;
 	}
 
-	public void setIn(CcreatorBlocParent in) {
+	public void setIn(CreatorBlocPrevious in) {
 		this.in = in;
 	}
 

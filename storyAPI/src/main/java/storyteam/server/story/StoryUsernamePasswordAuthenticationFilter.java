@@ -27,13 +27,12 @@ import storyteam.server.story.model.User;
 
 // UsernamePasswordAuthenticationFilter => classe de base dans SpringFramework Security pour l'authentification
 public class StoryUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-	private AuthenticationManager authenticationManager;
 	private static final Logger LOGGER = LoggerFactory.getLogger(StoryUsernamePasswordAuthenticationFilter.class);
+	private AuthenticationManager authenticationManager;
 
 	public static final Dotenv dotenv = Dotenv.load();
 	public static final String SECRET = dotenv.get("SECRET_KEY");
-	public static final long EXPIRATION_TIME = 120000; // On set la durée de la validitée du token 900_000
+	public static final long EXPIRATION_TIME = 900000; // On set la durée de la validitée du token 900_000
 	public static final String SIGN_IN_URL = "/user/login"; // On déclare la route par laquelle on passe pour se log in
 
 	/*

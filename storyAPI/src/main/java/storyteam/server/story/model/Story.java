@@ -1,8 +1,7 @@
 package storyteam.server.story.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,16 +22,16 @@ public class Story {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "story_id")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "story_name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "story_description")
+	@Column(name = "description")
 	private String description;
 
-	@Column(name = "story_date")
+	@Column(name = "creationDate")
 	private LocalDate creationDate;
 
 	@ManyToOne
@@ -41,28 +39,31 @@ public class Story {
 	@JsonIgnoreProperties({ "id", "password", "email", "stories", "comments" })
 	private User user;
 
-	@OneToOne
-	@JoinColumn(name = "firstIdBloc")
-	private BlocStory firstBloc;
+	@Column(name = "firstBlocId")
+	private Integer firstBlocId;
 
-	// Revoir les JsonIgnoreProperties
-	@OneToMany(mappedBy = "story")
-	private Set<BlocStory> blocStories = new HashSet<>();
+	// @OneToMany(mappedBy = "story")
+	// private List<BlocStory> blocStories = new ArrayList<>();
 
 	@OneToMany(mappedBy = "story")
-	private Set<Comment> comments = new HashSet<>();
+	private List<Comment> comments;
 
 	public Story() {
 	}
 
-	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc,
-			Set<BlocStory> blocStories, Set<Comment> comments) {
+	public List<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Story(Integer id, String name, String description, LocalDate creationDate, User user, BlocStory firstBloc) {
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.user = user;
-		this.blocStories = blocStories;
-		this.comments = comments;
 	}
 
 	public Integer getId() {
@@ -85,12 +86,8 @@ public class Story {
 		return user;
 	}
 
-	public BlocStory getFirstBloc() {
-		return firstBloc;
-	}
-
-	public Set<BlocStory> getBlocStories() {
-		return blocStories;
+	public Integer getFirstBlocId() {
+		return firstBlocId;
 	}
 
 	public void setId(Integer id) {
@@ -113,16 +110,7 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setFirstBloc(BlocStory firstBloc) {
-		this.firstBloc = firstBloc;
+	public void setFirstBloc(Integer firstBlocId) {
+		this.firstBlocId = firstBlocId;
 	}
-
-	public Set<Comment> getComments() {
-		return this.comments;
-	}
-
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
-
 }
