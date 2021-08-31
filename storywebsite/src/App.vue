@@ -4,14 +4,15 @@ import BaseStoryComponent, { METHODS } from "./components/BaseStoryComponent";
 import SideBar from "./components/SideBar.vue";
 import NavBar from "./components/NavBar.vue";
 import Cookies from "js-cookie";
-import User from "./types/User";
+// eslint-disable-next-line no-unused-vars
+import type User from "./types/User";
 import { GlobalState } from "./GlobalState";
 
 @Component({
   components: {
     navBar: NavBar,
-    sideBar: SideBar,
-  },
+    sideBar: SideBar
+  }
 })
 export default class App extends BaseStoryComponent {
   async beforeMount() {

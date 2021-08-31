@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build --port 3000",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "eslint src/* --fix"
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.6",
