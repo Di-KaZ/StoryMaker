@@ -1,6 +1,9 @@
 package storyteam.server.story.controller;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,10 @@ public class CommentController {
     public void registerComment(@RequestBody CommentDto commentDto) {
         Story story = storyRepository.findById(commentDto.getStory()).get();
         User user = userRepository.findByName(commentDto.getUsername()).get();
-        LocalDate dateCreation = LocalDate.now();
+        // Date dateCreation = new Date(Calendar.getInstance().getTime().getTime());
+        LocalDateTime dateCreation = java.time.LocalDateTime.now();
+        System.out.println(dateCreation);
+
         Comment comment = new Comment();
         comment.setContent(commentDto.getContent());
         comment.setStory(story);

@@ -27,6 +27,12 @@ export default class StoryCard extends StoryCardProps {
     return this.infos.description;
   }
 
+  get cover(): string {
+    console.log(this.infos.cover);
+    return this.infos.cover;
+  
+  }
+
   public addLike(): void {
     this.likes += 1;
   }
@@ -69,7 +75,7 @@ button {
 <template>
   <vs-card v-if="infos" actionable class="card">
     <div slot="media" class="container-img">
-      <img src="https://source.unsplash.com/random" alt="alt" />
+      <img :src="cover" alt="alt" />
     </div>
     <h2>{{ storyname }}</h2>
     <h4>

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS story (
     name VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
     creationDate DATE NOT NULL,
+    cover TEXT,
     userId INT NOT NULL,
     firstBlocId INT NOT NULL,
     FOREIGN KEY (userId)
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS characters (
 CREATE TABLE IF NOT EXISTS comment (
     id INT PRIMARY KEY AUTO_INCREMENT,
     content TEXT NOT NULL,
-    creationDate DATE NOT NULL,
+    creationDate DATETIME NOT NULL,
     userId INT,
     storyId INT,
     subCommentId INT,
