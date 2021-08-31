@@ -2,14 +2,9 @@
 import BaseStoryComponent from "../components/BaseStoryComponent";
 import CreateSideBar from "../components/CreateSideBar.vue";
 import { Component } from "vue-property-decorator";
-<<<<<<< HEAD
 import { CreatorState } from "../CreatorState";
 import CreatorStage from "../components/CreatorStage.vue";
 import ToolBar from "../components/Toolbar.vue";
-=======
-import { CreatorState } from "@/CreatorState";
-import CreatorStage from "@/components/CreatorStage.vue";
->>>>>>> storyReader
 
 @Component({
   components: {
