@@ -5,6 +5,8 @@ import { GlobalState } from "../GlobalState";
 // import User from "../types/User";
 import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
+// eslint-disable-next-line no-unused-vars
+import type User from "../types/User";
 
 @Component({})
 export default class SideBar extends BaseStoryComponent {
