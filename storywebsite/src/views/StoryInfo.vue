@@ -34,7 +34,7 @@ export default class StoryInfo extends BaseStoryComponent {
   public addComment(event: Event): void {
     this.newComment.commentDate = new Date();
     this.newComment.content = this.content;
-    this.newComment.username = GlobalState.state.user.name;
+    this.newComment.username = GlobalState!.state!.user!.name;
     event.preventDefault();
     //Ici on peut passer soit directement un objet dans notre body (qui est déjà au bon format)
     //Ou alors on passe manuellement chaque élements:

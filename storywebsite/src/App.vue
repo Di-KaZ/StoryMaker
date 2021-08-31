@@ -4,19 +4,20 @@ import BaseStoryComponent, { METHODS } from "./components/BaseStoryComponent";
 import SideBar from "./components/SideBar.vue";
 import NavBar from "./components/NavBar.vue";
 import Cookies from "js-cookie";
-import User from "./types/User";
+// eslint-disable-next-line no-unused-vars
+import type User from "./types/User";
 import { GlobalState } from "./GlobalState";
 import jwt from "jsonwebtoken";
 
 @Component({
   components: {
     navBar: NavBar,
-    sideBar: SideBar,
-  },
+    sideBar: SideBar
+  }
 })
 export default class App extends BaseStoryComponent {
   async beforeMount() {
-    jwt.verify(Cookies.get("token"), "SECRET_KEY", function (err, decoded) {
+    jwt.verify(Cookies.get("token")!, "SECRET_KEY", function (err) {
       if (err) {
         Cookies.remove("token");
       }
@@ -31,6 +32,9 @@ export default class App extends BaseStoryComponent {
         this.errorToast("Session Invalide", "Veuillez vous reconnecter");
       }
     }
+  }
+  mounted() {
+    this.$vs.theme = "dark";
   }
 
   get user(): User | null {
@@ -49,7 +53,6 @@ html {
   font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
-  background-size: cover;
   height: 100vh;
 }
 .logo {

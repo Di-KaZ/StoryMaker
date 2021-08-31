@@ -2,17 +2,21 @@
 import BaseStoryComponent from "../components/BaseStoryComponent";
 import CreateSideBar from "../components/CreateSideBar.vue";
 import { Component } from "vue-property-decorator";
+<<<<<<< HEAD
 import { CreatorState } from "../CreatorState";
 import CreatorStage from "../components/CreatorStage.vue";
 import ToolBar from "../components/Toolbar.vue";
+=======
+import { CreatorState } from "@/CreatorState";
+import CreatorStage from "@/components/CreatorStage.vue";
+>>>>>>> storyReader
 
 @Component({
   components: {
     sidebar: CreateSideBar,
-    creatorStage: CreatorStage,
-    toolBar: ToolBar,
+    creatorStage: CreatorStage
   },
-  store: CreatorState,
+  store: CreatorState
 })
 export default class Create extends BaseStoryComponent {}
 </script>
@@ -43,7 +47,6 @@ body,
     <div id="create">
       <sidebar />
       <creator-stage :blocs="$store.state.blocs" :links="$store.state.links" />
-      <tool-bar />
     </div>
   </div>
 </template>

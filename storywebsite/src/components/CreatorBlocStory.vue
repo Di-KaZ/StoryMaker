@@ -1,7 +1,7 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
-import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
 
 @Component({
   components: {},
@@ -62,7 +62,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     };
   }
 
-  public select(event: any): void {
+  public selectDrag(event: any): void {
     // on set le bloc dans le creator state afin de l'afficher dans la sidebar
     const x = event.target.x();
     const y = event.target.y();
@@ -72,6 +72,10 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       x,
       y,
     });
+  }
+
+  public select(): void {
+    this.$store.commit("MODIFY_BLOC", this.bloc);
   }
 
   public drag(event: any) {
@@ -113,7 +117,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     ref="group"
     draggable="true"
     @dragmove="drag"
-    @dragend="select"
+    @dragend="selectDrag"
     @dblclick="select"
     :config="{ x: bloc.x, y: bloc.y }"
   >

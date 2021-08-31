@@ -32,8 +32,7 @@ html {
     v-model="active"
     text-color="#00A1CD"
     active-text-color="#00A1CD"
-    color="white"
-    type="fund"
+    type="border"
   >
     <div slot="title">
       <vs-navbar-title>

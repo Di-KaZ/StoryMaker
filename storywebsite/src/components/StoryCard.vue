@@ -1,12 +1,13 @@
 <script lang="ts">
 import BaseStoryComponent from "./BaseStoryComponent";
+// eslint-disable-next-line no-unused-vars
 import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
 
 const StoryCardProps = BaseStoryComponent.extend({
   props: {
-    infos: { type: Object as () => Story },
-  },
+    infos: { type: Object as () => Story }
+  }
 });
 
 @Component({})
@@ -31,6 +32,7 @@ export default class StoryCard extends StoryCardProps {
   }
 
   public play(): void {
+    this.$router.push("/story/play/"+ this.infos.id);
     this.infoToast("Play clicked !");
   }
 }
@@ -78,21 +80,12 @@ button {
     </div>
     <div slot="footer">
       <vs-row vs-justify="flex-end">
-        <vs-button
-          @click="play"
-          type="gradient"
-          color="success"
-          icon="play_arrow"
-        >
+        <vs-button @click="play" type="gradient" color="success" icon="play_arrow">
           Jouer
         </vs-button>
-        <vs-button
-          @click="addLike"
-          type="gradient"
-          color="danger"
-          icon="favorite"
-          >{{ likes }}</vs-button
-        >
+        <vs-button @click="addLike" type="gradient" color="danger" icon="favorite">{{
+          likes
+        }}</vs-button>
         <vs-button type="gradient" color="primary" icon="share"></vs-button>
       </vs-row>
     </div>

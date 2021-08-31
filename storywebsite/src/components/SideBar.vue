@@ -2,8 +2,7 @@
 import { Component } from "vue-property-decorator";
 import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
-import { use } from "chai";
-import User from "../types/User";
+// import User from "../types/User";
 import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
 
@@ -75,7 +74,7 @@ export default class SideBar extends BaseStoryComponent {
   public disconnectUser(): void {
     this.user = null;
     Cookies.remove("token");
-    location.reload();
+    // location.reload();
   }
 
   /**

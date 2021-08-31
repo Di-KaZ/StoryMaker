@@ -1,16 +1,18 @@
 <script lang="ts">
 import BaseStoryComponent from "./BaseStoryComponent";
-import Story from "../types/Story";
 import { Component } from "vue-property-decorator";
 import { CreatorState } from "@/CreatorState";
 import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import ToolBar from "./Toolbar.vue";
 
 const ID = function () {
   return "_" + Math.random().toString(36).substr(2, 9);
 };
 
 @Component({
-  components: {},
+  components: {
+    toolBar: ToolBar
+  }
 })
 export default class CreateSideBar extends BaseStoryComponent {
   private counterDanger = false;
@@ -26,7 +28,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set currentParent(id: string | undefined) {
     CreatorState.commit(
       "SET_CONNECTION",
-      CreatorState.state.blocs.find((b) => b.id === id)
+      CreatorState.state.blocs.find(b => b.id === id)
     );
   }
 
@@ -38,7 +40,19 @@ export default class CreateSideBar extends BaseStoryComponent {
   set nameStory(name: string | null) {
     CreatorState.commit("MODIFY_STORY", {
       ...CreatorState.state.story,
-      name,
+      name
+    });
+  }
+
+  get firstBlocStory(): string | undefined {
+    const { firstBlocId } = CreatorState.state.story;
+    return firstBlocId;
+  }
+
+  set firstBlocStory(firstBlocId: string | undefined) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      firstBlocId
     });
   }
 
@@ -50,7 +64,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   set descStory(desc: string | null) {
     CreatorState.commit("MODIFY_STORY", {
       ...CreatorState.state.story,
-      description: desc,
+      description: desc
     });
   }
 
@@ -65,14 +79,14 @@ export default class CreateSideBar extends BaseStoryComponent {
   set name(name: string | null) {
     CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
-      name,
+      name
     });
   }
 
   set text(text: string | null) {
     CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
-      text,
+      text
     });
   }
 
@@ -87,17 +101,13 @@ export default class CreateSideBar extends BaseStoryComponent {
   get parents(): CreatorBlocStoryDTO[] {
     const { blocs, selectedBloc } = CreatorState.state;
     if (selectedBloc) {
-      return blocs.filter((b) => b.id !== selectedBloc?.id);
+      return blocs.filter(b => b.id !== selectedBloc?.id);
     }
     return [];
   }
 
   get blocs() {
     return CreatorState.state.blocs;
-  }
-
-  public exportstory() {
-    CreatorState.commit("EXPORT_JSON");
   }
 
   public async loadFile(event: any): Promise<void> {
@@ -116,18 +126,12 @@ export default class CreateSideBar extends BaseStoryComponent {
       x: 0,
       y: 0,
       selected: false,
-      out: [],
+      out: []
     } as CreatorBlocStoryDTO);
   }
 
   public deleteBloc(): void {
     CreatorState.commit("DELETE_BLOC");
-  }
-
-  public debug(): void {
-    console.log("blocs :", this.$store.state.blocs);
-    console.log("Selected bloc :", this.$store.state.selectedBloc);
-    console.log("links:", this.$store.state.links);
   }
 }
 </script>
@@ -142,11 +146,18 @@ export default class CreateSideBar extends BaseStoryComponent {
 
 <template>
   <div id="panel">
+    <tool-bar />
+    <vs-divider icon="person" position="left">
+      Action
+    </vs-divider>
     <vs-tabs>
       <vs-tab label="Story" icon="book">
         <vs-input type="file" @change="loadFile" />
         <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
         <vs-textarea v-model="descStory" label="Description"></vs-textarea>
+        <vs-select autocomplete placeholder="select" label="First Bloc" v-model="firstBlocStory">
+          <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
+        </vs-select>
       </vs-tab>
       <vs-tab label="Selection" icon="highlight_alt">
         <vs-input v-model="name" label="Nom"></vs-input>
@@ -158,12 +169,7 @@ export default class CreateSideBar extends BaseStoryComponent {
           width="100%"
           heigth="300px"
         ></vs-textarea>
-        <vs-select
-          autocomplete
-          placeholder="select"
-          label="Parent"
-          v-model="currentParent"
-        >
+        <vs-select autocomplete placeholder="select" label="Parent" v-model="currentParent">
           <vs-select-item
             v-for="parent in parents"
             :key="parent.id"
@@ -171,16 +177,11 @@ export default class CreateSideBar extends BaseStoryComponent {
             :text="parent.name"
           />
         </vs-select>
-        <vs-button color="danger" type="gradient" @click="deleteBloc"
-          >Delete</vs-button
-        >
+        <vs-button color="danger" type="gradient" @click="deleteBloc">Delete</vs-button>
       </vs-tab>
       <vs-tab label="Blocs" icon="view_list">
         <vs-collapse accordion>
-          <vs-collapse-item
-            v-for="bloc in blocs"
-            v-bind:key="JSON.stringify(bloc, ['id', 'name'])"
-          >
+          <vs-collapse-item v-for="bloc in blocs" v-bind:key="JSON.stringify(bloc, ['id', 'name'])">
             <div slot="header">{{ bloc.name }}</div>
           </vs-collapse-item>
         </vs-collapse>
