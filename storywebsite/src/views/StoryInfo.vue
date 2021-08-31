@@ -7,42 +7,22 @@ import Story from "../types/Story";
 import { GlobalState } from "../GlobalState";
 import Cookies from "js-cookie";
 import { filter } from "vue/types/umd";
+import Comments from "../components/Comments.vue";
 
 //a ne pas oublier
-@Component({})
+@Component({
+  components: {
+    Comments: Comments
+  }
+})
 export default class StoryInfo extends BaseStoryComponent {
   public story: Story | null = null;
   public comment: Comment[] | null = null;
   public id: any = this.$route.params.id;
   public authentify: any = Cookies.get("token");
-  public content = "";
-  public newComment: Comment = {
-    id: 0,
-    content: "",
-    commentDate: null,
-    username: null,
-    story: this.id,
-    subComment: null,
-  };
 
   beforeMount() {
-    this.fetch<Story>("story/info/" + this.id, METHODS.GET).then(
-      (res) => (this.story = res)
-    );
-  }
-
-  public addComment(event: Event): void {
-    this.newComment.commentDate = new Date();
-    this.newComment.content = this.content;
-    this.newComment.username = GlobalState!.state!.user!.name;
-    event.preventDefault();
-    //Ici on peut passer soit directement un objet dans notre body (qui est déjà au bon format)
-    //Ou alors on passe manuellement chaque élements:
-    // nom : this.nom
-    // email : this.email
-    this.fetch<Comment>("comment/create", METHODS.POST, {
-      body: this.newComment,
-    });
+    this.fetch<Story>("story/info/" + this.id, METHODS.GET).then((res) => (this.story = res));
   }
 }
 </script>
@@ -89,18 +69,9 @@ export default class StoryInfo extends BaseStoryComponent {
         <p>Description :</p>
         <h2>{{ story.description }}</h2>
       </div>
-      <vs-row
-        v-bind:key="comment.id"
-        v-for="comment in story.comments"
-        class="list-comments"
-      >
+      <vs-row v-bind:key="comment.id" v-for="comment in story.comments" class="list-comments">
         <vs-col class="comment">
-          <vs-col
-            class="comment-header"
-            vs-type="flex"
-            vs-justify="space-between"
-            vs-w="12"
-          >
+          <vs-col class="comment-header" vs-type="flex" vs-justify="space-between" vs-w="12">
             <p>{{ comment.creationDate }}</p>
             <p>{{ comment.user.name }}</p>
           </vs-col>
@@ -116,19 +87,7 @@ export default class StoryInfo extends BaseStoryComponent {
         </vs-col>
       </vs-row>
       <div v-if="authentify">
-        <vs-row>
-          <vs-textarea
-            type="text"
-            v-model="content"
-            label="commentaire"
-            id="comment-content"
-          />
-        </vs-row>
-        <vs-row>
-          <vs-button color="primary" type="gradient" @click="addComment"
-            >Commenter</vs-button
-          >
-        </vs-row>
+        <comments></comments>
       </div>
     </div>
   </div>
