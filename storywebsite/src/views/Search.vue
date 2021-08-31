@@ -37,11 +37,17 @@ export default class Search extends BaseStoryComponent {
       this.finalPage = true;
       this.infoToast(
         "Désolé !",
-        "aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
+        "Aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
       );
     }
     this.page++;
     this.busy = false;
+  }
+
+  public async searchStories(String contentStory){
+    if(contentStory == null){
+      this.loadNewPage();
+    }
   }
 }
 </script>
@@ -53,6 +59,7 @@ export default class Search extends BaseStoryComponent {
         icon="search"
         placeholder="Rechercher"
         v-model="search"
+        v-on:keyup="searchStories(search)"
       />
     </vs-row>
     <div

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import storyteam.server.story.model.Story;
@@ -25,4 +26,7 @@ public interface StoryRepository extends JpaRepository<Story, Integer> {
 	 */
 	@Query(value = "select s from Story s")
 	Page<Story> search(Pageable page);
+
+	@Query(value = "select s from Story s where s.name LIKE CONCAT('%',:name,'%')")
+	Page<Story> searchByName(Pageable page,@Param("name")String name);
 }
