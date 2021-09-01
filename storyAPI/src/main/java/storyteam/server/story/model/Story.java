@@ -42,6 +42,10 @@ public class Story {
 	@Column(name = "firstBlocId")
 	private Integer firstBlocId;
 
+	
+	@Column(name = "cover")
+	private String cover;
+
 	// @OneToMany(mappedBy = "story")
 	// private List<BlocStory> blocStories = new ArrayList<>();
 
@@ -49,6 +53,14 @@ public class Story {
 	private List<Comment> comments;
 
 	public Story() {
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 
 	public List<Comment> getComments() {

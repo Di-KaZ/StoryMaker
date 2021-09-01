@@ -4,6 +4,6 @@ export default interface Comment {
     content: string;
     commentDate: Date | null;
     username: string | null;
-    story: number | null;
+    story: string | null;
     subComment: Comment | null;
 }

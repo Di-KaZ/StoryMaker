@@ -17,13 +17,24 @@ export default class Search extends BaseStoryComponent {
   private busy = false;
   private finalPage = false;
 
-  public async loadNewPage() {
+  public async loadNewPage(restartSearch:boolean = false) {
+    console.log("coucou")
+    if(restartSearch == true){
+      this.page = 1;
+      this.finalPage = false;
+      this.storiesRight = [];
+      this.storiesLeft = [];
+    }
     if (this.finalPage) return;
     this.busy = true;
     try {
       const stories = await this.fetch<Story[]>(
         "story/search/" + this.page,
-        METHODS.GET
+        METHODS.GET, {
+          urlparams:{
+            storyname:this.search
+          }
+        }
       );
       // on separe les stories en deux listes pour pouvoir les afficher cote a cote
       stories.forEach((story, index) => {
@@ -34,10 +45,10 @@ export default class Search extends BaseStoryComponent {
         }
       });
     } catch (error) {
-      this.finalPage = true;
-      this.infoToast(
+        this.finalPage = true;
+        this.infoToast(
         "Désolé !",
-        "aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
+        "Aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
       );
     }
     this.page++;
@@ -53,6 +64,7 @@ export default class Search extends BaseStoryComponent {
         icon="search"
         placeholder="Rechercher"
         v-model="search"
+        v-on:input="loadNewPage(true)"
       />
     </vs-row>
     <div

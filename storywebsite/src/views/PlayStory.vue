@@ -11,6 +11,7 @@ export default class PlayStory extends BaseStoryComponent {
   public story: Story;
   public isLoadedData: boolean = false;
   public user: User;
+  public comments: Comment[];
 
   beforeMount() {
     this.loadStory();

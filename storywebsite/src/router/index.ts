@@ -25,12 +25,6 @@ const routes: Array<RouteConfig> = [
 		name: "StoryCreate",
 		component: Create,
 	},
-	//A changer après, faudrait une URL du genre /story/1/info
-	{
-		path: "/story/:id/info",
-		name: "StoryInfo",
-		component: StoryInfo,
-	},
 	{
 		path: "/story/play/:id",
 		name: "PlayStory",

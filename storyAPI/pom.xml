@@ -13,6 +13,25 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>story</name>
 	<description>Story REST API</description>
+	 <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>dev</build.profile.id>
+                <profileActive>dev</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <build.profile.id>docker</build.profile.id>
+                <profileActive>docker</profileActive>
+            </properties>
+        </profile>
+    </profiles>
 	<properties>
 		<sonar.projectKey>Di-KaZ_StoryMaker</sonar.projectKey>
 		<sonar.organization>get-moussed</sonar.organization>

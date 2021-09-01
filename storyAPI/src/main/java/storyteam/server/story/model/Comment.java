@@ -1,6 +1,7 @@
 package storyteam.server.story.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -29,7 +31,8 @@ public class Comment {
 	private String content;
 
 	@Column(name = "creationDate")
-	private LocalDate creationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime creationDate;
 
 	@ManyToOne
 	@JoinColumn(name = "userId")
@@ -49,7 +52,7 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(Integer id, String content, LocalDate creationDate, User user, Story story) {
+	public Comment(Integer id, String content, LocalDateTime creationDate, User user, Story story) {
 		this.id = id;
 		this.content = content;
 		this.creationDate = creationDate;
@@ -73,11 +76,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public LocalDate getCreationDate() {
+	public LocalDateTime getCreationDate() {
 		return this.creationDate;
 	}
 
-	public void setCreationDate(LocalDate creationDate) {
+	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
 	}
 

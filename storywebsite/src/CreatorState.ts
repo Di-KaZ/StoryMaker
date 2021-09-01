@@ -4,7 +4,7 @@ import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
 import { default as Link } from "./types/CreatorConnectionDTO";
 import Story from "./types/Story";
 
-const story = {
+const story: Story = {
 	id: 0,
 	name: "",
 	description: "",
@@ -162,7 +162,10 @@ export const CreatorState = new Vuex.Store({
 			saveAs(blob, story.name + ".json");
 		},
 		LOAD_JSON(state, payload) {
-			state.blocs = JSON.parse(payload);
+			const loadedJson = JSON.parse(payload);
+			state.blocs = loadedJson.blocs;
+			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
+			state.story = loadedJson.story;
 			state.links = updateLinks(state.blocs);
 		},
 		MODIFY_STORY(state, payload) {

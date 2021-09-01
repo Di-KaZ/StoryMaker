@@ -9,4 +9,5 @@ export default interface Story {
 	user: User;
 	firstBlocId: string;
 	comments: Comment[];
+	cover: string;
 }

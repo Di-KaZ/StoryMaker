@@ -6,4 +6,5 @@ export default interface Story {
 	creationDate: string;
 	user: User;
 	firstBlocId: number;
+	cover: string;
 }
