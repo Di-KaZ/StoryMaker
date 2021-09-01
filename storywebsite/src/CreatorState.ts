@@ -162,6 +162,7 @@ export const CreatorState = new Vuex.Store({
 		LOAD_JSON(state, payload) {
 			const loadedJson = JSON.parse(payload);
 			state.blocs = loadedJson.blocs;
+			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
 			state.story = loadedJson.story;
 			state.links = updateLinks(state.blocs);
 		},
