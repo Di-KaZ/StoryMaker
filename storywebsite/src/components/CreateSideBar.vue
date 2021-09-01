@@ -1,12 +1,17 @@
 <script lang="ts">
 import BaseStoryComponent from "./BaseStoryComponent";
 import { Component } from "vue-property-decorator";
-import { CreatorState } from "@/CreatorState";
-import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import { CreatorState } from "../CreatorState";
+import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
 import ToolBar from "./Toolbar.vue";
 
-const ID = function () {
-  return "_" + Math.random().toString(36).substr(2, 9);
+const ID = function() {
+  return (
+    "_" +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+  );
 };
 
 @Component({
@@ -110,10 +115,15 @@ export default class CreateSideBar extends BaseStoryComponent {
     return CreatorState.state.blocs;
   }
 
-  public async loadFile(event: any): Promise<void> {
-    const file: File = event.target.files[0];
-    const text = await file.text();
-    CreatorState.commit("LOAD_JSON", text);
+  get cover() {
+    return CreatorState.state.story.cover;
+  }
+
+  set cover(cover: string | null) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      cover
+    });
   }
 
   public addBloc(): void {
@@ -133,59 +143,123 @@ export default class CreateSideBar extends BaseStoryComponent {
   public deleteBloc(): void {
     CreatorState.commit("DELETE_BLOC");
   }
+
+  get validStoryName(): boolean {
+    return !(this.nameStory && this.nameStory.length > 0);
+  }
+
+  get validCoverUrl(): boolean {
+    return !(
+      this.cover &&
+      this.cover.length > 0 &&
+      (this.cover.endsWith(".gif") ||
+        this.cover.endsWith(".png") ||
+        this.cover.endsWith(".jpeg") ||
+        this.cover.endsWith(".jpg"))
+    );
+  }
+
+  get validFirstBloc(): boolean {
+    return !(parseInt(this.firstBlocStory) !== -1);
+  }
 }
 </script>
 
 <style scoped lang="scss">
 #panel {
-  width: 300px;
-  padding: 0;
-  box-shadow: 17px 18px 20px -18px rgba(0, 0, 0, 0.75);
+  width: 350px;
+  overflow-y: scroll;
+  padding: 15px;
+  padding-bottom: 100px;
+}
+.center-space {
+  display: flex;
+  flex-direction: column;
+  > * {
+    margin: 5px;
+    margin-left: 20px;
+  }
+
+  .delete-btn {
+    align-self: left;
+    justify-content: left;
+  }
 }
 </style>
 
 <template>
   <div id="panel">
-    <tool-bar />
-    <vs-divider icon="person" position="left">
-      Action
+    <vs-divider color="primary">
+      Action générales
     </vs-divider>
-    <vs-tabs>
-      <vs-tab label="Story" icon="book">
-        <vs-input type="file" @change="loadFile" />
-        <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
-        <vs-textarea v-model="descStory" label="Description"></vs-textarea>
-        <vs-select autocomplete placeholder="select" label="First Bloc" v-model="firstBlocStory">
-          <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
-        </vs-select>
-      </vs-tab>
-      <vs-tab label="Selection" icon="highlight_alt">
-        <vs-input v-model="name" label="Nom"></vs-input>
-        <vs-textarea
-          counter="250"
-          :counter-danger.sync="counterDanger"
-          v-model="text"
-          label="Texte"
-          width="100%"
-          heigth="300px"
-        ></vs-textarea>
-        <vs-select autocomplete placeholder="select" label="Parent" v-model="currentParent">
-          <vs-select-item
-            v-for="parent in parents"
-            :key="parent.id"
-            :value="parent.id"
-            :text="parent.name"
-          />
-        </vs-select>
-        <vs-button color="danger" type="gradient" @click="deleteBloc">Delete</vs-button>
-      </vs-tab>
-      <vs-tab label="Blocs" icon="view_list">
-        <vs-collapse accordion>
-          <vs-collapse-item v-for="bloc in blocs" v-bind:key="JSON.stringify(bloc, ['id', 'name'])">
-            <div slot="header">{{ bloc.name }}</div>
-          </vs-collapse-item>
-        </vs-collapse>
-      </vs-tab>
-    </vs-tabs>
+    <tool-bar :canSave="!validStoryName && !validCoverUrl && !validFirstBloc" />
+    <vs-divider color="primary">
+      Modification informations Story
+    </vs-divider>
+    <div class="center-space">
+      <vs-input
+        v-model="nameStory"
+        label="Nom de l'histoire"
+        :danger="validStoryName"
+        danger-text="Veuillez enter un nom"
+      ></vs-input>
+      <vs-input
+        v-model="cover"
+        label="Image :"
+        :danger="validCoverUrl"
+        danger-text="l'url de l'image n'est pas valide"
+      ></vs-input>
+      <vs-textarea v-model="descStory" label="Description"></vs-textarea>
+      <vs-select
+        autocomplete
+        placeholder="select"
+        label="Début de la story"
+        v-model="firstBlocStory"
+        :danger="validFirstBloc"
+        danger-text="Veuillez choisir le bloc de commencement de votre story"
+      >
+        <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
+      </vs-select>
+    </div>
+    <vs-divider color="primary">
+      Modification du bloc séléctioné
+    </vs-divider>
+    <div class="center-space">
+      <vs-input v-model="name" label="Nom du choix"></vs-input>
+      <vs-textarea
+        counter="250"
+        :counter-danger.sync="counterDanger"
+        v-model="text"
+        label="Contenu"
+        width="100%"
+        heigth="300px"
+      ></vs-textarea>
+      <vs-select
+        autocomplete
+        placeholder="select"
+        label="Identifiant du choix parent"
+        v-model="currentParent"
+      >
+        <vs-select-item
+          v-for="parent in parents"
+          :key="parent.id"
+          :value="parent.id"
+          :text="parent.name"
+        />
+      </vs-select>
+      <vs-button class="delete-btn" color="danger" type="gradient" @click="deleteBloc"
+        >Supprimer le bloc</vs-button
+      >
+    </div>
+    <vs-divider color="primary">
+      Listes des blocs (WIP)
+    </vs-divider>
+    <div class="center-space" label="Blocs" icon="view_list">
+      <vs-collapse accordion>
+        <vs-collapse-item v-for="bloc in blocs" v-bind:key="JSON.stringify(bloc, ['id', 'name'])">
+          <div slot="header">{{ bloc.name }}</div>
+        </vs-collapse-item>
+      </vs-collapse>
+    </div>
   </div>
 </template>

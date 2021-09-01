@@ -4,7 +4,7 @@ import { Component, Prop } from "vue-property-decorator";
 import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class CreatorBlocStory extends BaseStoryComponent {
   @Prop(Object) readonly bloc: CreatorBlocStoryDTO | undefined;
@@ -18,7 +18,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       width: 200,
       height: 200,
       cornerRadius: 10,
-      fill: this.bloc!.selected ? "black" : "gray",
+      fill: this.bloc!.selected ? "black" : "gray"
     };
   }
 
@@ -26,10 +26,10 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     return {
       x: 15,
       y: 50,
-      text: "Nom :\n" + this.bloc!.name,
+      text: "Nom du choix :\n" + this.bloc!.name,
       fontSize: 20,
       fontFamily: "Calibri",
-      fill: "white",
+      fill: "white"
     };
   }
 
@@ -40,7 +40,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       text: "Contenu :\n" + this.bloc!.text,
       fontSize: 20,
       fontFamily: "Calibri",
-      fill: "white",
+      fill: "white"
     };
   }
 
@@ -49,7 +49,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       x: 100,
       y: 0,
       radius: 10,
-      fill: this.inHover ? "red" : "lightblue",
+      fill: this.inHover ? "red" : "lightblue"
     };
   }
 
@@ -58,7 +58,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
       x: 100,
       y: 200,
       radius: 10,
-      fill: this.outHover ? "red" : "pink",
+      fill: this.outHover ? "red" : "pink"
     };
   }
 
@@ -70,7 +70,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     this.$store.commit("MODIFY_BLOC", {
       ...this.bloc,
       x,
-      y,
+      y
     });
   }
 
@@ -84,7 +84,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     this.$store.commit("UPDATE_CONNECTION", {
       ...this.bloc,
       x,
-      y,
+      y
     });
   }
 
@@ -122,17 +122,9 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     :config="{ x: bloc.x, y: bloc.y }"
   >
     <v-rect :config="backgroundConf" />
-    <v-circle
-      @mouseenter="onInHover"
-      @mouseleave="onInLeave"
-      :config="inConf"
-    />
+    <v-circle @mouseenter="onInHover" @mouseleave="onInLeave" :config="inConf" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
-    <v-circle
-      @mouseenter="onOutHover"
-      @mouseleave="onOutLeave"
-      :config="outConf"
-    />
+    <v-circle @mouseenter="onOutHover" @mouseleave="onOutLeave" :config="outConf" />
   </v-group>
 </template>

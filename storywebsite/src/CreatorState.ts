@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import Vuex from "vuex";
 import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
 import { default as Link } from "./types/CreatorConnectionDTO";
@@ -9,7 +10,9 @@ const story = {
 	description: "",
 	creationDate: "",
 	user: { name: "" },
-	firstBlocId: "0",
+	firstBlocId: "-1",
+	cover: "",
+	comments: []
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];
@@ -155,7 +158,8 @@ export const CreatorState = new Vuex.Store({
 				}
 				return value;
 			});
-			console.log(jsonBlocs);
+			const blob = new Blob([jsonBlocs], { type: "application/json" });
+			saveAs(blob, story.name + ".json");
 		},
 		LOAD_JSON(state, payload) {
 			state.blocs = JSON.parse(payload);
