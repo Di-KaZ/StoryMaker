@@ -1,0 +1,203 @@
+<script lang="ts">
+import BaseStoryComponent from "./BaseStoryComponent";
+import { Component } from "vue-property-decorator";
+import { CreatorState } from "@/CreatorState";
+import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import ToolBar from "./Toolbar.vue";
+
+const ID = function () {
+  return "_" + Math.random().toString(36).substr(2, 9);
+};
+
+@Component({
+  components: {
+    toolBar: ToolBar
+  }
+})
+export default class CreateSideBar extends BaseStoryComponent {
+  private counterDanger = false;
+  private active = true;
+  get currentParent(): string | undefined {
+    const { selectedBloc } = CreatorState.state;
+    if (selectedBloc !== null && selectedBloc.in) {
+      return selectedBloc.in.id;
+    }
+    return undefined;
+  }
+
+  set currentParent(id: string | undefined) {
+    CreatorState.commit(
+      "SET_CONNECTION",
+      CreatorState.state.blocs.find(b => b.id === id)
+    );
+  }
+
+  get nameStory(): string | null {
+    const { name } = CreatorState.state.story;
+    return name;
+  }
+
+  set nameStory(name: string | null) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      name
+    });
+  }
+
+  get firstBlocStory(): string | undefined {
+    const { firstBlocId } = CreatorState.state.story;
+    return firstBlocId;
+  }
+
+  set firstBlocStory(firstBlocId: string | undefined) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      firstBlocId
+    });
+  }
+
+  get descStory(): string | null {
+    const { description } = CreatorState.state.story;
+    return description;
+  }
+
+  set descStory(desc: string | null) {
+    CreatorState.commit("MODIFY_STORY", {
+      ...CreatorState.state.story,
+      description: desc
+    });
+  }
+
+  get name(): string | null {
+    if (CreatorState.state.selectedBloc) {
+      const { name } = CreatorState.state.selectedBloc;
+      return name;
+    }
+    return null;
+  }
+
+  set name(name: string | null) {
+    CreatorState.commit("MODIFY_BLOC", {
+      ...CreatorState.state.selectedBloc,
+      name
+    });
+  }
+
+  set text(text: string | null) {
+    CreatorState.commit("MODIFY_BLOC", {
+      ...CreatorState.state.selectedBloc,
+      text
+    });
+  }
+
+  get text(): string | null {
+    if (CreatorState.state.selectedBloc) {
+      const { text } = CreatorState.state.selectedBloc;
+      return text;
+    }
+    return null;
+  }
+
+  get parents(): CreatorBlocStoryDTO[] {
+    const { blocs, selectedBloc } = CreatorState.state;
+    if (selectedBloc) {
+      return blocs.filter(b => b.id !== selectedBloc?.id);
+    }
+    return [];
+  }
+
+  get blocs() {
+    return CreatorState.state.blocs;
+  }
+
+  get cover(){
+    return CreatorState.state.story.cover;
+  }
+
+  set cover(cover: string | null){
+    CreatorState.commit("MODIFY_STORY", {
+    ...CreatorState.state.story,
+    cover}
+    )
+  }
+
+  public async loadFile(event: any): Promise<void> {
+    const file: File = event.target.files[0];
+    const text = await file.text();
+    CreatorState.commit("LOAD_JSON", text);
+  }
+
+  public addBloc(): void {
+    const id = ID();
+
+    CreatorState.commit("ADD_BLOC", {
+      id,
+      name: "bloc_" + id,
+      text: "",
+      x: 0,
+      y: 0,
+      selected: false,
+      out: []
+    } as CreatorBlocStoryDTO);
+  }
+
+  public deleteBloc(): void {
+    CreatorState.commit("DELETE_BLOC");
+  }
+}
+</script>
+
+<style scoped lang="scss">
+#panel {
+  width: 300px;
+  padding: 0;
+  box-shadow: 17px 18px 20px -18px rgba(0, 0, 0, 0.75);
+}
+</style>
+
+<template>
+  <div id="panel">
+    <tool-bar />
+    <vs-divider icon="person" position="left">
+      Action
+    </vs-divider>
+    <vs-tabs>
+      <vs-tab label="Story" icon="book">
+        <vs-input type="file" @change="loadFile" />
+        <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
+        <vs-input v-model="cover" label="Image :"></vs-input>
+        <vs-textarea v-model="descStory" label="Description"></vs-textarea>
+        <vs-select autocomplete placeholder="select" label="First Bloc" v-model="firstBlocStory">
+          <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
+        </vs-select>
+      </vs-tab>
+      <vs-tab label="Selection" icon="highlight_alt">
+        <vs-input v-model="name" label="Nom"></vs-input>
+        <vs-textarea
+          counter="250"
+          :counter-danger.sync="counterDanger"
+          v-model="text"
+          label="Texte"
+          width="100%"
+          heigth="300px"
+        ></vs-textarea>
+        <vs-select autocomplete placeholder="select" label="Parent" v-model="currentParent">
+          <vs-select-item
+            v-for="parent in parents"
+            :key="parent.id"
+            :value="parent.id"
+            :text="parent.name"
+          />
+        </vs-select>
+        <vs-button color="danger" type="gradient" @click="deleteBloc">Delete</vs-button>
+      </vs-tab>
+      <vs-tab label="Blocs" icon="view_list">
+        <vs-collapse accordion>
+          <vs-collapse-item v-for="bloc in blocs" v-bind:key="JSON.stringify(bloc, ['id', 'name'])">
+            <div slot="header">{{ bloc.name }}</div>
+          </vs-collapse-item>
+        </vs-collapse>
+      </vs-tab>
+    </vs-tabs>
+  </div>
+</template>

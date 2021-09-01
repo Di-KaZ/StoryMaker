@@ -3,9 +3,6 @@ package storyteam.server.story.controller;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import storyteam.server.story.model.User;
 import storyteam.server.story.services.UserService;
 
@@ -32,7 +29,13 @@ import storyteam.server.story.services.UserService;
 @RequestMapping(value = "/user")
 public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-	public static final String SECRET = "SECRET_KEY";
+	public static final Dotenv dotenv = Dotenv.load();
+	public static final String SECRET = dotenv.get("SECRET_KEY");
+
+	// Pour récupérer des variables d'environnement
+	// Dotenv dotenv = Dotenv.load();
+	// Ensuite faire dotenv.get("indexVariable") du fichier .env
+	// https://github.com/cdimascio/dotenv-java
 
 	Pattern emailRegex = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
@@ -44,8 +47,7 @@ public class UserController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
-	 * Enregistre un nouvel utilisateur en bdd renvoit l'utilisateur nouvellement
-	 * crée ainsi qu'un token d'authentification
+	 * Register a new user
 	 *
 	 * @param username
 	 * @param password
@@ -60,12 +62,10 @@ public class UserController {
 		if (userCheck.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
-
-		// check if the email IS an email
+		// check if the email is an email
 		if (!emailRegex.matcher(user.getEmail()).matches()) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
-
 		try {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
@@ -89,7 +89,7 @@ public class UserController {
 	}
 
 	/**
-	 * Change connected user email
+	 * Change connected user password
 	 *
 	 * @param email
 	 * @param newEmail
@@ -102,18 +102,26 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null);
 	}
 
-	// When a user wants to delete his account, only him can do this
-	@DeleteMapping(value = "/delete/{username}")
+	/**
+	 * Delete a user account
+	 *
+	 * @param auth authToken
+	 * @return
+	 */
+	@DeleteMapping(value = "/delete")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUser(@PathVariable("username") String username) {
-		userService.deleteByName(username);
-
+	public ResponseEntity<Void> deleteUser(@RequestHeader("Authorization") String auth) {
+		Optional<User> user = userService.findUserByToken(auth);
+		if (user.isPresent()) {
+			userService.deleteByName(user.get().getName());
+			return ResponseEntity.ok(null);
+		}
+		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping(value = "/infos")
 	public ResponseEntity<User> getAccountInfos(@RequestHeader("Authorization") String auth) {
-		String username = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build().verify(auth).getSubject();
-		Optional<User> user = userService.findByName(username);
+		Optional<User> user = userService.findUserByToken(auth);
 		if (user.isPresent()) {
 			return ResponseEntity.of(user);
 		}

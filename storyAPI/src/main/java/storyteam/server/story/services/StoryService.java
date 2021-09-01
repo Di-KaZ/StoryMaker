@@ -1,8 +1,6 @@
 package storyteam.server.story.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import storyteam.server.story.model.BlocStory;
-import storyteam.server.story.model.CreatorBloc;
 import storyteam.server.story.model.Story;
 import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.repository.StoryRepository;
@@ -43,7 +40,9 @@ public class StoryService {
 	public Page<Story> search(Integer pageNum, Optional<String> username, Optional<String> storyname,
 			Optional<String> tags, Optional<String> orderby) {
 		Pageable page = PageRequest.of(pageNum, PAGE_STORY_SIZE);
-		// return storyRepository.search(page);
+		if(storyname.isPresent()){
+			return storyRepository.searchByName(page, storyname.get());
+		}
 		return storyRepository.findAll(page);
 	}
 
@@ -54,6 +53,16 @@ public class StoryService {
 	 * @return
 	 */
 	public Optional<Story> getStory(Integer storyId) {
+		return storyRepository.findById(storyId);
+	}
+
+	/**
+	 * Récupere la story correspondant a l'id
+	 *
+	 * @param storyId
+	 * @return
+	 */
+	public Optional<Story> findById(Integer storyId) {
 		return storyRepository.findById(storyId);
 	}
 
@@ -97,10 +106,5 @@ public class StoryService {
 	 */
 	public void delete(Integer storyid) {
 		storyRepository.deleteById(storyid);
-	}
-
-	public List<BlocStory> mapCreatorStory(List<CreatorBloc> blocs) {
-		Story story = new Story();
-		return blocs.stream().map((bloc) -> new BlocStory(0, bloc.getName(), bloc.getText(), story)).collect(Collectors.toList());
 	}
 }
