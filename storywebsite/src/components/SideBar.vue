@@ -55,19 +55,13 @@ export default class SideBar extends BaseStoryComponent {
         body: {
           name: this.username,
           email: this.email,
-          password: this.password,
-        },
+          password: this.password
+        }
       });
     } catch (error) {
-      this.errorToast(
-        "Impossible de creér un compte",
-        "Veuillez réessayez plus tard"
-      );
+      this.errorToast("Impossible de creér un compte", "Veuillez réessayez plus tard");
     }
-    this.infoToast(
-      `Bienvenue ${this.username}!`,
-      `Ils faut encore vous connecter !`
-    );
+    this.infoToast(`Bienvenue ${this.username}!`, `Ils faut encore vous connecter !`);
   }
 
   /**
@@ -84,16 +78,12 @@ export default class SideBar extends BaseStoryComponent {
    */
   public async connectUser(): Promise<void> {
     try {
-      const { token } = await this.fetch<{ token: string }>(
-        "user/login",
-        METHODS.POST,
-        {
-          body: {
-            name: this.username,
-            password: this.password,
-          },
+      const { token } = await this.fetch<{ token: string }>("user/login", METHODS.POST, {
+        body: {
+          name: this.username,
+          password: this.password
         }
-      );
+      });
       jwt.verify("token", "SECRET_KEY", function (error) {
         if (error) {
           Cookies.remove("token");
@@ -104,10 +94,7 @@ export default class SideBar extends BaseStoryComponent {
       this.user = user;
       location.reload();
     } catch (error) {
-      this.errorToast(
-        "Désolé !",
-        "Auncun compte n'a été trouver avec ces informations."
-      );
+      this.errorToast("Désolé !", "Auncun compte n'a été trouver avec ces informations.");
     }
     this.loginRegister = false;
   }
@@ -178,25 +165,13 @@ export default class SideBar extends BaseStoryComponent {
           <vs-button color="primary" icon="more_horiz" type="flat"></vs-button>
         </h4>
       </div>
-      <vs-sidebar-item index="1" icon="account_box">
-        Mon profile
-      </vs-sidebar-item>
+      <vs-sidebar-item index="1" icon="account_box"> Mon profile </vs-sidebar-item>
       <vs-sidebar-item index="2" icon="book"> Mes histoires </vs-sidebar-item>
       <div class="footer-sidebar" slot="footer">
-        <vs-button
-          @click="disconnectUser"
-          v-if="user"
-          icon="reply"
-          color="danger"
-          type="flat"
+        <vs-button @click="disconnectUser" v-if="user" icon="reply" color="danger" type="flat"
           >Deconnection</vs-button
         >
-        <vs-button
-          v-if="!user"
-          @click="popUpConnect"
-          icon="how_to_reg"
-          color="success"
-          type="flat"
+        <vs-button v-if="!user" @click="popUpConnect" icon="how_to_reg" color="success" type="flat"
           >Connection / S'inscrire</vs-button
         >
         <vs-button icon="settings" color="primary" type="border"></vs-button>
@@ -211,84 +186,29 @@ export default class SideBar extends BaseStoryComponent {
       <vs-tabs alignment="center">
         <vs-tab label="Connection">
           <vs-row>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-input
-                icon="account_circle"
-                placeholder="Nom d'utilisateur"
-                v-model="username"
-              />
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-input icon="account_circle" placeholder="Nom d'utilisateur" v-model="username" />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-input
-                icon="lock"
-                placeholder="Mot de passe"
-                type="password"
-                v-model="password"
-              />
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-input icon="lock" placeholder="Mot de passe" type="password" v-model="password" />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-button color="primary" type="gradient" @click="connectUser"
-                >Connection</vs-button
-              >
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-button color="primary" type="gradient" @click="connectUser">Connection</vs-button>
             </vs-col>
           </vs-row>
         </vs-tab>
         <vs-tab label="Nouveau ?">
           <vs-row>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-input
-                icon="account_circle"
-                placeholder="Nom d'utilisateur"
-                v-model="username"
-              />
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-input icon="account_circle" placeholder="Nom d'utilisateur" v-model="username" />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
               <vs-input icon="email" placeholder="E-mail" v-model="email" />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-input
-                icon="lock"
-                type="password"
-                placeholder="Mot de passe"
-                v-model="password"
-              />
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-input icon="lock" type="password" placeholder="Mot de passe" v-model="password" />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
               <vs-input
                 icon="lock"
                 placeholder="Confirmer"
@@ -296,16 +216,8 @@ export default class SideBar extends BaseStoryComponent {
                 v-model="confirmPassword"
               />
             </vs-col>
-            <vs-col
-              vs-type="flex"
-              vs-justify="center"
-              vs-align="center"
-              vs-w="12"
-            >
-              <vs-button
-                color="primary"
-                type="gradient"
-                @click="registerNewUser"
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12">
+              <vs-button color="primary" type="gradient" @click="registerNewUser"
                 >Nous rejoindre !</vs-button
               >
             </vs-col>
