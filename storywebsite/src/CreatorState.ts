@@ -3,13 +3,15 @@ import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
 import { default as Link } from "./types/CreatorConnectionDTO";
 import Story from "./types/Story";
 
-const story = {
+const story: Story = {
 	id: 0,
 	name: "",
 	description: "",
 	creationDate: "",
 	user: { name: "" },
 	firstBlocId: "0",
+	cover:"",
+	comments:[]
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];

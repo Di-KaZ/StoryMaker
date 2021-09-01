@@ -9,6 +9,7 @@ public class StoryInfo {
 	private Date creationDate;
 	private String username;
 	private String firstBlocId;
+	private String cover;
 
 
 	public String getFirstBlocId() {
@@ -57,5 +58,13 @@ public class StoryInfo {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getCover() {
+		return this.cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 }

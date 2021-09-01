@@ -3,6 +3,7 @@ import { Component } from "vue-property-decorator";
 import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
 import Comment from "../types/Comment";
+import User from "@/types/User";
 
 @Component({})
 export default class Comments extends BaseStoryComponent {
@@ -19,7 +20,8 @@ export default class Comments extends BaseStoryComponent {
   public addComment(event: Event): void {
     this.newComment.commentDate = new Date();
     this.newComment.content = this.content;
-    this.newComment.username = GlobalState!.state!.user!.name;
+    const user = GlobalState.state.user as unknown as User;
+    this.newComment.username =  user.name;
     console.log(this.newComment.subComment);
     event.preventDefault();
     //Ici on peut passer soit directement un objet dans notre body (qui est déjà au bon format)

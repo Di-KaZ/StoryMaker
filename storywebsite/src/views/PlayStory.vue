@@ -36,7 +36,7 @@ export default class PlayStory extends BaseStoryComponent {
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
   width: 75%;
   margin: auto;
@@ -66,6 +66,15 @@ export default class PlayStory extends BaseStoryComponent {
 .comment {
   border: 1px solid rgba(95, 95, 95, 0.2);
 }
+.image{
+  width: 100%;
+  height: 400px;
+  img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+  }
+}
 </style>
 
 <template>
@@ -73,6 +82,9 @@ export default class PlayStory extends BaseStoryComponent {
     <div v-if="isLoadedData">
       <h1>Vous jouez à : {{ story.name }}</h1>
       <br />
+      <div class="image">
+        <img :src="story.cover"/>
+      </div>
       <p>Description :</p>
       <h2>{{ story.description }}</h2>
       <vs-button @click="onPlayStory">Jouer</vs-button>

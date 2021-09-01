@@ -43,6 +43,7 @@ public class CreatorStoryController {
 			newStory.setName(story.getStory().getName());
 			newStory.setCreationDate(LocalDate.now());
 			newStory.setFirstBloc(-1);
+			newStory.setCover(story.getStory().getCover());
 
 			final var tempNewStory = storyRepo.save(newStory);
 			HashMap<String, BlocStory> blocMapWithTempId = new HashMap<>();

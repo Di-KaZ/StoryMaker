@@ -110,6 +110,17 @@ export default class CreateSideBar extends BaseStoryComponent {
     return CreatorState.state.blocs;
   }
 
+  get cover(){
+    return CreatorState.state.story.cover;
+  }
+
+  set cover(cover: string | null){
+    CreatorState.commit("MODIFY_STORY", {
+    ...CreatorState.state.story,
+    cover}
+    )
+  }
+
   public async loadFile(event: any): Promise<void> {
     const file: File = event.target.files[0];
     const text = await file.text();
@@ -154,6 +165,7 @@ export default class CreateSideBar extends BaseStoryComponent {
       <vs-tab label="Story" icon="book">
         <vs-input type="file" @change="loadFile" />
         <vs-input v-model="nameStory" label="Nom de l'histoire"></vs-input>
+        <vs-input v-model="cover" label="Image :"></vs-input>
         <vs-textarea v-model="descStory" label="Description"></vs-textarea>
         <vs-select autocomplete placeholder="select" label="First Bloc" v-model="firstBlocStory">
           <vs-select-item v-for="bloc in blocs" :key="bloc.id" :value="bloc.id" :text="bloc.name" />
