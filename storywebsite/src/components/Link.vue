@@ -1,10 +1,11 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
 import CreatorConnectionDTO from "../types/CreatorConnectionDTO";
+import { WIDTH, BLOC_HEIGHT } from "../globals";
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class Link extends BaseStoryComponent {
   @Prop(Object) readonly link: CreatorConnectionDTO | undefined;
@@ -14,16 +15,16 @@ export default class Link extends BaseStoryComponent {
     let { x: inX, y: inY } = this.link!.in;
     //   eslint-disable-next-line
     let { x: outX, y: outY } = this.link!.out;
-    inX += 100;
-    outX += 100;
-    inY += 200;
+    inX += WIDTH / 2;
+    outX += WIDTH / 2;
+    inY += BLOC_HEIGHT;
     return {
       points: [inX, inY, inX, inY + 15, outX, outY - 15, outX, outY],
-      stroke: "red",
+      stroke: "#4F7246",
       strokeWidth: 5,
       lineJoin: "round",
       lineCap: "round",
-      tension: 0.5,
+      tension: 0.5
     };
   }
 }

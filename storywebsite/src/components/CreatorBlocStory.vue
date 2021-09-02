@@ -2,6 +2,7 @@
 import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
 import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
+import { WIDTH, BLOC_HEIGHT, BAR_HEIGHT, FONT_SIZE } from "../globals";
 
 @Component({
   components: {}
@@ -13,11 +14,9 @@ export default class CreatorBlocStory extends BaseStoryComponent {
   private image: HTMLImageElement | null = null;
 
   beforeMount() {
-    console.log("laoduing");
     const image = new Image();
     image.onload = () => {
       this.image = image;
-      console.log("gpawehisr4giop9uh");
     };
     image.src = this.bloc.cover;
     // FIXME DIGOLASSE
@@ -27,38 +26,62 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     return {
       x: 0,
       y: 0,
-      width: 200,
-      height: 200,
-      cornerRadius: 10,
-      fill: this.bloc!.selected ? "black" : "gray"
+      width: WIDTH,
+      height: BLOC_HEIGHT,
+      fill: "#394648"
+    };
+  }
+
+  get imageConf() {
+    if (this.image) {
+      return {
+        image: this.image,
+        width: 150,
+        height: 150,
+        x: WIDTH / 2 - 75,
+        y: 100
+      };
+    }
+    return { image: null };
+  }
+
+  get titleBarConf() {
+    return {
+      x: 0,
+      y: 0,
+      width: WIDTH,
+      height: BAR_HEIGHT,
+      fill: this.bloc!.selected ? "#69995D" : "#2C3F27"
     };
   }
 
   get nameConf() {
     return {
       x: 15,
-      y: 50,
+      y: 30,
       text: "Nom du choix :\n" + this.bloc!.name,
-      fontSize: 20,
+      fontSize: FONT_SIZE,
       fontFamily: "Calibri",
-      fill: "white"
+      fill: "#F8E9E9"
     };
   }
 
   get contentConf() {
     return {
       x: 15,
-      y: 100,
-      text: "Contenu :\n" + this.bloc!.text,
-      fontSize: 20,
+      y: 270,
+      text: "Contenu :\n\n" + this.bloc!.text,
+      fontSize: FONT_SIZE,
+      width: WIDTH - 25,
       fontFamily: "Calibri",
-      fill: "white"
+      fill: "#F8E9E9",
+      wrap: "char"
     };
   }
 
   get inConf() {
     return {
-      x: 100,
+      x: WIDTH / 2,
       y: 0,
       radius: 10,
       fill: this.inHover ? "red" : "lightblue"
@@ -67,8 +90,8 @@ export default class CreatorBlocStory extends BaseStoryComponent {
 
   get outConf() {
     return {
-      x: 100,
-      y: 200,
+      x: WIDTH / 2,
+      y: BLOC_HEIGHT,
       radius: 10,
       fill: this.outHover ? "red" : "pink"
     };
@@ -134,8 +157,9 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     :config="{ x: bloc.x, y: bloc.y }"
   >
     <v-rect :config="backgroundConf" />
+    <v-rect :config="titleBarConf" />
     <v-circle @mouseenter="onInHover" @mouseleave="onInLeave" :config="inConf" />
-    <v-image :config="{ image: image, width: 150, height: 150 }" />
+    <v-image :config="imageConf" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
     <v-circle @mouseenter="onOutHover" @mouseleave="onOutLeave" :config="outConf" />
