@@ -7,10 +7,7 @@ import { CreatorState } from "../CreatorState";
 
 @Component({})
 export default class StoryCardUser extends BaseStoryComponent {
-  @Prop(Object) readonly infos: Story | null = null;
-
-  declare infoToast: (infoMsg: string, detail?: string) => void;
-  public likes = 0;
+  @Prop(Object) readonly infos: Story | undefined;
 
   get username(): string {
     return this.infos!.creationDate;
@@ -28,24 +25,26 @@ export default class StoryCardUser extends BaseStoryComponent {
     return this.infos!.cover;
   }
 
-  public addLike(): void {
-    this.likes += 1;
+  get id() {
+    return this.infos!.id;
   }
 
   public play(): void {
-    this.$router.push("/story/play/" + this.infos!.id);
+    this.$router.push("/story/play/" + this.id);
   }
 
   public async modify() {
     var data = await this.fetch<any>("creator/load", METHODS.GET, {
-      urlparams: { id: this.infos!.id }
+      urlparams: { id: this.id }
     });
     CreatorState.commit("LOAD_JSON", JSON.stringify(data));
     this.$router.push("/story/create/");
   }
 
   public async deleteStory() {
-    this.infos && (await this.fetch<any>("story/delete/" + this.infos.id, METHODS.GET));
+    if (this.infos != null) {
+      await this.fetch<any>("story/delete/" + this.id, METHODS.GET);
+    }
     this.infoToast("Story supprimé avec succes veuillez recharger la page");
   }
 }
@@ -96,12 +95,10 @@ button {
         <vs-button @click="play" type="gradient" color="success" icon="play_arrow">
           Jouer
         </vs-button>
-        <vs-button @click="modify" type="gradient" color="danger">
+        <vs-button @click="modify" type="gradient" color="primary">
           Modifier
         </vs-button>
-        <vs-button type="gradient" color="primary" icon="share" @click="deleteStory">
-          Supprimer</vs-button
-        >
+        <vs-button type="gradient" color="danger" @click="deleteStory"> Supprimer</vs-button>
       </vs-row>
     </div>
   </vs-card>

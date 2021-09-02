@@ -15,7 +15,7 @@ import StoryCardUser from "../components/StoryCardUser.vue";
 export default class MyStories extends BaseStoryComponent {
   public stories: Story[] = [];
   public isLoadedData: boolean = false;
-  public comments: Comment[] = [];
+  public comments: Comment[] | null = [];
 
   beforeMount() {
     this.loadUserStories();
@@ -32,11 +32,17 @@ export default class MyStories extends BaseStoryComponent {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.scrollable {
+  overflow-y: scroll;
+}
+</style>
 
 <template>
   <div v-if="isLoadedData">
     <h1>Mes Stories</h1>
-    <story-card-user v-for="story in stories" :infos="story" :key="story.id" />
+    <div class="scrollable">
+      <story-card-user v-for="story in stories" :infos="story" :key="story.id" />
+    </div>
   </div>
 </template>
