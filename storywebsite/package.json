@@ -9,10 +9,12 @@
     "lint": "eslint src/* --fix"
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^8.5.5",
+    "@types/file-saver": "^2.0.3",
     "@types/js-cookie": "^2.2.6",
+    "@types/jsonwebtoken": "^8.5.5",
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
+    "file-saver": "^2.0.5",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "konva": "^7.2.5",
@@ -23,10 +25,9 @@
     "vue-konva": "^2.1.7",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
-    "vuesax": "^3.12.2",
-    "vuex": "^3.6.2",
     "vue2-dropzone": "^3.6.0",
-    "file-saver": "^2.0.5"
+    "vuesax": "^3.12.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

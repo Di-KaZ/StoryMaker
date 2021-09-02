@@ -22,7 +22,7 @@ const firstBlocId = undefined;
 function updateLinks(blocs: CreatorBlocStoryDTO[]): Link[] {
 	const links: Link[] = [];
 	blocs.forEach(bloc => {
-		if (bloc.in) {
+		if (bloc.in && parseInt(bloc.in.id) !== -1) {
 			// mise a jour du parent
 			bloc.in = blocs.find(b => b.id === bloc.in?.id);
 			// creation d'un link
@@ -161,7 +161,7 @@ export const CreatorState = new Vuex.Store({
 			const blob = new Blob([jsonBlocs], { type: "application/json" });
 			saveAs(blob, story.name + ".json");
 		},
-		LOAD_JSON(state, payload) {
+		LOAD_JSON(state, payload: string) {
 			const loadedJson = JSON.parse(payload);
 			state.blocs = loadedJson.blocs;
 			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;

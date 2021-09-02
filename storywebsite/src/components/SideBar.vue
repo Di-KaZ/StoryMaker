@@ -46,6 +46,10 @@ export default class SideBar extends BaseStoryComponent {
     this.loginRegister = true;
   }
 
+
+  public goToMyStories(): void {
+    this.$router.push("/user/stories");
+  }
   /**
    * Function applé l'orsque l'utilisateur clique le bouton Nous rejoindre !
    */
@@ -166,7 +170,9 @@ export default class SideBar extends BaseStoryComponent {
         </h4>
       </div>
       <vs-sidebar-item index="1" icon="account_box"> Mon profile </vs-sidebar-item>
-      <vs-sidebar-item index="2" icon="book"> Mes histoires </vs-sidebar-item>
+      <vs-sidebar-item index="2" icon="book" @click="goToMyStories">
+        Mes histoires
+      </vs-sidebar-item>
       <div class="footer-sidebar" slot="footer">
         <vs-button @click="disconnectUser" v-if="user" icon="reply" color="danger" type="flat"
           >Deconnection</vs-button

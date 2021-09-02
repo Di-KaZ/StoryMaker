@@ -1,16 +1,15 @@
 package storyteam.server.story.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class StoryInfo {
 	private Integer id;
 	private String name;
 	private String description;
-	private Date creationDate;
+	private LocalDate creationDate;
 	private String username;
 	private String firstBlocId;
 	private String cover;
-
 
 	public String getFirstBlocId() {
 		return firstBlocId;
@@ -44,11 +43,11 @@ public class StoryInfo {
 		this.description = description;
 	}
 
-	public Date getCreationDate() {
+	public LocalDate getCreationDate() {
 		return this.creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
 

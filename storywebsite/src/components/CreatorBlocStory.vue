@@ -18,8 +18,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     image.onload = () => {
       this.image = image;
     };
-    image.src = this.bloc.cover;
-    // FIXME DIGOLASSE
+    image.src = this.bloc!.cover;
   }
 
   get backgroundConf() {

@@ -1,6 +1,7 @@
 package storyteam.server.story.controller;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import storyteam.server.story.model.Story;
 import storyteam.server.story.model.User;
 import storyteam.server.story.services.UserService;
 
@@ -124,6 +126,15 @@ public class UserController {
 		Optional<User> user = userService.findUserByToken(auth);
 		if (user.isPresent()) {
 			return ResponseEntity.of(user);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+
+	@GetMapping(value = "/infos/story")
+	public ResponseEntity<Set<Story>> getAccountStories(@RequestHeader("Authorization") String auth) {
+		Optional<User> user = userService.findUserByToken(auth);
+		if (user.isPresent()) {
+			return ResponseEntity.of(Optional.ofNullable(user.get().getStories()));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
