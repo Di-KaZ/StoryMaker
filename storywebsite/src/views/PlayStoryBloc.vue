@@ -32,28 +32,62 @@ export default class PlayStory extends BaseStoryComponent {
 </script>
 <template>
   <div v-if="isLoadedData && user">
-    <div class="image">
+    <div v-if="blocStory.cover" class="image">
       <img :src="blocStory.cover" />
-      <h3>{{ blocStory.name }}</h3>
     </div>
     <br />
-    <p>{{ blocStory.content }}</p>
+    <h3 class="titleBloc">{{ blocStory.name }}</h3>
+    <div class="content">
+      <p>{{ blocStory.content }}</p>
     <p v-if="choices == null || choices.length == 0">Vous avez terminé la partie !</p>
-    <vs-button @click="onPlayBlocStory(choice.id)" v-for="choice in choices" :key="choice.id">{{
-      choice.name
-    }}</vs-button>
+     <vs-button class="choices" @click="onPlayBlocStory(choice.id)" v-for="choice in choices" :key="choice.id">
+      {{choice.name}}
+    </vs-button>
+    </div>
+
   </div>
   <div v-else>Veuillez vous connecter pour accéder à cette story</div>
 </template>
 
 <style scoped lang="scss">
+.title {
+  position: absolute;
+  z-index: 1;
+  bottom: 8px;
+  left: 16px;
+  color: #fff;
+}
+.titleBloc {
+  margin : 10px;
+}
 .image {
+  position: relative;
   width: 100%;
   height: 400px;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: brightness(50%);
   }
+}
+.content{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: justify;
+}
+.choices{
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  padding: 15px;
+  margin: 5px;
+}
+p{
+  margin-left: 10px;
 }
 </style>
