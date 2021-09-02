@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { Component, Vue } from "vue-property-decorator";
+import { GlobalState } from "../GlobalState";
 
 // Fetch an object from JAVA REST API
 export enum METHODS {
@@ -129,6 +130,10 @@ export default class BaseStoryComponent extends Vue {
     // console.log(response.json());
     const jsonToDto: T = await response.json();
     return jsonToDto;
+  }
+
+  get user() {
+    return GlobalState.state.user;
   }
 
 }

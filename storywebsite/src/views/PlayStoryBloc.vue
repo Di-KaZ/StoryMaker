@@ -31,7 +31,7 @@ export default class PlayStory extends BaseStoryComponent {
 }
 </script>
 <template>
-  <div v-if="isLoadedData">
+  <div v-if="isLoadedData && user">
     <div class="image">
       <img :src="blocStory.cover" />
       <h3>{{ blocStory.name }}</h3>
@@ -43,6 +43,7 @@ export default class PlayStory extends BaseStoryComponent {
       choice.name
     }}</vs-button>
   </div>
+  <div v-else>Veuillez vous connecter pour accéder à cette story</div>
 </template>
 
 <style scoped lang="scss">
