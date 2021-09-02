@@ -84,15 +84,23 @@ export default class PlayStory extends BaseStoryComponent {
   color: #fff;
 }
 #story-description {
-  height: 100px;
-  max-height: 200px;
+  //   height: 100px;
+  //   max-height: 200px;
   word-wrap: break-space;
   text-align: justify;
+}
+.scrollable {
+  overflow-y: scroll;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  padding-bottom: 10vh;
+  margin: 0;
 }
 </style>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="scrollable">
     <div v-if="isLoadedData">
       <div class="image">
         <h1 class="title">Vous jouez à : {{ story.name }}</h1>
@@ -104,26 +112,15 @@ export default class PlayStory extends BaseStoryComponent {
       <vs-row id="story-description">
         <vs-col vs-w="12">
           <p>Description :</p>
-        </vs-col>
-        <vs-col id="description" vs-w="12">
-          <!-- <h2>{{ story.description }}</h2> -->
-          <h2>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum velit velit,
-            condimentum egestas luctus in, hendrerit ac mi. Sed mattis justo tristique, pretium
-            augue non, dapibus mauris. Vivamus imperdiet lectus nunc, eu volutpat tortor laoreet in.
-            Praesent tellus risus, lobortis ut volutpat in, pulvinar ut felis. Phasellus eleifend
-            pharetra accumsan. Nam eget nulla id massa consequat vestibulum. In porta sodales
-            efficitur. Nam at leo non felis fringilla ultricies. Integer sed mi diam. Sed at eros
-            nec odio aliquam accumsan. Maecenas vulputate ex sed dapibus viverra. Donec in metus
-            facilisis, rhoncus mauris pharetra, ullamcorper tortor. Donec dignissim arcu sed eros
-            imperdiet tempus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-            posuere cubilia curae; Sed et erat in ante tempor pretium vitae ut eros.
-          </h2>
+          <p>
+            {{ story.description }}
+          </p>
         </vs-col>
         <vs-col vs-w="12">
           <vs-button @click="onPlayStory">Jouer</vs-button>
         </vs-col>
       </vs-row>
+
       <vs-row v-bind:key="comment.id" v-for="comment in story.comments" class="list-comments">
         <vs-col class="comment">
           <vs-col class="comment-header" vs-type="flex" vs-justify="space-between" vs-w="12">
@@ -142,7 +139,7 @@ export default class PlayStory extends BaseStoryComponent {
           <vs-col vs-type="flex" vs-justify="flex-end" vs-w="12"><a href="#">répondre</a></vs-col>
         </vs-col>
       </vs-row>
-      <comments></comments>
+      <comments />
     </div>
   </div>
   <div v-else>Veuillez vous connecter pour accéder à cette story</div>
