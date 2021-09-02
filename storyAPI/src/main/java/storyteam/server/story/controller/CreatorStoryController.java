@@ -72,7 +72,6 @@ public class CreatorStoryController {
 			HashMap<String, BlocStory> blocMapWithTempId = new HashMap<>();
 			for (var bloc : story.getBlocs()) {
 				var newBloc = new BlocStory(bloc.getName(), bloc.getText(), newStory.getId(), -1, bloc.getCover());
-				// newBloc.setId(Integer.parseInt(bloc.getId()));
 				newBloc = blocRepo.save(newBloc);
 				blocMapWithTempId.put(bloc.getId(), newBloc);
 			}
@@ -83,9 +82,9 @@ public class CreatorStoryController {
 				if (bloc.getIn() != null) {
 					var parentBlocId = blocMapWithTempId.get(bloc.getIn().getId()).getId();
 					blocMapWithTempId.get(bloc.getId()).setPreviousBlocId(parentBlocId);
-					blocRepo.save(blocMapWithTempId.get(bloc.getId()));
 				}
 			});
+			blocRepo.saveAll(blocMapWithTempId.values());
 			entityManager.persist(newStory);
 			entityManager.flush();
 			entityManager.refresh(newStory);

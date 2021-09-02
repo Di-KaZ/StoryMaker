@@ -163,7 +163,6 @@ export const CreatorState = new Vuex.Store({
 		},
 		LOAD_JSON(state, payload: string) {
 			const loadedJson = JSON.parse(payload);
-			console.log("BORDEL DE MERDE", loadedJson);
 			state.blocs = loadedJson.blocs;
 			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
 			state.story = loadedJson.story;
