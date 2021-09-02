@@ -101,9 +101,20 @@ public class CreatorStoryController {
 		updatingStory = storyRepo.save(updatingStory);
 		HashMap<String, BlocStory> blocMapWithTempId = new HashMap<>();
 		for (var bloc : story.getBlocs()) {
-			var newBloc = new BlocStory(bloc.getName(), bloc.getText(), updatingStory.getId(), -1, bloc.getCover());
-			newBloc = blocRepo.save(newBloc);
-			blocMapWithTempId.put(bloc.getId(), newBloc);
+			try {
+				var existingBloc = blocRepo.findById(Integer.valueOf(bloc.getId()));
+				existingBloc.ifPresent(existing -> {
+					existing.setName(bloc.getName());
+					existing.setText(bloc.getText());
+					existing.setCover(bloc.getCover());
+					blocMapWithTempId.put(bloc.getId(), existing);
+				});
+			} catch (NumberFormatException e) {
+				var newBloc = new BlocStory(bloc.getName(), bloc.getText(), updatingStory.getId(), -1, bloc.getCover());
+				newBloc = blocRepo.save(newBloc);
+				blocMapWithTempId.put(bloc.getId(), newBloc);
+
+			}
 		}
 		updatingStory.setFirstBlocId(blocMapWithTempId.get(story.getStory().getFirstBlocId()).getId());
 		updatingStory = storyRepo.save(updatingStory);
