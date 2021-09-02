@@ -66,24 +66,32 @@ export default class PlayStory extends BaseStoryComponent {
 .comment {
   border: 1px solid rgba(95, 95, 95, 0.2);
 }
-.image{
+.image {
+  position: relative;
   width: 100%;
   height: 400px;
-  img{
-    width:100%;
-    height:100%;
+  img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    filter: brightness(50%);
   }
+}
+.title {
+  position: absolute;
+  z-index: 1;
+  bottom: 8px;
+  left: 16px;
+  color: #fff;
 }
 </style>
 
 <template>
   <div v-if="user">
     <div v-if="isLoadedData">
-      <h1>Vous jouez à : {{ story.name }}</h1>
-      <br />
       <div class="image">
-        <img :src="story.cover"/>
+        <h1 class="title">Vous jouez à : {{ story.name }}</h1>
+        <img :src="story.cover" />
       </div>
       <p>Description :</p>
       <h2>{{ story.description }}</h2>
