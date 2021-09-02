@@ -5,12 +5,16 @@ import Story from "../types/Story";
 import BlocStory from "../types/BlocStory";
 import { GlobalState } from "../GlobalState";
 import User from "../types/User";
+import comments from "../components/Comments.vue";
 
-@Component({})
+@Component({
+  components: {
+    comments: comments
+  }
+})
 export default class PlayStory extends BaseStoryComponent {
   public story: Story;
   public isLoadedData: boolean = false;
-  public user: User;
   public comments: Comment[];
 
   beforeMount() {
@@ -18,9 +22,12 @@ export default class PlayStory extends BaseStoryComponent {
   }
 
   async loadStory() {
-    this.user = GlobalState.state.user;
     this.story = await this.fetch<Story>("story/play/" + this.$route.params.id, METHODS.GET);
     this.isLoadedData = true;
+  }
+
+  get user() {
+    return GlobalState.state.user;
   }
 
   onPlayStory() {

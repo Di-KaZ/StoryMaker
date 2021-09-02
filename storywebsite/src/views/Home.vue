@@ -6,17 +6,15 @@ import Story from "../types/Story";
 
 @Component({
   components: {
-    StoryCard: StoryCard,
-  },
+    StoryCard: StoryCard
+  }
 })
 export default class Home extends BaseStoryComponent {
   private stories: Story[] = [];
   private page = 0;
 
   beforeMount() {
-    this.fetch<Story[]>("story/trending", METHODS.GET).then(
-      (res) => (this.stories = res)
-    );
+    this.fetch<Story[]>("story/trending", METHODS.GET).then((res) => (this.stories = res));
   }
 }
 </script>
