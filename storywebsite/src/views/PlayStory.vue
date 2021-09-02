@@ -1,34 +1,38 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component } from "vue-property-decorator";
 import Story from "../types/Story";
-import BlocStory from "../types/BlocStory";
 import { GlobalState } from "../GlobalState";
-import Comment from "../types/Comment";
-import Comments from "../components/Comments.vue";
+import comments from "../components/Comments.vue";
 
 @Component({
   components: {
-    Comments: Comments
+    comments: comments
   }
 })
 export default class PlayStory extends BaseStoryComponent {
-  private story: Story | null = null;
-  private user: any | null = null;
-  private isLoadedData = false;
-  public comment: Comment[] | null = null;
+  public story: Story | null = null;
+  public isLoadedData: boolean = false;
+  public comments: Comment[] = [];
 
   beforeMount() {
-    this.loadFirstBlocStory();
+    this.loadStory();
   }
 
-  async loadFirstBlocStory() {
+  async loadStory() {
     this.story = await this.fetch<Story>("story/play/" + this.$route.params.id, METHODS.GET);
     this.isLoadedData = true;
-    this.user = GlobalState.state.user;
+  }
+
+  get user() {
+    return GlobalState.state.user;
   }
 
   onPlayStory() {
+    if (this.story && parseInt(this.story.firstBlocId) === -1) {
+      this.errorToast("Cette story n'est pas jouable !", "Cette story contient une erreur.");
+      return;
+    }
     this.$router.push(
       "/story/play/" + this.$route.params.id + "/blocstory/" + this.story?.firstBlocId
     );
@@ -41,56 +45,82 @@ export default class PlayStory extends BaseStoryComponent {
   width: 75%;
   margin: auto;
 }
-
 .story-info {
   margin-bottom: 2%;
 }
-
 .comment-header {
   border-bottom: 1px solid rgba(95, 95, 95, 0.2);
   padding-left: 10px;
   padding-right: 10px;
 }
-
 .comment-content {
   max-height: 500px;
   height: 50px;
   padding-left: 10px;
   padding-right: 10px;
 }
-
 .list-comments {
   margin-bottom: 2%;
 }
-
 .comment {
   border: 1px solid rgba(95, 95, 95, 0.2);
 }
-.image{
+.image {
+  position: relative;
   width: 100%;
   height: 400px;
-  img{
-    width:100%;
-    height:100%;
+  img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    filter: brightness(50%);
   }
+}
+.title {
+  position: absolute;
+  z-index: 1;
+  bottom: 8px;
+  left: 16px;
+  color: #fff;
+}
+#story-description {
+  //   height: 100px;
+  //   max-height: 200px;
+  word-wrap: break-space;
+  text-align: justify;
+}
+.scrollable {
+  overflow-y: scroll;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  padding-bottom: 10vh;
+  margin: 0;
 }
 </style>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="scrollable">
     <div v-if="isLoadedData">
-      <h1>Vous jouez à : {{ story.name }}</h1>
-      <br />
       <div class="image">
-        <img :src="story.cover"/>
+        <h1 class="title">Vous jouez à : {{ story.name }}</h1>
+        <img :src="story.cover" />
       </div>
-      <p>Description :</p>
-      <h2>{{ story.description }}</h2>
-      <vs-button @click="onPlayStory">Jouer</vs-button>
     </div>
     <br />
     <div class="container">
+      <vs-row id="story-description">
+        <vs-col vs-w="12">
+          <p>Description :</p>
+          <p>
+            {{ story.description }}
+          </p>
+        </vs-col>
+        <vs-col vs-w="12">
+          <vs-button @click="onPlayStory">Jouer</vs-button>
+        </vs-col>
+      </vs-row>
+
       <vs-row v-bind:key="comment.id" v-for="comment in story.comments" class="list-comments">
         <vs-col class="comment">
           <vs-col class="comment-header" vs-type="flex" vs-justify="space-between" vs-w="12">
@@ -106,10 +136,12 @@ export default class PlayStory extends BaseStoryComponent {
           >
             <p>{{ comment.content }}</p>
           </vs-col>
-          <vs-col vs-type="flex" vs-justify="flex-end" vs-w="12"><a href="#">répondre</a></vs-col>
+          <vs-col vs-type="flex" vs-justify="flex-end" vs-w="12"
+            ><a href="#">répondre (WIP)</a></vs-col
+          >
         </vs-col>
       </vs-row>
-      <comments></comments>
+      <comments />
     </div>
   </div>
   <div v-else>Veuillez vous connecter pour accéder à cette story</div>

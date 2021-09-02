@@ -1,9 +1,9 @@
 <script lang="ts">
 import { Component } from "vue-property-decorator";
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { GlobalState } from "../GlobalState";
 import Comment from "../types/Comment";
-import User from "@/types/User";
+import User from "../types/User";
 
 @Component({})
 export default class Comments extends BaseStoryComponent {
@@ -20,9 +20,8 @@ export default class Comments extends BaseStoryComponent {
   public addComment(event: Event): void {
     this.newComment.commentDate = new Date();
     this.newComment.content = this.content;
-    const user = GlobalState.state.user as unknown as User;
-    this.newComment.username =  user.name;
-    console.log(this.newComment.subComment);
+    const user = (GlobalState.state.user as unknown) as User;
+    this.newComment.username = user.name;
     event.preventDefault();
     //Ici on peut passer soit directement un objet dans notre body (qui est déjà au bon format)
     //Ou alors on passe manuellement chaque élements:
@@ -35,8 +34,7 @@ export default class Comments extends BaseStoryComponent {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
 
 <template>
   <div>

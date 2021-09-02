@@ -2,63 +2,97 @@
 import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
 import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
+import { WIDTH, BLOC_HEIGHT, BAR_HEIGHT, FONT_SIZE } from "../globals";
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class CreatorBlocStory extends BaseStoryComponent {
   @Prop(Object) readonly bloc: CreatorBlocStoryDTO | undefined;
   private outHover = false;
   private inHover = false;
+  private image: HTMLImageElement | null = null;
+
+  beforeMount() {
+    const image = new Image();
+    image.onload = () => {
+      this.image = image;
+    };
+    image.src = this.bloc!.cover;
+  }
 
   get backgroundConf() {
     return {
       x: 0,
       y: 0,
-      width: 200,
-      height: 200,
-      cornerRadius: 10,
-      fill: this.bloc!.selected ? "black" : "gray",
+      width: WIDTH,
+      height: BLOC_HEIGHT,
+      fill: "#394648"
+    };
+  }
+
+  get imageConf() {
+    if (this.image) {
+      return {
+        image: this.image,
+        width: 150,
+        height: 150,
+        x: WIDTH / 2 - 75,
+        y: 100
+      };
+    }
+    return { image: null };
+  }
+
+  get titleBarConf() {
+    return {
+      x: 0,
+      y: 0,
+      width: WIDTH,
+      height: BAR_HEIGHT,
+      fill: this.bloc!.selected ? "#69995D" : "#2C3F27"
     };
   }
 
   get nameConf() {
     return {
       x: 15,
-      y: 50,
-      text: "Nom :\n" + this.bloc!.name,
-      fontSize: 20,
+      y: 30,
+      text: "Nom du choix :\n" + this.bloc!.name,
+      fontSize: FONT_SIZE,
       fontFamily: "Calibri",
-      fill: "white",
+      fill: "#F8E9E9"
     };
   }
 
   get contentConf() {
     return {
       x: 15,
-      y: 100,
-      text: "Contenu :\n" + this.bloc!.text,
-      fontSize: 20,
+      y: 270,
+      text: "Contenu :\n\n" + this.bloc!.text,
+      fontSize: FONT_SIZE,
+      width: WIDTH - 25,
       fontFamily: "Calibri",
-      fill: "white",
+      fill: "#F8E9E9",
+      wrap: "char"
     };
   }
 
   get inConf() {
     return {
-      x: 100,
+      x: WIDTH / 2,
       y: 0,
       radius: 10,
-      fill: this.inHover ? "red" : "lightblue",
+      fill: this.inHover ? "red" : "lightblue"
     };
   }
 
   get outConf() {
     return {
-      x: 100,
-      y: 200,
+      x: WIDTH / 2,
+      y: BLOC_HEIGHT,
       radius: 10,
-      fill: this.outHover ? "red" : "pink",
+      fill: this.outHover ? "red" : "pink"
     };
   }
 
@@ -70,7 +104,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     this.$store.commit("MODIFY_BLOC", {
       ...this.bloc,
       x,
-      y,
+      y
     });
   }
 
@@ -84,7 +118,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     this.$store.commit("UPDATE_CONNECTION", {
       ...this.bloc,
       x,
-      y,
+      y
     });
   }
 
@@ -122,17 +156,11 @@ export default class CreatorBlocStory extends BaseStoryComponent {
     :config="{ x: bloc.x, y: bloc.y }"
   >
     <v-rect :config="backgroundConf" />
-    <v-circle
-      @mouseenter="onInHover"
-      @mouseleave="onInLeave"
-      :config="inConf"
-    />
+    <v-rect :config="titleBarConf" />
+    <v-circle @mouseenter="onInHover" @mouseleave="onInLeave" :config="inConf" />
+    <v-image :config="imageConf" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
-    <v-circle
-      @mouseenter="onOutHover"
-      @mouseleave="onOutLeave"
-      :config="outConf"
-    />
+    <v-circle @mouseenter="onOutHover" @mouseleave="onOutLeave" :config="outConf" />
   </v-group>
 </template>

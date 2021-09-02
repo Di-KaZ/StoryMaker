@@ -4,7 +4,6 @@ import User from "./types/User";
 
 Vue.use(Vuex);
 
-let user: User | null = null;
 /**
  * Global state to share variable in all component of the app
  * to use wisely 🧙‍♂️
@@ -12,7 +11,7 @@ let user: User | null = null;
 export const GlobalState = new Vuex.Store({
 	state: {
 		sideBarOpen: false,
-		user,
+		user: null as unknown as User | null,
 	},
 	mutations: {
 		toggleSideBar(state) {

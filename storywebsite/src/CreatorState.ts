@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import Vuex from "vuex";
 import { default as CreatorBlocStoryDTO } from "./types/CreatorBlocStoryDTO";
 import { default as Link } from "./types/CreatorConnectionDTO";
@@ -9,9 +10,9 @@ const story: Story = {
 	description: "",
 	creationDate: "",
 	user: { name: "" },
-	firstBlocId: "0",
-	cover:"",
-	comments:[]
+	firstBlocId: "-1",
+	cover: "",
+	comments: []
 };
 const links: Link[] = [];
 const blocs: CreatorBlocStoryDTO[] = [];
@@ -21,7 +22,7 @@ const firstBlocId = undefined;
 function updateLinks(blocs: CreatorBlocStoryDTO[]): Link[] {
 	const links: Link[] = [];
 	blocs.forEach(bloc => {
-		if (bloc.in) {
+		if (bloc.in && parseInt(bloc.in.id) !== -1) {
 			// mise a jour du parent
 			bloc.in = blocs.find(b => b.id === bloc.in?.id);
 			// creation d'un link
@@ -157,9 +158,10 @@ export const CreatorState = new Vuex.Store({
 				}
 				return value;
 			});
-			console.log(jsonBlocs);
+			const blob = new Blob([jsonBlocs], { type: "application/json" });
+			saveAs(blob, story.name + ".json");
 		},
-		LOAD_JSON(state, payload) {
+		LOAD_JSON(state, payload: string) {
 			const loadedJson = JSON.parse(payload);
 			state.blocs = loadedJson.blocs;
 			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;

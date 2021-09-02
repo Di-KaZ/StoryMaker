@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -110,15 +109,15 @@ public class StoryController {
 	 *
 	 * @param storyId
 	 */
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Void> deleteStory(@RequestHeader("Authorization") String auth,
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<String> deleteStory(@RequestHeader("Authorization") String auth,
 			@PathVariable("id") Integer storyId) {
 		Optional<User> user = userService.findUserByToken(auth);
 		if (user.isPresent()) {
 			Optional<Story> story = storyService.findById(storyId);
 			if (story.isPresent() && story.get().getUser().equals(user.get())) {
 				storyService.delete(storyId);
-				return ResponseEntity.ok(null);
+				return ResponseEntity.ok("ok");
 			}
 		}
 		return ResponseEntity.noContent().build();

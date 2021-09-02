@@ -2,10 +2,10 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Create from "../views/Create.vue";
 import Home from "../views/Home.vue";
+import MyStories from "../views/MyStories.vue";
 import PlayStory from "../views/PlayStory.vue";
 import PlayStoryBloc from "../views/PlayStoryBloc.vue";
 import Search from "../views/Search.vue";
-import StoryInfo from "../views/StoryInfo.vue";
 
 Vue.use(VueRouter);
 
@@ -21,7 +21,7 @@ const routes: Array<RouteConfig> = [
 		component: Search,
 	},
 	{
-		path: "/story/create",
+		path: "/story/create/",
 		name: "StoryCreate",
 		component: Create,
 	},
@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
 		name: "PlayStoryBloc",
 		component: PlayStoryBloc,
 	},
+	{
+		path: "/user/stories",
+		name: "MyStories",
+		component: MyStories,
+	}
 ];
 
 const router = new VueRouter({

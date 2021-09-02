@@ -1,17 +1,17 @@
 <script lang="ts">
-import BaseStoryComponent, { METHODS } from "@/components/BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "../components/BaseStoryComponent";
 import { Component, Prop } from "vue-property-decorator";
 import Link from "./Link.vue";
-import CreatorBlocStory from "@/components/CreatorBlocStory.vue";
-import CreatorBlocStoryDTO from "@/types/CreatorBlocStoryDTO";
+import CreatorBlocStory from "../components/CreatorBlocStory.vue";
+import CreatorBlocStoryDTO from "../types/CreatorBlocStoryDTO";
 import Zoomer from "./Zoomer.vue";
 
 @Component({
   components: {
     creatorBlocStory: CreatorBlocStory,
     creatorLink: Link,
-    Zoomer: Zoomer,
-  },
+    Zoomer: Zoomer
+  }
 })
 export default class CreatorStage extends BaseStoryComponent {
   @Prop(Array) readonly blocs: CreatorBlocStoryDTO[] | undefined;
@@ -33,12 +33,12 @@ export default class CreatorStage extends BaseStoryComponent {
     const pointer = stage.getPointerPosition();
     const mousePointTo = {
       x: (pointer.x - stage.x()) / oldScale,
-      y: (pointer.y - stage.y()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale
     };
     const newScale = event.evt.deltaY < 0 ? oldScale * 1.1 : oldScale / 1.1;
     const newPos = {
       x: pointer.x - mousePointTo.x * newScale,
-      y: pointer.y - mousePointTo.y * newScale,
+      y: pointer.y - mousePointTo.y * newScale
     };
     stage.scale({ x: newScale, y: newScale });
     stage.position(newPos);
@@ -66,7 +66,7 @@ export default class CreatorStage extends BaseStoryComponent {
         width,
         height,
         draggable: true,
-        container: 'canva',
+        container: 'canva'
       }"
       @wheel="handleZoom"
     >
