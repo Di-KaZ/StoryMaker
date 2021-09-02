@@ -161,6 +161,7 @@ export default class CreateSideBar extends BaseStoryComponent {
       text: "",
       x: 0,
       y: 0,
+      cover: "",
       selected: false,
       out: []
     } as CreatorBlocStoryDTO);
@@ -186,7 +187,7 @@ export default class CreateSideBar extends BaseStoryComponent {
   }
 
   get validFirstBloc(): boolean {
-    return !(parseInt(this.firstBlocStory) !== -1);
+    return !(parseInt(this.firstBlocStory as string) !== -1);
   }
 }
 </script>

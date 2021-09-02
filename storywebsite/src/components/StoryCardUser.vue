@@ -7,25 +7,25 @@ import { CreatorState } from "../CreatorState";
 
 @Component({})
 export default class StoryCardUser extends BaseStoryComponent {
-  @Prop(Object) readonly infos: Story | null;
+  @Prop(Object) readonly infos: Story | null = null;
 
   declare infoToast: (infoMsg: string, detail?: string) => void;
   public likes = 0;
 
   get username(): string {
-    return this.infos.creationDate;
+    return this.infos!.creationDate;
   }
 
   get storyname(): string {
-    return this.infos.name;
+    return this.infos!.name;
   }
 
   get description(): string {
-    return this.infos.description;
+    return this.infos!.description;
   }
 
   get cover(): string {
-    return this.infos.cover;
+    return this.infos!.cover;
   }
 
   public addLike(): void {
@@ -33,19 +33,20 @@ export default class StoryCardUser extends BaseStoryComponent {
   }
 
   public play(): void {
-    this.$router.push("/story/play/" + this.infos.id);
+    this.$router.push("/story/play/" + this.infos!.id);
   }
 
-  public async modify(): void {
+  public async modify() {
     var data = await this.fetch<any>("creator/load", METHODS.GET, {
-      urlparams: { id: this.infos.id }
+      urlparams: { id: this.infos!.id }
     });
     CreatorState.commit("LOAD_JSON", JSON.stringify(data));
     this.$router.push("/story/create/");
   }
 
   public async deleteStory() {
-    var data = await this.fetch<any>("story/delete/" + this.infos.id, METHODS.GET);
+    this.infos && (await this.fetch<any>("story/delete/" + this.infos.id, METHODS.GET));
+    this.infoToast("Story supprimé avec succes veuillez recharger la page");
   }
 }
 </script>

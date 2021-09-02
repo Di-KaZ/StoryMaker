@@ -11,9 +11,9 @@ import comments from "../components/Comments.vue";
   }
 })
 export default class PlayStory extends BaseStoryComponent {
-  public story: Story;
+  public story: Story | null = null;
   public isLoadedData: boolean = false;
-  public comments: Comment[];
+  public comments: Comment[] = [];
 
   beforeMount() {
     this.loadStory();
@@ -29,7 +29,7 @@ export default class PlayStory extends BaseStoryComponent {
   }
 
   onPlayStory() {
-    if (parseInt(this.story.firstBlocId) === -1) {
+    if (this.story && parseInt(this.story.firstBlocId) === -1) {
       this.errorToast("Cette story n'est pas jouable !", "Cette story contient une erreur.");
       return;
     }

@@ -13,9 +13,9 @@ import StoryCardUser from "../components/StoryCardUser.vue";
   }
 })
 export default class MyStories extends BaseStoryComponent {
-  public stories: Story[];
+  public stories: Story[] = [];
   public isLoadedData: boolean = false;
-  public comments: Comment[];
+  public comments: Comment[] = [];
 
   beforeMount() {
     this.loadUserStories();

@@ -44,6 +44,7 @@ export default class ToolBar extends BaseStoryComponent {
       text: "",
       x: 0,
       y: 0,
+      cover: "",
       selected: false,
       out: []
     } as CreatorBlocStoryDTO);
