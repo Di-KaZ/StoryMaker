@@ -22,7 +22,6 @@ export default class Comments extends BaseStoryComponent {
     this.newComment.content = this.content;
     const user = (GlobalState.state.user as unknown) as User;
     this.newComment.username = user.name;
-    console.log(this.newComment.subComment);
     event.preventDefault();
     //Ici on peut passer soit directement un objet dans notre body (qui est déjà au bon format)
     //Ou alors on passe manuellement chaque élements:

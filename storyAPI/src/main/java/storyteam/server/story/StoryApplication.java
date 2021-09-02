@@ -16,7 +16,6 @@ public class StoryApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	// TODO get secret from the env
 	@Bean(name = "JWT_SECRET")
 	public String jwtSecret() {
 		return "SECRET_KEY";

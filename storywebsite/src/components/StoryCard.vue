@@ -28,7 +28,6 @@ export default class StoryCard extends StoryCardProps {
   }
 
   get cover(): string {
-    console.log(this.infos.cover);
     return this.infos.cover;
   }
 

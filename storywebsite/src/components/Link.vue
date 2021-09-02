@@ -15,6 +15,7 @@ export default class Link extends BaseStoryComponent {
     let { x: inX, y: inY } = this.link!.in;
     //   eslint-disable-next-line
     let { x: outX, y: outY } = this.link!.out;
+
     inX += WIDTH / 2;
     outX += WIDTH / 2;
     inY += BLOC_HEIGHT;

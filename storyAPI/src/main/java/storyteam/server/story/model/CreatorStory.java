@@ -7,6 +7,10 @@ public class CreatorStory {
 	private StoryInfo story;
 	private Set<CreatorBloc> blocs;
 
+	public CreatorStory() {
+
+	}
+
 	public CreatorStory(Story bddStory) {
 		story = new StoryInfo();
 		story.setId(bddStory.getId());
@@ -19,7 +23,11 @@ public class CreatorStory {
 		blocs = new HashSet<CreatorBloc>();
 		Double x = 0D;
 		Double y = 0D;
-		for (var bloc : bddStory.getBlocStories()) {
+		var blocStories = bddStory.getBlocStories();
+		if (blocStories == null) {
+			return;
+		}
+		for (var bloc : blocStories) {
 			var tmpBloc = new CreatorBloc();
 			tmpBloc.setId(bloc.getId().toString());
 			tmpBloc.setName(bloc.getName());

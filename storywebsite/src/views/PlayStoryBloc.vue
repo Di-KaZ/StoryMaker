@@ -20,7 +20,6 @@ export default class PlayStory extends BaseStoryComponent {
       "blocstory/get/choices/" + this.$route.params.idbloc,
       METHODS.GET
     );
-    console.log(this.blocStory.cover);
     this.isLoadedData = true;
   }
 

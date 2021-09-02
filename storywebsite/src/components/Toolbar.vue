@@ -49,7 +49,7 @@ export default class ToolBar extends BaseStoryComponent {
     } as CreatorBlocStoryDTO);
   }
 
-  public save(): void {
+  public async save() {
     if (!this.canSave) {
       this.errorToast(
         "Une erreur est présente dans la story",
@@ -57,9 +57,11 @@ export default class ToolBar extends BaseStoryComponent {
       );
       return;
     }
-    this.fetch("creator/save", METHODS.POST, {
+    const story = await this.fetch<Story>("creator/save", METHODS.POST, {
       body: getStoryToJson(this.$store.state.story, this.$store.state.blocs)
     });
+    CreatorState.commit("LOAD_JSON", JSON.stringify(story));
+    this.infoToast("Votre story a été sauvegarder !");
   }
 
   public exportstory() {

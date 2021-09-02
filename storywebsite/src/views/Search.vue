@@ -6,8 +6,8 @@ import Story from "../types/Story";
 
 @Component({
   components: {
-    StoryCard: StoryCard,
-  },
+    StoryCard: StoryCard
+  }
 })
 export default class Search extends BaseStoryComponent {
   private storiesRight: Story[] = [];
@@ -17,9 +17,8 @@ export default class Search extends BaseStoryComponent {
   private busy = false;
   private finalPage = false;
 
-  public async loadNewPage(restartSearch:boolean = false) {
-    console.log("coucou")
-    if(restartSearch == true){
+  public async loadNewPage(restartSearch: boolean = false) {
+    if (restartSearch == true) {
       this.page = 1;
       this.finalPage = false;
       this.storiesRight = [];
@@ -28,14 +27,11 @@ export default class Search extends BaseStoryComponent {
     if (this.finalPage) return;
     this.busy = true;
     try {
-      const stories = await this.fetch<Story[]>(
-        "story/search/" + this.page,
-        METHODS.GET, {
-          urlparams:{
-            storyname:this.search
-          }
+      const stories = await this.fetch<Story[]>("story/search/" + this.page, METHODS.GET, {
+        urlparams: {
+          storyname: this.search
         }
-      );
+      });
       // on separe les stories en deux listes pour pouvoir les afficher cote a cote
       stories.forEach((story, index) => {
         if (index % 2 === 0) {
@@ -45,8 +41,8 @@ export default class Search extends BaseStoryComponent {
         }
       });
     } catch (error) {
-        this.finalPage = true;
-        this.infoToast(
+      this.finalPage = true;
+      this.infoToast(
         "Désolé !",
         "Aucune story ne correspond a votre recherche ou alors vous etes arrivé a la fin des resultas"
       );

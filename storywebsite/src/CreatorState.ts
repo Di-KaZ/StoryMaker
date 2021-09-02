@@ -22,7 +22,7 @@ const firstBlocId = undefined;
 function updateLinks(blocs: CreatorBlocStoryDTO[]): Link[] {
 	const links: Link[] = [];
 	blocs.forEach(bloc => {
-		if (bloc.in) {
+		if (bloc.in && parseInt(bloc.in.id) !== -1) {
 			// mise a jour du parent
 			bloc.in = blocs.find(b => b.id === bloc.in?.id);
 			// creation d'un link
@@ -163,15 +163,10 @@ export const CreatorState = new Vuex.Store({
 		},
 		LOAD_JSON(state, payload: string) {
 			const loadedJson = JSON.parse(payload);
+			console.log("BORDEL DE MERDE", loadedJson);
 			state.blocs = loadedJson.blocs;
 			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
 			state.story = loadedJson.story;
-			state.links = updateLinks(state.blocs);
-		},
-		LOAD_JSON_OBJ(state, payload) {
-			state.blocs = payload.blocs;
-			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
-			state.story = payload.story;
 			state.links = updateLinks(state.blocs);
 		},
 		MODIFY_STORY(state, payload) {

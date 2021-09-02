@@ -25,7 +25,6 @@ export default class StoryCardUser extends BaseStoryComponent {
   }
 
   get cover(): string {
-    console.log(this.infos.cover);
     return this.infos.cover;
   }
 
@@ -41,9 +40,12 @@ export default class StoryCardUser extends BaseStoryComponent {
     var data = await this.fetch<any>("creator/load", METHODS.GET, {
       urlparams: { id: this.infos.id }
     });
-    console.log("heyy", JSON.stringify(data));
     CreatorState.commit("LOAD_JSON", JSON.stringify(data));
     this.$router.push("/story/create/");
+  }
+
+  public async deleteStory() {
+    var data = await this.fetch<any>("story/delete/" + this.infos.id, METHODS.GET);
   }
 }
 </script>
@@ -96,7 +98,9 @@ button {
         <vs-button @click="modify" type="gradient" color="danger">
           Modifier
         </vs-button>
-        <vs-button type="gradient" color="primary" icon="share"></vs-button>
+        <vs-button type="gradient" color="primary" icon="share" @click="deleteStory">
+          Supprimer</vs-button
+        >
       </vs-row>
     </div>
   </vs-card>

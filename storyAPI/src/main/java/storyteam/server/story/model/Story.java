@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,10 +47,10 @@ public class Story {
 	@Column(name = "cover")
 	private String cover;
 
-	@OneToMany(mappedBy = "story")
+	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
 	private Set<BlocStory> blocStories;
 
-	@OneToMany(mappedBy = "story")
+	@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 
 	public Story() {
@@ -130,7 +131,7 @@ public class Story {
 		this.user = user;
 	}
 
-	public void setFirstBloc(Integer firstBlocId) {
+	public void setFirstBlocId(Integer firstBlocId) {
 		this.firstBlocId = firstBlocId;
 	}
 }
