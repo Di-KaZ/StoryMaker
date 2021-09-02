@@ -5,10 +5,12 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import storyteam.server.story.model.BlocStory;
@@ -31,12 +33,26 @@ public class CreatorStoryController {
 	@Autowired
 	UserService userRepo;
 
-	@PostMapping(value = "/save")
-	public ResponseEntity<Story> postMethodName(@RequestHeader("Authorization") String auth,
-			@RequestBody CreatorStory story) {
-		var rStory = storyRepo.findById(story.getStory().getId());
+	@GetMapping(value = "/load")
+	public ResponseEntity<CreatorStory> loadUserStory(@RequestHeader("Authorization") String auth,
+			@RequestParam("id") Integer storyId) {
+		var user = userRepo.findUserByToken(auth);
+		if (user.isEmpty()) {
+			return ResponseEntity.badRequest().build();
+		}
+		var bddStory = storyRepo.findById(storyId);
+		if (bddStory.isPresent()) {
+			return ResponseEntity.ok(new CreatorStory(bddStory.get()));
+		}
+		return ResponseEntity.badRequest().build();
+	}
 
-		if (rStory.isEmpty()) {
+	@PostMapping(value = "/save")
+	public ResponseEntity<Story> saveUserStory(@RequestHeader("Authorization") String auth,
+			@RequestBody CreatorStory story) {
+		var bddStory = storyRepo.findById(story.getStory().getId());
+
+		if (bddStory.isEmpty()) {
 			Story newStory = new Story();
 			newStory.setDescription(story.getStory().getDescription());
 			newStory.setUser(userRepo.findUserByToken(auth).get());
@@ -64,6 +80,6 @@ public class CreatorStoryController {
 			});
 			return ResponseEntity.ok(newStory);
 		}
-		return ResponseEntity.ok(rStory.get());
+		return ResponseEntity.ok(bddStory.get());
 	}
 }

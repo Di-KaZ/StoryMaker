@@ -1,22 +1,19 @@
 <script lang="ts">
-import BaseStoryComponent from "./BaseStoryComponent";
+import BaseStoryComponent, { METHODS } from "./BaseStoryComponent";
 // eslint-disable-next-line no-unused-vars
 import Story from "../types/Story";
-import { Component } from "vue-property-decorator";
-
-const StoryCardProps = BaseStoryComponent.extend({
-  props: {
-    infos: { type: Object as () => Story }
-  }
-});
+import { Component, Prop } from "vue-property-decorator";
+import { CreatorState } from "../CreatorState";
 
 @Component({})
-export default class StoryCard extends StoryCardProps {
+export default class StoryCardUser extends BaseStoryComponent {
+  @Prop(Object) readonly infos: Story | null;
+
   declare infoToast: (infoMsg: string, detail?: string) => void;
   public likes = 0;
 
   get username(): string {
-    return this.infos.user.name + " " + this.infos.creationDate;
+    return this.infos.creationDate;
   }
 
   get storyname(): string {
@@ -38,6 +35,15 @@ export default class StoryCard extends StoryCardProps {
 
   public play(): void {
     this.$router.push("/story/play/" + this.infos.id);
+  }
+
+  public async modify(): void {
+    var data = await this.fetch<any>("creator/load", METHODS.GET, {
+      urlparams: { id: this.infos.id }
+    });
+    console.log("heyy", JSON.stringify(data));
+    CreatorState.commit("LOAD_JSON", JSON.stringify(data));
+    this.$router.push("/story/create/");
   }
 }
 </script>
@@ -77,7 +83,7 @@ button {
     </div>
     <h2>{{ storyname }}</h2>
     <h4>
-      De <span>{{ username }}</span>
+      Derniere modification le <span>{{ username }}</span>
     </h4>
     <div>
       <span>{{ description }}</span>
@@ -87,9 +93,9 @@ button {
         <vs-button @click="play" type="gradient" color="success" icon="play_arrow">
           Jouer
         </vs-button>
-        <vs-button @click="addLike" type="gradient" color="danger" icon="favorite">{{
-          likes
-        }}</vs-button>
+        <vs-button @click="modify" type="gradient" color="danger">
+          Modifier
+        </vs-button>
         <vs-button type="gradient" color="primary" icon="share"></vs-button>
       </vs-row>
     </div>

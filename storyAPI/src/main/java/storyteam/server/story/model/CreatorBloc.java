@@ -78,6 +78,10 @@ public class CreatorBloc {
 		this.in = in;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	@Override
 	public String toString() {
 		return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", text='" + getText() + "'" + ", x='"

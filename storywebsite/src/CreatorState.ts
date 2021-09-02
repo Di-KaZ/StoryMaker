@@ -161,11 +161,17 @@ export const CreatorState = new Vuex.Store({
 			const blob = new Blob([jsonBlocs], { type: "application/json" });
 			saveAs(blob, story.name + ".json");
 		},
-		LOAD_JSON(state, payload) {
+		LOAD_JSON(state, payload: string) {
 			const loadedJson = JSON.parse(payload);
 			state.blocs = loadedJson.blocs;
 			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
 			state.story = loadedJson.story;
+			state.links = updateLinks(state.blocs);
+		},
+		LOAD_JSON_OBJ(state, payload) {
+			state.blocs = payload.blocs;
+			state.selectedBloc = state.blocs.find(b => b.selected) as unknown as CreatorBlocStoryDTO;
+			state.story = payload.story;
 			state.links = updateLinks(state.blocs);
 		},
 		MODIFY_STORY(state, payload) {

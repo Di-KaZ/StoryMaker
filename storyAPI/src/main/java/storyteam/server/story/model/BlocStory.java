@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,6 +35,10 @@ public class BlocStory {
 
 	@Column(name = "cover")
 	private String cover;
+
+	@ManyToOne
+	@JoinColumn(name = "storyId", nullable = false, insertable = false, updatable = false)
+	private Story story;
 
 	public BlocStory() {
 	}

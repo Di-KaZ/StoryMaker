@@ -2,6 +2,7 @@ package storyteam.server.story.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,17 +43,24 @@ public class Story {
 	@Column(name = "firstBlocId")
 	private Integer firstBlocId;
 
-	
 	@Column(name = "cover")
 	private String cover;
 
-	// @OneToMany(mappedBy = "story")
-	// private List<BlocStory> blocStories = new ArrayList<>();
+	@OneToMany(mappedBy = "story")
+	private Set<BlocStory> blocStories;
 
 	@OneToMany(mappedBy = "story")
 	private List<Comment> comments;
 
 	public Story() {
+	}
+
+	public Set<BlocStory> getBlocStories() {
+		return blocStories;
+	}
+
+	public void setBlocStories(Set<BlocStory> blocStories) {
+		this.blocStories = blocStories;
 	}
 
 	public String getCover() {
