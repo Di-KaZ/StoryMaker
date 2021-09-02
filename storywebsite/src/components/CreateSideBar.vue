@@ -88,6 +88,20 @@ export default class CreateSideBar extends BaseStoryComponent {
     });
   }
 
+  set coverBloc(cover: string | null) {
+    CreatorState.commit("MODIFY_BLOC", {
+      ...CreatorState.state.selectedBloc,
+      cover
+    });
+  }
+
+  get coverBloc() {
+    if (CreatorState.state.selectedBloc) {
+      return CreatorState.state.selectedBloc.cover;
+    }
+    return null;
+  }
+
   set text(text: string | null) {
     CreatorState.commit("MODIFY_BLOC", {
       ...CreatorState.state.selectedBloc,
@@ -124,6 +138,18 @@ export default class CreateSideBar extends BaseStoryComponent {
       ...CreatorState.state.story,
       cover
     });
+  }
+
+  get validCoverBloc() {
+    return !(
+      !this.coverBloc ||
+      (this.coverBloc &&
+        this.coverBloc.length > 0 &&
+        (this.coverBloc.endsWith(".gif") ||
+          this.coverBloc.endsWith(".png") ||
+          this.coverBloc.endsWith(".jpeg") ||
+          this.coverBloc.endsWith(".jpg")))
+    );
   }
 
   public addBloc(): void {
@@ -226,6 +252,12 @@ export default class CreateSideBar extends BaseStoryComponent {
     </vs-divider>
     <div class="center-space">
       <vs-input v-model="name" label="Nom du choix"></vs-input>
+      <vs-input
+        v-model="coverBloc"
+        label="Image du choix"
+        :danger="validCoverBloc"
+        danger-text="Veuillez entrer un lien d'image valide"
+      ></vs-input>
       <vs-textarea
         counter="250"
         :counter-danger.sync="counterDanger"

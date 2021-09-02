@@ -10,6 +10,18 @@ export default class CreatorBlocStory extends BaseStoryComponent {
   @Prop(Object) readonly bloc: CreatorBlocStoryDTO | undefined;
   private outHover = false;
   private inHover = false;
+  private image: HTMLImageElement | null = null;
+
+  beforeMount() {
+    console.log("laoduing");
+    const image = new Image();
+    image.onload = () => {
+      this.image = image;
+      console.log("gpawehisr4giop9uh");
+    };
+    image.src = this.bloc.cover;
+    // FIXME DIGOLASSE
+  }
 
   get backgroundConf() {
     return {
@@ -123,6 +135,7 @@ export default class CreatorBlocStory extends BaseStoryComponent {
   >
     <v-rect :config="backgroundConf" />
     <v-circle @mouseenter="onInHover" @mouseleave="onInLeave" :config="inConf" />
+    <v-image :config="{ image: image, width: 150, height: 150 }" />
     <v-text :config="nameConf" />
     <v-text :config="contentConf" />
     <v-circle @mouseenter="onOutHover" @mouseleave="onOutLeave" :config="outConf" />

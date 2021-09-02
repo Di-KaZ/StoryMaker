@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS blocStory (
     name VARCHAR(250) NOT NULL,
     content TEXT NOT NULL,
     storyId INT,
-	previousBlocId INT NOT NULL,
+    previousBlocId INT NOT NULL,
+	cover text,
     FOREIGN KEY (storyId)
     REFERENCES story (id)
         ON DELETE CASCADE
@@ -65,3 +66,7 @@ CREATE TABLE IF NOT EXISTS comment (
 
 -- Insertion des donées
 INSERT INTO `user` (`id`,`name`,`password`,`email`) VALUES (1,'root','$2a$10$O53VvxRtlyKRhHLfrffJHeYE2JGvpNaoPOGJUYwzNGEcZBNk/yXuy','root@root.com');
+
+INSERT INTO `story` (`id`, `name`, `description`, `creationDate`, `cover`, `userId`, `firstBlocId`) VALUES (1, 'test cover img in bloc', 'test', '2021-09-02', 'https://www.codingwithjesse.com/images/me_umbrella.jpg', 1, 1);
+
+INSERT INTO `blocStory` (`id`, `name`, `content`, `storyId`, `previousBlocId`, `cover`) VALUES (1, 'premier choix', 'Ceci est un texte tres looooooooooong', 1, -1, 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg');

@@ -8,6 +8,15 @@ public class CreatorBloc {
 	Double y;
 	Boolean selected;
 	CreatorBlocPrevious in;
+	String cover;
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 
 	public String getId() {
 		return this.id;

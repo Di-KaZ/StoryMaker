@@ -31,14 +31,26 @@ public class BlocStory {
 	@Column(name = "previousBlocId")
 	private Integer previousBlocId;
 
+	@Column(name = "cover")
+	private String cover;
+
 	public BlocStory() {
 	}
 
-	public BlocStory(String name, String content, Integer storyId, Integer previousIdBloc) {
+	public BlocStory(String name, String content, Integer storyId, Integer previousIdBloc, String cover) {
 		this.name = name;
 		this.storyId = storyId;
 		this.content = content;
 		this.previousBlocId = previousIdBloc;
+		this.cover = cover;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 
 	public Integer getId() {

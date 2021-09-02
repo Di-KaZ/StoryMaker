@@ -31,7 +31,7 @@ export default class ToolBar extends BaseStoryComponent {
   public options = {
     url: "https://httpbin.org/post",
     maxFilesize: 2,
-    dictDefaultMessage: "Clicker/Glisser votre story ici",
+    dictDefaultMessage: "Cliquer/Glisser votre story ici",
     maxFiles: 1
   };
 

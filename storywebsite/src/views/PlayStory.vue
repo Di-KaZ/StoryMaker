@@ -79,10 +79,10 @@ export default class PlayStory extends BaseStoryComponent {
 <template>
   <div v-if="user">
     <div v-if="isLoadedData">
-      <h1>Vous jouez à : {{ story.name }}</h1>
       <br />
       <div class="image">
         <img :src="story.cover" />
+        <h1>Vous jouez à : {{ story.name }}</h1>
       </div>
       <p>Description :</p>
       <h2>{{ story.description }}</h2>

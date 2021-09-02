@@ -18,7 +18,6 @@ import storyteam.server.story.repository.BlocStoryRepository;
 import storyteam.server.story.repository.StoryRepository;
 import storyteam.server.story.services.UserService;
 
-
 @RestController
 @RequestMapping("/creator")
 public class CreatorStoryController {
@@ -32,8 +31,9 @@ public class CreatorStoryController {
 	@Autowired
 	UserService userRepo;
 
-	@PostMapping(value="/save")
-	public ResponseEntity<Story> postMethodName(@RequestHeader("Authorization") String auth, @RequestBody CreatorStory story) {
+	@PostMapping(value = "/save")
+	public ResponseEntity<Story> postMethodName(@RequestHeader("Authorization") String auth,
+			@RequestBody CreatorStory story) {
 		var rStory = storyRepo.findById(story.getStory().getId());
 
 		if (rStory.isEmpty()) {
@@ -48,7 +48,7 @@ public class CreatorStoryController {
 			final var tempNewStory = storyRepo.save(newStory);
 			HashMap<String, BlocStory> blocMapWithTempId = new HashMap<>();
 			story.getBlocs().forEach(bloc -> {
-				var newBloc = new BlocStory(bloc.getName(), bloc.getText(), tempNewStory.getId(), -1);
+				var newBloc = new BlocStory(bloc.getName(), bloc.getText(), tempNewStory.getId(), -1, bloc.getCover());
 				newBloc = blocRepo.save(newBloc);
 				blocMapWithTempId.put(bloc.getId(), newBloc);
 			});
