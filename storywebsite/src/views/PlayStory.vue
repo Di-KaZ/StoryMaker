@@ -136,7 +136,9 @@ export default class PlayStory extends BaseStoryComponent {
           >
             <p>{{ comment.content }}</p>
           </vs-col>
-          <vs-col vs-type="flex" vs-justify="flex-end" vs-w="12"><a href="#">répondre</a></vs-col>
+          <vs-col vs-type="flex" vs-justify="flex-end" vs-w="12"
+            ><a href="#">répondre (WIP)</a></vs-col
+          >
         </vs-col>
       </vs-row>
       <comments />
